@@ -3,6 +3,7 @@ import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
 import { COLORS, TIMING } from "../constants.js";
 import type { CommandStep as CommandStepType } from "../types.js";
+import { evaluateAnswer } from "../ai/evaluator.js";
 
 interface CommandStepProps {
   step: CommandStepType;
@@ -34,19 +35,7 @@ const SECRET_COMMANDS: Record<string, SecretResponse> = {
   },
 };
 
-const STRIP_PREFIXES = /^(the|a|use)\s+/i;
 const MAX_INPUT_LENGTH = 200;
-
-function normalize(input: string): string {
-  return input.trim().toLowerCase().replace(STRIP_PREFIXES, "");
-}
-
-function checkAnswer(input: string, acceptedVariants: string[]): boolean {
-  const normalizedInput = normalize(input);
-  return acceptedVariants.some(
-    (variant) => normalize(variant) === normalizedInput,
-  );
-}
 
 function getHelpHint(step: CommandStepType): string {
   const answer = step.expectedAnswer;
@@ -65,7 +54,7 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
   const [helpHint, setHelpHint] = useState<string | null>(null);
 
   const handleSubmit = useCallback(
-    (input: string) => {
+    async (input: string) => {
       const trimmed = input.trim();
       if (phase !== "input" || !trimmed) return;
 
@@ -84,20 +73,24 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
         return;
       }
 
-      const isCorrect = checkAnswer(trimmed, step.acceptedVariants);
-      setCorrect(isCorrect);
       setPhase("pausing");
 
-      setTimeout(() => {
-        setPhase("result");
-      }, TIMING.pauseBeforeResult);
+      const result = await evaluateAnswer(
+        step.question,
+        trimmed,
+        step.expectedAnswer,
+        step.acceptedVariants,
+      );
 
-      const delay = isCorrect
-        ? TIMING.pauseBeforeResult + TIMING.pauseAfterConfirmed
-        : TIMING.pauseBeforeResult + TIMING.pauseAfterCompromised;
+      setCorrect(result.correct);
+      setPhase("result");
+
+      const delay = result.correct
+        ? TIMING.pauseAfterConfirmed
+        : TIMING.pauseAfterCompromised;
 
       setTimeout(() => {
-        onAnswer(isCorrect);
+        onAnswer(result.correct);
       }, delay);
     },
     [phase, step, onAnswer],
