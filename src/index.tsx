@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+import { useState } from "react";
 import { render } from "ink";
 import App from "./app.js";
 import { NoApiKey } from "./screens/NoApiKey.js";
@@ -36,11 +36,15 @@ process.on("uncaughtException", (error) => {
   process.exit(1);
 });
 
-const { waitUntilExit } = render(
-  hasApiKey ? (
-    <App hasApiKey={hasApiKey} noAnimation={noAnimation} reset={reset} />
-  ) : (
-    <NoApiKey />
-  ),
-);
+function Root() {
+  const [dismissed, setDismissed] = useState(hasApiKey);
+
+  if (!dismissed) {
+    return <NoApiKey onContinue={() => setDismissed(true)} />;
+  }
+
+  return <App hasApiKey={hasApiKey} noAnimation={noAnimation} reset={reset} />;
+}
+
+const { waitUntilExit } = render(<Root />);
 await waitUntilExit();

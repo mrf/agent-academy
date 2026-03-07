@@ -1,11 +1,13 @@
-import { Box, Text, useApp, useInput } from "ink";
+import { Box, Text, useInput } from "ink";
 import { COLORS } from "../constants.js";
 
-export function NoApiKey() {
-  const app = useApp();
+interface NoApiKeyProps {
+  onContinue: () => void;
+}
 
+export function NoApiKey({ onContinue }: NoApiKeyProps) {
   useInput(() => {
-    app.exit();
+    onContinue();
   });
 
   return (
@@ -62,7 +64,7 @@ export function NoApiKey() {
 
         <Box marginTop={1}>
           <Text color={COLORS.amber}>
-            {">"} Press any key to exit
+            {">"} Press any key to continue without AI features
           </Text>
         </Box>
       </Box>
