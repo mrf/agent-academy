@@ -47,7 +47,8 @@ export type Screen =
   | "missionMap"
   | "briefing"
   | "mission"
-  | "debrief";
+  | "debrief"
+  | "infiniteMode";
 
 export type Overlay = {
   handler: boolean;
@@ -84,6 +85,13 @@ export type QuizStats = {
   total: number;
 };
 
+export type InfiniteModeStats = {
+  correct: number;
+  total: number;
+  sessionsPlayed: number;
+  fxpEarned: number;
+};
+
 export type SaveData = {
   schemaVersion: number;
   completedMissions: string[];
@@ -92,6 +100,7 @@ export type SaveData = {
   clearanceLevel: ClearanceLevel;
   achievements: string[];
   quizStats: QuizStats;
+  infiniteModeStats: InfiniteModeStats;
   infiniteModeUnlocked: boolean;
   firstRunComplete: boolean;
 };

@@ -9,6 +9,7 @@ import { MissionMap } from "./screens/MissionMap.js";
 import { Briefing } from "./screens/Briefing.js";
 import { Mission } from "./screens/Mission.js";
 import { Debrief } from "./screens/Debrief.js";
+import { InfiniteMode } from "./screens/InfiniteMode.js";
 import { HelpOverlay } from "./screens/HelpOverlay.js";
 import { loadProgress, saveMissionComplete, resetProgress } from "./store/progress.js";
 import { MISSIONS } from "./data/curriculum.js";
@@ -58,6 +59,14 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
     },
     [state],
   );
+
+  const handleSelectInfiniteMode = useCallback(() => {
+    state.navigateTo("infiniteMode");
+  }, [state]);
+
+  const handleInfiniteModeBack = useCallback(() => {
+    state.navigateTo("missionMap");
+  }, [state]);
 
   const handleAcceptBriefing = useCallback(() => {
     state.navigateTo("mission");
@@ -132,7 +141,12 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
       case "onboarding":
         return <Onboarding onContinue={handleOnboardingComplete} />;
       case "missionMap":
-        return <MissionMap onSelectMission={handleSelectMission} />;
+        return (
+          <MissionMap
+            onSelectMission={handleSelectMission}
+            onSelectInfiniteMode={handleSelectInfiniteMode}
+          />
+        );
       case "briefing":
         if (!currentMission) return null;
         return (
@@ -161,6 +175,13 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             fxpEarned={state.missionContext.fxpEarned}
             coverRemaining={3}
             onContinue={handleDebriefContinue}
+          />
+        );
+      case "infiniteMode":
+        return (
+          <InfiniteMode
+            onBack={handleInfiniteModeBack}
+            overlayOpen={overlayOpen}
           />
         );
     }

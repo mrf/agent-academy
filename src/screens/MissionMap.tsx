@@ -6,9 +6,13 @@ import { COLORS } from "../constants.js";
 
 interface MissionMapProps {
   onSelectMission: (missionIndex: number) => void;
+  onSelectInfiniteMode?: () => void;
 }
 
-export function MissionMap({ onSelectMission }: MissionMapProps) {
+export function MissionMap({
+  onSelectMission,
+  onSelectInfiniteMode,
+}: MissionMapProps) {
   const progress = loadProgress();
   const completedCount = progress.completedMissions.length;
   const allComplete = completedCount >= MISSIONS.length;
@@ -26,19 +30,27 @@ export function MissionMap({ onSelectMission }: MissionMapProps) {
     return () => clearInterval(timer);
   }, []);
 
+  const maxIndex = allComplete ? MISSIONS.length : MISSIONS.length - 1;
+
   useInput((_input, key) => {
     if (key.upArrow) {
       setSelectedIndex((i) => Math.max(0, i - 1));
     } else if (key.downArrow) {
-      setSelectedIndex((i) => Math.min(MISSIONS.length - 1, i + 1));
+      setSelectedIndex((i) => Math.min(maxIndex, i + 1));
     } else if (key.return) {
-      const mission = MISSIONS[selectedIndex];
-      if (mission && isMissionUnlocked(mission.id, progress.completedMissions)) {
-        onSelectMission(selectedIndex);
+      if (isInfiniteSelected && onSelectInfiniteMode) {
+        onSelectInfiniteMode();
+      } else {
+        const mission = MISSIONS[selectedIndex];
+        if (mission && isMissionUnlocked(mission.id, progress.completedMissions)) {
+          onSelectMission(selectedIndex);
+        }
       }
     }
   });
 
+  const isInfiniteSelected =
+    selectedIndex === MISSIONS.length && allComplete;
   const clearanceLabel = progress.clearanceLevel.toUpperCase();
   const fxpFormatted = progress.fxp.toLocaleString();
 
@@ -135,17 +147,22 @@ export function MissionMap({ onSelectMission }: MissionMapProps) {
         <Box marginTop={1} />
 
         <Box>
-          <Text>{"  "}</Text>
-          <Text dimColor>{"[ ] "}</Text>
+          <Text color={isInfiniteSelected ? COLORS.amber : undefined}>
+            {isInfiniteSelected ? "> " : "  "}
+          </Text>
           {allComplete ? (
             <>
-              <Text color={COLORS.cyan} bold>
-                ?? INFINITE MODE
+              <Text color={COLORS.cyan} dimColor={!pulseBright}>
+                {"[>] "}
+              </Text>
+              <Text color={COLORS.cyan} bold={isInfiniteSelected}>
+                ?? DEEP COVER OPERATIONS
               </Text>
               <Text color={COLORS.cyan}>{"  UNLOCKED"}</Text>
             </>
           ) : (
             <>
+              <Text dimColor>{"[ ] "}</Text>
               <Text dimColor>{"?? "}</Text>
               <Text dimColor>
                 {"\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"}
