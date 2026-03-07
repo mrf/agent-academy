@@ -11,6 +11,7 @@ import { Mission } from "./screens/Mission.js";
 import { Debrief } from "./screens/Debrief.js";
 import { HelpOverlay } from "./screens/HelpOverlay.js";
 import { Handler } from "./screens/Handler.js";
+import { Credits } from "./screens/Credits.js";
 import { Achievement } from "./components/Achievement.js";
 import {
   loadProgress,
@@ -93,6 +94,14 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
     },
     [state],
   );
+
+  const handleOpenCredits = useCallback(() => {
+    state.navigateTo("credits");
+  }, [state]);
+
+  const handleCreditsClose = useCallback(() => {
+    state.navigateTo("missionMap");
+  }, [state]);
 
   const handleAcceptBriefing = useCallback(() => {
     missionStartRef.current = Date.now();
@@ -188,7 +197,14 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
       case "onboarding":
         return <Onboarding onContinue={handleOnboardingComplete} />;
       case "missionMap":
-        return <MissionMap onSelectMission={handleSelectMission} />;
+        return (
+          <MissionMap
+            onSelectMission={handleSelectMission}
+            onOpenCredits={handleOpenCredits}
+          />
+        );
+      case "credits":
+        return <Credits onClose={handleCreditsClose} />;
       case "briefing":
         if (!currentMission) return null;
         return (

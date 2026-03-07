@@ -47,7 +47,8 @@ export type Screen =
   | "missionMap"
   | "briefing"
   | "mission"
-  | "debrief";
+  | "debrief"
+  | "credits";
 
 export type Overlay = {
   handler: boolean;
@@ -96,4 +97,5 @@ export type SaveData = {
   firstRunComplete: boolean;
   lastPlayedAt: number;
   handlerEverUsed: boolean;
+  legacyModeUnlocked: boolean;
 };
