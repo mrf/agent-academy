@@ -54,6 +54,12 @@ export type Overlay = {
   help: boolean;
 };
 
+// Game config
+
+export interface GameConfig {
+  noAnimation: boolean;
+}
+
 // Mission runtime state
 
 export type Answer = {

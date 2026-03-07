@@ -33,6 +33,7 @@ export const TIMING = {
   cursorBlink: 500,
   thinkingDots: 300,
   fxpTick: 30,
+  achievementDisplay: 3000,
 } as const;
 
 // Version
