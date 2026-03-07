@@ -1,3 +1,6 @@
+import { appendFileSync, mkdirSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import Conf from "conf";
 import type { SaveData } from "../types.js";
 
@@ -9,6 +12,7 @@ const DEFAULT_SAVE_DATA: SaveData = {
   clearanceLevel: "recruit",
   achievements: [],
   quizStats: { correct: 0, total: 0 },
+  infiniteModeStats: { correct: 0, total: 0, sessionsPlayed: 0, fxpEarned: 0 },
   infiniteModeUnlocked: false,
   firstRunComplete: false,
   lastPlayedAt: 0,
@@ -145,6 +149,47 @@ export function updateLastPlayed(): void {
   const data = safeGet();
   data.lastPlayedAt = Date.now();
   safeSet(data);
+}
+
+export function saveInfiniteResult(
+  correct: number,
+  total: number,
+  fxpEarned: number,
+): void {
+  const data = safeGet();
+  const stats = data.infiniteModeStats ?? {
+    correct: 0,
+    total: 0,
+    sessionsPlayed: 0,
+    fxpEarned: 0,
+  };
+  stats.correct += correct;
+  stats.total += total;
+  stats.sessionsPlayed += 1;
+  stats.fxpEarned += fxpEarned;
+  data.infiniteModeStats = stats;
+  data.fxp += fxpEarned;
+  safeSet(data);
+}
+
+export function reportBadQuestion(
+  question: string,
+  topic: string,
+  difficulty: string,
+): void {
+  const dir = join(homedir(), ".claude-code-academy");
+  try {
+    mkdirSync(dir, { recursive: true });
+    const entry = JSON.stringify({
+      question,
+      topic,
+      difficulty,
+      ts: new Date().toISOString(),
+    });
+    appendFileSync(join(dir, "reported-questions.jsonl"), entry + "\n");
+  } catch {
+    // best-effort logging
+  }
 }
 
 export function hasSaveData(): boolean {

@@ -26,6 +26,12 @@ const SCREEN_BINDINGS: Partial<Record<Screen, KeyBinding[]>> = {
     { key: "UP/DOWN", label: "Select mission" },
     { key: "q", label: "Quit" },
   ],
+  infiniteMode: [
+    { key: "R", label: "Report bad question" },
+    { key: "ESC", label: "Back" },
+    { key: "ENTER", label: "Confirm / Continue" },
+    { key: "UP/DOWN", label: "Navigate" },
+  ],
 };
 
 // Quiz and command bindings shown when inside a mission
