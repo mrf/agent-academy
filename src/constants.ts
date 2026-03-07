@@ -1,0 +1,40 @@
+// Model IDs
+
+export const MODELS = {
+  HANDLER: "claude-haiku-4-5-20251001",
+  GENERATOR: "claude-sonnet-4-20250514",
+  EVALUATOR: "claude-haiku-4-5-20251001",
+} as const;
+
+// Color palette (hex)
+
+export const COLORS = {
+  warmWhite: "#E8E6E3",
+  amber: "#FFB627",
+  green: "#39FF14",
+  red: "#FF3131",
+  cyan: "#00D4FF",
+  gray: "#6B6B6B",
+  gold: "#FFD700",
+  navy: "#0D1117",
+} as const;
+
+// Timing values (milliseconds)
+
+export const TIMING = {
+  typewriterFast: 10,
+  typewriterNormal: 20,
+  typewriterDramatic: 40,
+  pauseBeforeResult: 400,
+  pauseAfterConfirmed: 600,
+  pauseAfterCompromised: 800,
+  screenTransition: 200,
+  tokenBuffer: 50,
+  cursorBlink: 500,
+  thinkingDots: 300,
+  fxpTick: 30,
+} as const;
+
+// Version
+
+export const VERSION = "0.1.0";
