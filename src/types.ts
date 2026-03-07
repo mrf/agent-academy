@@ -48,7 +48,8 @@ export type Screen =
   | "briefing"
   | "mission"
   | "debrief"
-  | "infiniteMode";
+  | "infiniteMode"
+  | "credits";
 
 export type Overlay = {
   handler: boolean;
@@ -105,4 +106,5 @@ export type SaveData = {
   firstRunComplete: boolean;
   lastPlayedAt: number;
   handlerEverUsed: boolean;
+  legacyModeUnlocked: boolean;
 };

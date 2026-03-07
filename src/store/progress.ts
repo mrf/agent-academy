@@ -17,6 +17,7 @@ const DEFAULT_SAVE_DATA: SaveData = {
   firstRunComplete: false,
   lastPlayedAt: 0,
   handlerEverUsed: false,
+  legacyModeUnlocked: false,
 };
 
 // In-memory fallback for environments where conf fails (FUSE/WSL2)
@@ -190,6 +191,13 @@ export function reportBadQuestion(
   } catch {
     // best-effort logging
   }
+}
+
+export function toggleLegacyMode(): boolean {
+  const data = safeGet();
+  data.legacyModeUnlocked = !data.legacyModeUnlocked;
+  safeSet(data);
+  return data.legacyModeUnlocked;
 }
 
 export function hasSaveData(): boolean {

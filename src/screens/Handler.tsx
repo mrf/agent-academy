@@ -4,6 +4,7 @@ import TextInput from "ink-text-input";
 import { askHandler } from "../ai/instructor.js";
 import { safeApiError } from "../ai/client.js";
 import { COLORS, TIMING } from "../constants.js";
+import { getLoadingMessage } from "../lib/easter-eggs.js";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -20,6 +21,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dots, setDots] = useState("");
+  const [loadingMsg, setLoadingMsg] = useState("");
   const abortRef = useRef<AbortController | null>(null);
   const chunkBufferRef = useRef("");
   const flushTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -78,6 +80,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
       setStreamedText("");
       setError(null);
       setDots("");
+      setLoadingMsg(getLoadingMessage());
       chunkBufferRef.current = "";
       lastQuestionRef.current = question;
 
@@ -171,7 +174,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
       {isStreaming && streamedText.length === 0 && (
         <Box marginBottom={1}>
           <Text color={COLORS.gray} italic>
-            Handler is reviewing intel {dots}
+            {loadingMsg} {dots}
           </Text>
         </Box>
       )}
