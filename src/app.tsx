@@ -10,6 +10,7 @@ import { Briefing } from "./screens/Briefing.js";
 import { Mission } from "./screens/Mission.js";
 import { Debrief } from "./screens/Debrief.js";
 import { HelpOverlay } from "./screens/HelpOverlay.js";
+import { Handler } from "./screens/Handler.js";
 import { loadProgress, saveMissionComplete, resetProgress } from "./store/progress.js";
 import { MISSIONS } from "./data/curriculum.js";
 import { COLORS } from "./constants.js";
@@ -178,20 +179,13 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
         </Box>
       )}
 
-      {state.overlay.handler && (
+      {state.overlay.handler && currentMission && (
         <Box position="absolute" flexDirection="column" alignItems="center" width="100%">
-          <Box
-            borderStyle="single"
-            borderColor={COLORS.cyan}
-            paddingX={2}
-            paddingY={1}
-            width={50}
-          >
-            <Text color={COLORS.cyan}>
-              [ HANDLER ] AI overlay coming soon...{"\n"}
-              Press ESC to close.
-            </Text>
-          </Box>
+          <Handler
+            missionTitle={currentMission.title}
+            topicContext={currentMission.objectives.join(", ")}
+            onClose={state.closeOverlay}
+          />
         </Box>
       )}
 
