@@ -94,4 +94,6 @@ export type SaveData = {
   quizStats: QuizStats;
   infiniteModeUnlocked: boolean;
   firstRunComplete: boolean;
+  lastPlayedAt: number;
+  handlerEverUsed: boolean;
 };

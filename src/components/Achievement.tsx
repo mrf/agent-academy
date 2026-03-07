@@ -106,18 +106,18 @@ export function Achievement({
     >
       <Box
         borderStyle="double"
-        borderColor={COLORS.reward}
+        borderColor={COLORS.gold}
         paddingX={2}
         flexDirection="column"
         alignItems="center"
       >
-        <Text color={COLORS.reward} bold>
+        <Text color={COLORS.gold} bold>
           ACHIEVEMENT UNLOCKED
         </Text>
-        <Text color={COLORS.primary} bold>
+        <Text color={COLORS.amber} bold>
           {name}
         </Text>
-        {description && <Text color={COLORS.dim}>{description}</Text>}
+        {description && <Text color={COLORS.gray}>{description}</Text>}
       </Box>
     </Box>
   );
