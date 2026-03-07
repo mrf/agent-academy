@@ -11,6 +11,8 @@ const DEFAULT_SAVE_DATA: SaveData = {
   quizStats: { correct: 0, total: 0 },
   infiniteModeUnlocked: false,
   firstRunComplete: false,
+  lastPlayedAt: 0,
+  handlerEverUsed: false,
 };
 
 // In-memory fallback for environments where conf fails (FUSE/WSL2)
@@ -129,6 +131,20 @@ export function unlockAchievement(name: string): boolean {
   data.achievements.push(name);
   safeSet(data);
   return true;
+}
+
+export function markHandlerUsed(): void {
+  const data = safeGet();
+  if (!data.handlerEverUsed) {
+    data.handlerEverUsed = true;
+    safeSet(data);
+  }
+}
+
+export function updateLastPlayed(): void {
+  const data = safeGet();
+  data.lastPlayedAt = Date.now();
+  safeSet(data);
 }
 
 export function hasSaveData(): boolean {

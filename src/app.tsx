@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Box, Text, useApp, useInput } from "ink";
 import { useScreenState } from "./hooks/useScreenState.js";
 import { TerminalGuard } from "./lib/terminal.js";
@@ -11,7 +11,20 @@ import { Mission } from "./screens/Mission.js";
 import { Debrief } from "./screens/Debrief.js";
 import { HelpOverlay } from "./screens/HelpOverlay.js";
 import { Handler } from "./screens/Handler.js";
-import { loadProgress, saveMissionComplete, resetProgress } from "./store/progress.js";
+import { Achievement } from "./components/Achievement.js";
+import {
+  loadProgress,
+  saveMissionComplete,
+  resetProgress,
+  markHandlerUsed,
+  updateLastPlayed,
+} from "./store/progress.js";
+import {
+  checkMissionComplete,
+  checkPersistence,
+  checkHandlerOpen,
+} from "./lib/achievements.js";
+import type { Achievement as AchievementDef } from "./lib/achievements.js";
 import { MISSIONS } from "./data/curriculum.js";
 import { COLORS } from "./constants.js";
 
@@ -29,6 +42,27 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   const state = useScreenState(skipToMap ? "missionMap" : "logo");
 
   const [confirmQuit, setConfirmQuit] = useState(false);
+  const [achievementQueue, setAchievementQueue] = useState<AchievementDef[]>([]);
+  const missionStartRef = useRef(0);
+  const handlerOpensRef = useRef(0);
+
+  const enqueueAchievements = useCallback(
+    (...items: AchievementDef[]) => {
+      if (items.length > 0) {
+        setAchievementQueue((prev) => [...prev, ...items]);
+      }
+    },
+    [],
+  );
+
+  // Check persistence achievement and update last-played timestamp on startup
+  useEffect(() => {
+    const persisted = checkPersistence();
+    if (persisted) {
+      enqueueAchievements(persisted);
+    }
+    updateLastPlayed();
+  }, [enqueueAchievements]);
 
   // Handle reset on first render
   const [resetHandled, setResetHandled] = useState(false);
@@ -61,6 +95,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   );
 
   const handleAcceptBriefing = useCallback(() => {
+    missionStartRef.current = Date.now();
     state.navigateTo("mission");
   }, [state]);
 
@@ -70,15 +105,28 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
       if (mission) {
         saveMissionComplete(mission.id, stars, fxp);
       }
+
+      const durationMs = Date.now() - missionStartRef.current;
+      const unlocked = checkMissionComplete({
+        missionId: mission?.id ?? "",
+        stars,
+        durationMs,
+      });
+      enqueueAchievements(...unlocked);
+
       state.setMissionContext({ stars, fxpEarned: fxp });
       state.navigateTo("debrief");
     },
-    [state],
+    [state, enqueueAchievements],
   );
 
   const handleDebriefContinue = useCallback(() => {
     state.navigateTo("missionMap");
   }, [state]);
+
+  const handleAchievementDismiss = useCallback(() => {
+    setAchievementQueue((prev) => prev.slice(1));
+  }, []);
 
   // App-level keyboard routing
   useInput(
@@ -107,7 +155,14 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
 
       // '?' opens handler overlay (only in mission with API key)
       if (input === "?" && state.screen === "mission" && hasApiKey) {
+        handlerOpensRef.current += 1;
+        markHandlerUsed();
         state.openOverlay("handler");
+
+        const pet = checkHandlerOpen(handlerOpensRef.current);
+        if (pet) {
+          enqueueAchievements(pet);
+        }
         return;
       }
 
@@ -185,6 +240,17 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             missionTitle={currentMission.title}
             topicContext={currentMission.objectives.join(", ")}
             onClose={state.closeOverlay}
+          />
+        </Box>
+      )}
+
+      {achievementQueue.length > 0 && (
+        <Box position="absolute" flexDirection="column" alignItems="center" width="100%">
+          <Achievement
+            name={achievementQueue[0].title}
+            description={achievementQueue[0].description}
+            onDismiss={handleAchievementDismiss}
+            noAnimation={noAnimation}
           />
         </Box>
       )}
