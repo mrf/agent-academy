@@ -1,0 +1,88 @@
+import { useEffect, useState, useCallback } from "react";
+import { Box, Text, useInput } from "ink";
+import { TypeWriter } from "../components/TypeWriter.js";
+import { COLORS } from "../constants.js";
+import type { Mission, ClearanceLevel } from "../types.js";
+
+interface BriefingProps {
+  mission: Mission;
+  clearanceLevel: ClearanceLevel;
+  onAccept: () => void;
+}
+
+export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
+  const [typingDone, setTypingDone] = useState(false);
+
+  const missionNumber = mission.id.replace("mission-", "");
+
+  useEffect(() => {
+    process.stdout.write(
+      `\x1b]0;CCA — Mission ${missionNumber}: ${mission.codename}\x07`,
+    );
+  }, [missionNumber, mission.codename]);
+
+  const handleComplete = useCallback(() => setTypingDone(true), []);
+
+  useInput((_input, key) => {
+    if (key.return && typingDone) {
+      onAccept();
+    }
+  });
+
+  const firstPrintStep = mission.steps.find((s) => s.type === "print");
+  const intel =
+    firstPrintStep && "text" in firstPrintStep
+      ? firstPrintStep.text
+      : mission.codename;
+
+  const briefingText = [
+    `MISSION:     ${missionNumber} — ${mission.codename}`,
+    `CLEARANCE:   ${clearanceLevel.toUpperCase()}`,
+    `HANDLER:     Instructor Haiku`,
+    ``,
+    `OBJECTIVES:`,
+    ...mission.objectives.map((obj) => `  [ ] ${obj}`),
+    ``,
+    `INTEL:`,
+    `  ${intel}`,
+  ].join("\n");
+
+  return (
+    <Box
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      padding={1}
+    >
+      <Box
+        borderStyle="double"
+        borderColor={COLORS.cyan}
+        paddingX={2}
+        paddingY={1}
+        flexDirection="column"
+      >
+        <Box justifyContent="center" marginBottom={1}>
+          <Text color={COLORS.cyan} bold>
+            [ MISSION BRIEFING ]
+          </Text>
+        </Box>
+
+        <Text color={COLORS.warmWhite}>
+          <TypeWriter
+            text={briefingText}
+            speed="dramatic"
+            onComplete={handleComplete}
+          />
+        </Text>
+
+        {typingDone && (
+          <Box justifyContent="flex-end" marginTop={1}>
+            <Text color={COLORS.amber} bold>
+              [ ENTER TO ACCEPT MISSION ]
+            </Text>
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
+}
