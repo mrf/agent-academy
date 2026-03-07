@@ -10,7 +10,11 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "start": "node dist/index.js",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run --exclude '**/integration/**' --exclude '**/e2e/**'",
+    "test:integration": "vitest run --include '**/integration/**'"
   },
   "engines": {
     "node": ">=20"
@@ -38,6 +42,8 @@
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
+    "@vitest/coverage-v8": "^4.0.18",
+    "ink-testing-library": "^4.0.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
