@@ -1,0 +1,43 @@
+{
+  "name": "claude-code-academy",
+  "version": "0.1.0",
+  "description": "Terminal training division — learn Claude Code patterns through interactive spy-themed missions",
+  "type": "module",
+  "bin": {
+    "claude-code-academy": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "tutorial",
+    "tui",
+    "ink",
+    "terminal"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "conf": "^15.1.0",
+    "ink": "^6.8.0",
+    "ink-select-input": "^6.2.0",
+    "ink-text-input": "^6.0.0",
+    "react": "^19.2.4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}
