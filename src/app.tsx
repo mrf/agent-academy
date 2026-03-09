@@ -38,7 +38,7 @@ interface AppProps {
 
 export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   const app = useApp();
-  const progress = loadProgress();
+  const [progress] = useState(loadProgress);
 
   const skipToMap = !reset && progress.firstRunComplete;
   const state = useScreenState(skipToMap ? "missionMap" : "logo");
@@ -66,12 +66,12 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
     updateLastPlayed();
   }, [enqueueAchievements]);
 
-  // Handle reset on first render
-  const [resetHandled, setResetHandled] = useState(false);
-  if (reset && !resetHandled) {
-    resetProgress();
-    setResetHandled(true);
-  }
+  // Handle reset on mount
+  useEffect(() => {
+    if (reset) {
+      resetProgress();
+    }
+  }, [reset]);
 
   // Derived state
   const currentMission = MISSIONS[state.missionContext.currentMissionIndex];
