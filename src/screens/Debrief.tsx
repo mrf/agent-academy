@@ -14,10 +14,10 @@ interface DebriefProps {
 const STAR_FILLED = "\u2605";
 const STAR_EMPTY = "\u2606";
 
-function renderStars(stars: 1 | 2 | 3): string {
-  return (
-    STAR_FILLED.repeat(stars) + STAR_EMPTY.repeat(3 - stars)
-  );
+function renderCoverBlocks(remaining: number): string {
+  return Array.from({ length: 3 }, (_, i) =>
+    i < remaining ? "\u25A0" : "\u25A1"
+  ).join(" ");
 }
 
 export function Debrief({
@@ -100,7 +100,7 @@ export function Debrief({
         {/* Cover integrity */}
         <Box marginBottom={1}>
           <Text color={COLORS.warmWhite}>
-            COVER INTEGRITY REMAINING: {coverRemaining}/3
+            COVER INTEGRITY: {renderCoverBlocks(coverRemaining)}
           </Text>
         </Box>
 

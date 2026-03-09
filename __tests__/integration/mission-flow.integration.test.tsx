@@ -567,7 +567,9 @@ describe("Mission flow integration", () => {
       capturedPrintOnComplete!();
       await tick(0);
 
-      expect(inst.lastFrame()).toContain("[ENTER] continue");
+      // BottomBar handles the [ENTER] continue prompt; content area no longer duplicates it.
+      // Verify we're still on step 1 (waiting for ENTER).
+      expect(inst.lastFrame()).toContain("PRINT:");
       expect(inst.lastFrame()).not.toContain("QUIZ_STEP");
 
       pressKey(inst, keys.enter);

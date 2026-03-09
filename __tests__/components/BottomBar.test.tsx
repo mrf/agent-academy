@@ -60,13 +60,13 @@ describe("BottomBar", () => {
       <BottomBar
         currentStep={0}
         totalSteps={1}
-        availableActions={["continue", "menu", "intel"]}
+        availableActions={["continue", "restart", "menu"]}
       />,
     );
     const frame = inst.lastFrame()!;
     expect(frame).toContain("[ENTER] continue");
+    expect(frame).toContain("[ENTER] restart mission");
     expect(frame).toContain("[ESC] menu");
-    expect(frame).toContain("[H] intel");
   });
 
   it("shows submit and handler labels", () => {

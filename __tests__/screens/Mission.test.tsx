@@ -175,13 +175,16 @@ describe("Mission", () => {
       expect(inst.lastFrame()).toContain("COMMAND_STEP");
     });
 
-    it("shows [ENTER] continue prompt after print step completes", async () => {
+    it("enters waitEnter phase after print step completes", async () => {
       const inst = renderMission();
       await tick(0);
 
       capturedPrintOnComplete!();
       await tick(0);
-      expect(inst.lastFrame()).toContain("[ENTER] continue");
+      // BottomBar handles the [ENTER] continue prompt; content area no longer duplicates it.
+      // Verify we're still on the same step (waiting for ENTER to advance).
+      expect(inst.lastFrame()).toContain("PRINT:");
+      expect(inst.lastFrame()).toContain("fxp=5");
     });
   });
 
