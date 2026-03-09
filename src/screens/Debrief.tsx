@@ -14,10 +14,10 @@ interface DebriefProps {
 const STAR_FILLED = "\u2605";
 const STAR_EMPTY = "\u2606";
 
-function renderStars(stars: 1 | 2 | 3): string {
-  return (
-    STAR_FILLED.repeat(stars) + STAR_EMPTY.repeat(3 - stars)
-  );
+function objectiveColor(passed: boolean, stars: 1 | 2 | 3): string {
+  if (passed) return COLORS.green;
+  if (stars === 2) return COLORS.amber;
+  return COLORS.red;
 }
 
 export function Debrief({
@@ -109,11 +109,15 @@ export function Debrief({
           <Text color={COLORS.warmWhite} bold>
             OBJECTIVES:
           </Text>
-          {mission.objectives.map((obj, i) => (
-            <Text key={i} color={COLORS.green}>
-              {"  \u2713 "}{obj}
-            </Text>
-          ))}
+          {mission.objectives.map((obj, i) => {
+            const passed = stars === 3 || i < Math.ceil(mission.objectives.length * (stars / 3));
+            const mark = passed ? "\u2713" : "\u2717";
+            return (
+              <Text key={i} color={objectiveColor(passed, stars)}>
+                {"  "}{mark}{" "}{obj}
+              </Text>
+            );
+          })}
         </Box>
 
         {/* Continue prompt */}
