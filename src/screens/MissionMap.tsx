@@ -100,7 +100,7 @@ export function MissionMap({
   const crtSeparator = "- ".repeat(Math.ceil(contentWidth / 2)).slice(0, contentWidth);
 
   return (
-    <Box flexDirection="column" padding={1}>
+    <Box flexDirection="column" justifyContent="center" padding={1}>
       <Box
         flexDirection="column"
         borderStyle="double"
@@ -145,8 +145,6 @@ export function MissionMap({
           {"─".repeat(contentWidth)}
         </Text>
 
-        <Box marginTop={1} />
-
         {MISSIONS.map((mission, i) => {
           const isCompleted = progress.completedMissions.includes(mission.id);
           const isUnlocked = isMissionUnlocked(
@@ -161,7 +159,7 @@ export function MissionMap({
           const scanDim = crt && i % 2 === 0;
 
           return (
-            <Box key={mission.id} flexDirection="column">
+            <Box key={mission.id} flexDirection="column" marginTop={i === 0 ? 1 : 0}>
               <Box>
                 <Text color={isSelected ? accent : undefined} dimColor={scanDim}>
                   {isSelected ? "> " : "  "}
@@ -215,9 +213,7 @@ export function MissionMap({
           );
         })}
 
-        <Box marginTop={1} />
-
-        <Box>
+        <Box marginTop={1}>
           <Text color={isInfiniteSelected ? COLORS.amber : undefined}>
             {isInfiniteSelected ? "> " : "  "}
           </Text>
@@ -251,12 +247,12 @@ export function MissionMap({
           </Box>
         )}
 
-        <Box marginTop={1} />
-
-        <Text color={dim}>
-          {"[UP/DOWN] Navigate  [ENTER] Start mission"}
-          {allComplete ? "  [C] Credits" : ""}
-        </Text>
+        <Box marginTop={1}>
+          <Text color={dim}>
+            {"[UP/DOWN] Navigate  [ENTER] Start mission"}
+            {allComplete ? "  [C] Credits" : ""}
+          </Text>
+        </Box>
       </Box>
     </Box>
   );

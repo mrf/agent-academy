@@ -124,7 +124,7 @@ export function Debrief({
 
         {/* Continue prompt */}
         {animDone && (
-          <Box justifyContent="flex-end" marginTop={1}>
+          <Box justifyContent="center" marginTop={1}>
             <Text color={COLORS.amber} bold>
               [ENTER] Return to mission map
             </Text>

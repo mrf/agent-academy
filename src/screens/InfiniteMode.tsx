@@ -222,7 +222,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
   const currentQuestion = questions[currentIndex];
 
   return (
-    <Box flexDirection="column" padding={1}>
+    <Box flexDirection="column" justifyContent="center" padding={1}>
       <Box
         flexDirection="column"
         borderStyle="double"
