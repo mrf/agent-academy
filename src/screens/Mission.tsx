@@ -56,8 +56,13 @@ export function Mission({
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [coverIntegrity, setCoverIntegrity] = useState(MAX_COVER);
   const [fxpEarned, setFxpEarned] = useState(0);
-  const [hits, setHits] = useState(0);
   const [phase, setPhase] = useState<Phase>("step");
+
+  // Refs track latest values to avoid stale closures in advanceStep.
+  // fxpEarned state is still needed for rendering; hits is only used
+  // in the onComplete callback, so it lives exclusively in a ref.
+  const fxpEarnedRef = useRef(0);
+  const hitsRef = useRef(0);
 
   // Track mission ID to reset state if mission changes
   const missionIdRef = useRef(mission.id);
@@ -66,8 +71,9 @@ export function Mission({
     setCurrentStepIndex(0);
     setCoverIntegrity(MAX_COVER);
     setFxpEarned(0);
-    setHits(0);
     setPhase("step");
+    fxpEarnedRef.current = 0;
+    hitsRef.current = 0;
   }
 
   const currentStep = mission.steps[currentStepIndex] as Step;
@@ -80,26 +86,28 @@ export function Mission({
   const advanceStep = useCallback(() => {
     const nextIndex = currentStepIndex + 1;
     if (nextIndex >= mission.steps.length) {
-      onComplete(computeStars(hits), fxpEarned, coverIntegrity);
+      onComplete(computeStars(hitsRef.current), fxpEarnedRef.current, coverIntegrity);
     } else {
       setCurrentStepIndex(nextIndex);
       setPhase("step");
     }
-  }, [currentStepIndex, mission.steps.length, hits, fxpEarned, coverIntegrity, onComplete]);
+  }, [currentStepIndex, mission.steps.length, coverIntegrity, onComplete]);
 
   const handlePrintComplete = useCallback(() => {
-    setFxpEarned((prev) => prev + FXP_PER_PRINT);
+    fxpEarnedRef.current += FXP_PER_PRINT;
+    setFxpEarned(fxpEarnedRef.current);
     setPhase("waitEnter");
   }, []);
 
   const handleAnswer = useCallback(
     (correct: boolean) => {
       if (correct) {
-        setFxpEarned((prev) => prev + FXP_PER_CORRECT);
+        fxpEarnedRef.current += FXP_PER_CORRECT;
+        setFxpEarned(fxpEarnedRef.current);
       } else {
         const newCover = coverIntegrity - 1;
         setCoverIntegrity(newCover);
-        setHits((prev) => prev + 1);
+        hitsRef.current += 1;
         if (newCover <= 0) {
           setPhase("coverBlown");
           return;
@@ -118,7 +126,7 @@ export function Mission({
         } else if (phase === "coverBlown") {
           setCurrentStepIndex(0);
           setCoverIntegrity(MAX_COVER);
-          setHits(0);
+          hitsRef.current = 0;
           setPhase("step");
         }
       }

@@ -226,8 +226,8 @@ describe("Mission", () => {
       await answerStep(true); // +10
       await answerStep(true); // +10
 
-      // onComplete receives the closure's fxp value at the time advanceStep runs
-      expect(onComplete).toHaveBeenCalledWith(3, 15, 3);
+      // Refs ensure onComplete receives the up-to-date accumulated FXP
+      expect(onComplete).toHaveBeenCalledWith(3, 25, 3);
     });
   });
 
@@ -347,8 +347,8 @@ describe("Mission", () => {
       await answerStep(true); // +10 FXP
 
       expect(onComplete).toHaveBeenCalledOnce();
-      // fxp in advanceStep closure lags behind the queued setFxpEarned
-      expect(onComplete).toHaveBeenCalledWith(3, 15, 3);
+      // Refs ensure onComplete receives the up-to-date accumulated FXP
+      expect(onComplete).toHaveBeenCalledWith(3, 25, 3);
     });
 
     it("does not call onComplete before all steps are done", async () => {
