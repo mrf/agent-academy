@@ -118,10 +118,10 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   }, [state]);
 
   const handleMissionComplete = useCallback(
-    (stars: 1 | 2 | 3, fxp: number) => {
+    (stars: 1 | 2 | 3, fxpEarned: number, coverRemaining: number) => {
       const mission = MISSIONS[state.missionContext.currentMissionIndex];
       if (mission) {
-        saveMissionComplete(mission.id, stars, fxp);
+        saveMissionComplete(mission.id, stars, fxpEarned);
       }
 
       const durationMs = Date.now() - missionStartRef.current;
@@ -132,7 +132,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
       });
       enqueueAchievements(...unlocked);
 
-      state.setMissionContext({ stars, fxpEarned: fxp });
+      state.setMissionContext({ stars, fxpEarned, coverRemaining });
       state.navigateTo("debrief");
     },
     [state, enqueueAchievements],
@@ -241,7 +241,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             mission={currentMission}
             stars={state.missionContext.stars}
             fxpEarned={state.missionContext.fxpEarned}
-            coverRemaining={3}
+            coverRemaining={state.missionContext.coverRemaining}
             onContinue={handleDebriefContinue}
           />
         );

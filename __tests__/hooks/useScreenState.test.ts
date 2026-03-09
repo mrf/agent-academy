@@ -104,6 +104,7 @@ describe("useScreenState", () => {
       currentMissionIndex: 5,
       stars: 1,
       fxpEarned: 0,
+      coverRemaining: 3,
     });
     cleanup();
   });
@@ -114,6 +115,7 @@ describe("useScreenState", () => {
       currentMissionIndex: 0,
       stars: 1,
       fxpEarned: 0,
+      coverRemaining: 3,
     });
     cleanup();
   });
