@@ -68,16 +68,16 @@ describe("Debrief", () => {
     expect(inst.lastFrame()).toContain("OBJECTIVES");
   });
 
-  it("renders cover remaining", async () => {
+  it("renders cover remaining with visual blocks", async () => {
     const inst = renderDebrief({ coverRemaining: 2 });
     await tick(0);
-    expect(inst.lastFrame()).toContain("COVER INTEGRITY REMAINING: 2/3");
+    expect(inst.lastFrame()).toContain("COVER INTEGRITY: \u25A0 \u25A0 \u25A1");
   });
 
-  it("renders cover remaining at 0", async () => {
+  it("renders cover remaining at 0 with empty blocks", async () => {
     const inst = renderDebrief({ coverRemaining: 0 });
     await tick(0);
-    expect(inst.lastFrame()).toContain("COVER INTEGRITY REMAINING: 0/3");
+    expect(inst.lastFrame()).toContain("COVER INTEGRITY: \u25A1 \u25A1 \u25A1");
   });
 
   // ── Star reveal animation ───────────────────────────────────────────

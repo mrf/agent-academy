@@ -30,15 +30,14 @@ function computeStars(hits: number): 1 | 2 | 3 {
 
 function getAvailableActions(
   phase: Phase,
-  step: Step,
   hasApiKey: boolean,
 ): string[] {
   const actions: string[] = [];
-  if (phase === "waitEnter" || phase === "coverBlown") {
+  if (phase === "waitEnter") {
     actions.push("continue");
   }
-  if (step.type === "command" && phase === "step") {
-    actions.push("intel");
+  if (phase === "coverBlown") {
+    actions.push("restart");
   }
   if (hasApiKey) {
     actions.push("handler");
@@ -186,7 +185,14 @@ export function Mission({
 
       <Box flexDirection="column" flexGrow={1} paddingX={2} paddingY={1}>
         {phase === "coverBlown" ? (
-          <Box flexDirection="column" gap={1}>
+          <Box
+            borderStyle="double"
+            borderColor={COLORS.red}
+            paddingX={2}
+            paddingY={1}
+            flexDirection="column"
+            gap={1}
+          >
             <Text color={COLORS.red} bold>
               ██  COVER BLOWN  ██
             </Text>
@@ -196,28 +202,16 @@ export function Mission({
             <Text color={COLORS.gray}>
               FXP earned this attempt will be retained.
             </Text>
-            <Text color={COLORS.amber} bold>
-              [ENTER] Restart mission
-            </Text>
           </Box>
         ) : (
-          <Box flexDirection="column">
-            {renderStep(currentStep)}
-            {phase === "waitEnter" && (
-              <Box marginTop={1}>
-                <Text color={COLORS.amber} bold>
-                  [ENTER] Continue
-                </Text>
-              </Box>
-            )}
-          </Box>
+          renderStep(currentStep)
         )}
       </Box>
 
       <BottomBar
         currentStep={currentStepIndex + 1}
         totalSteps={mission.steps.length}
-        availableActions={getAvailableActions(phase, currentStep, hasApiKey)}
+        availableActions={getAvailableActions(phase, hasApiKey)}
       />
     </Box>
   );
