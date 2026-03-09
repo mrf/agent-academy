@@ -5,10 +5,14 @@ import {
   cleanup,
   keys,
   pressKey,
-  type,
+  tick,
   type RenderResult,
 } from "../helpers/render-ink.js";
 import { TIMING } from "../../src/constants.js";
+
+// React's scheduler captures the real setImmediate at import time (before
+// fake timers). We grab the same reference to flush its render queue.
+const realSetImmediate = globalThis.setImmediate;
 
 // ── Mocks ─────────────────────────────────────────────────────────────
 
@@ -44,11 +48,6 @@ afterEach(() => {
 
 // ── Helpers ───────────────────────────────────────────────────────────
 
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  await vi.advanceTimersByTimeAsync(0);
-}
-
 interface HandlerTestProps {
   missionTitle: string;
   topicContext: string;
@@ -72,13 +71,25 @@ async function renderHandler(
   return inst;
 }
 
-/** Submit a question into the text input */
+/** Yield to the real setImmediate so React's scheduler can flush renders. */
+async function flushReact(): Promise<void> {
+  await new Promise<void>((resolve) => realSetImmediate(resolve));
+}
+
+/** Flush React state commits and effect re-registrations repeatedly. */
+async function flushReactFully(): Promise<void> {
+  for (let i = 0; i < 5; i++) await flushReact();
+}
+
+/** Type text into the input, flush React state + effects, then press Enter. */
 async function submitQuestion(
   inst: RenderResult,
   question: string,
 ): Promise<void> {
-  type(inst, question);
+  inst.stdin.write(question);
+  await flushReactFully();
   pressKey(inst, keys.enter);
+  await flushReactFully();
   await tick(0);
 }
 
@@ -271,8 +282,10 @@ describe("Handler", () => {
     mockStreamingResponse(["Recovered answer"]);
 
     // Type something so input is non-empty (handleSubmit checks trimmed)
-    type(inst, "retry");
+    inst.stdin.write("retry");
+    await flushReactFully();
     pressKey(inst, keys.enter);
+    await flushReactFully();
     await tick(TIMING.tokenBuffer + 1);
 
     // askHandler should have been called again with the original question
