@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, Text, useInput } from "ink";
 import { COLORS } from "../constants.js";
 
@@ -6,9 +7,14 @@ interface NoApiKeyProps {
 }
 
 export function NoApiKey({ onContinue }: NoApiKeyProps) {
-  useInput(() => {
-    onContinue();
-  });
+  const [dismissed, setDismissed] = useState(false);
+  useInput(
+    () => {
+      setDismissed(true);
+      onContinue();
+    },
+    { isActive: !dismissed },
+  );
 
   return (
     <Box
