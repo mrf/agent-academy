@@ -148,9 +148,11 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
       {helpHint && <Text color={COLORS.gray}>{helpHint}</Text>}
 
       {phase === "pausing" && (
-        <Text color={COLORS.gray} dimColor>
-          Verifying...
-        </Text>
+        <Box marginTop={1}>
+          <Text color={COLORS.gray} dimColor>
+            Verifying...
+          </Text>
+        </Box>
       )}
 
       {phase === "result" && (
@@ -172,7 +174,9 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
               </Text>
             </>
           )}
-          <Text color={COLORS.gray}>{step.explanation}</Text>
+          <Box marginTop={1}>
+            <Text color={COLORS.gray}>{step.explanation}</Text>
+          </Box>
         </Box>
       )}
     </Box>

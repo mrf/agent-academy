@@ -4,6 +4,7 @@ import { MISSIONS } from "../data/curriculum.js";
 import { loadProgress, toggleLegacyMode } from "../store/progress.js";
 import { COLORS } from "../constants.js";
 import { createKonamiTracker, setTerminalTitle } from "../lib/easter-eggs.js";
+import { renderStars } from "../lib/stars.js";
 import { useTerminalSize } from "../lib/terminal.js";
 
 interface MissionMapProps {
@@ -280,7 +281,7 @@ function MissionRating({ stars, crt, scanDim }: MissionRatingProps) {
   return (
     <>
       <Text color={crt ? COLORS.green : COLORS.gold} dimColor={scanDim}>
-        {starString(stars)}
+        {renderStars(stars)}
       </Text>
       <Text color={crt ? COLORS.green : COLORS.warmWhite} dimColor={scanDim}>
         {"  "}{missionFxp(stars)} FXP
@@ -297,12 +298,6 @@ function isMissionUnlocked(
   if (index === 0) return true;
   const prevMission = MISSIONS[index - 1];
   return prevMission ? completedMissions.includes(prevMission.id) : false;
-}
-
-function starString(rating: number): string {
-  const filled = "\u2605"; // ★
-  const empty = "\u2606"; // ☆
-  return filled.repeat(rating) + empty.repeat(3 - rating);
 }
 
 function missionFxp(stars: number): number {

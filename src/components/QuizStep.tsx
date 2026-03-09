@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { Box, Text } from "ink";
 import SelectInput from "ink-select-input";
 import { COLORS, TIMING } from "../constants.js";
+import { CustomIndicator, CustomItem } from "./SelectItems.js";
 import type { QuizStep as QuizStepType } from "../types.js";
 
 interface QuizStepProps {
@@ -12,32 +13,19 @@ interface QuizStepProps {
 
 type Phase = "selecting" | "pausing" | "result";
 
-type ShakeFrame = -1 | 0 | 1;
+type ShakeFrame = 0 | 1;
 
-const SHAKE_SEQUENCE: ShakeFrame[] = [1, 0, -1, 0];
+const SHAKE_SEQUENCE: ShakeFrame[] = [1, 0, 1, 0];
 const SHAKE_FRAME_MS = 50;
-const SHAKE_BASE_MARGIN = 1;
 
-function CustomIndicator({ isSelected }: { isSelected?: boolean }) {
-  return (
-    <Text color={isSelected ? COLORS.amber : COLORS.gray}>
-      {isSelected ? "> " : "  "}
-    </Text>
-  );
-}
-
-function CustomItem({
-  isSelected,
-  label,
-}: {
-  isSelected?: boolean;
-  label: string;
-}) {
-  return (
-    <Text color={isSelected ? COLORS.amber : COLORS.gray} bold={isSelected}>
-      {label}
-    </Text>
-  );
+function reviewColor(
+  itemIndex: number,
+  correctIndex: number,
+  selectedIndex: number,
+): string {
+  if (itemIndex === correctIndex) return COLORS.green;
+  if (itemIndex === selectedIndex) return COLORS.red;
+  return COLORS.gray;
 }
 
 export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
@@ -107,7 +95,7 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
     <Box
       flexDirection="column"
       gap={1}
-      marginLeft={SHAKE_BASE_MARGIN + shakeOffset}
+      marginLeft={shakeOffset}
     >
       <Text color={COLORS.cyan} bold>
         {step.question}
@@ -158,13 +146,7 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
                 {items.map((item) => (
                   <Box key={item.key}>
                     <Text
-                      color={
-                        item.value === step.correct
-                          ? COLORS.green
-                          : item.value === selectedIndex
-                            ? COLORS.red
-                            : COLORS.gray
-                      }
+                      color={reviewColor(item.value, step.correct, selectedIndex)}
                       bold={item.value === step.correct}
                     >
                       {item.value === step.correct ? "> " : "  "}

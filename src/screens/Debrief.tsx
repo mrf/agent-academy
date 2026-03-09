@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import { COLORS, TIMING } from "../constants.js";
+import { renderStars } from "../lib/stars.js";
 import type { Mission } from "../types.js";
 
 interface DebriefProps {
@@ -10,9 +11,6 @@ interface DebriefProps {
   coverRemaining: number;
   onContinue: () => void;
 }
-
-const STAR_FILLED = "\u2605";
-const STAR_EMPTY = "\u2606";
 
 function objectiveColor(passed: boolean, stars: 1 | 2 | 3): string {
   if (passed) return COLORS.green;
@@ -65,9 +63,7 @@ export function Debrief({
     }
   });
 
-  const starString =
-    STAR_FILLED.repeat(starsRevealed) +
-    STAR_EMPTY.repeat(3 - starsRevealed);
+  const starString = renderStars(starsRevealed);
 
   return (
     <Box

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { Box, Text, useInput } from "ink";
 import SelectInput from "ink-select-input";
 import { QuizStep } from "../components/QuizStep.js";
+import { CustomIndicator, CustomItem } from "../components/SelectItems.js";
 import { generateFieldAssessments } from "../ai/quiz-gen.js";
 import { MISSIONS } from "../data/curriculum.js";
 import {
@@ -54,28 +55,6 @@ function accuracyColor(correct: number, total: number): string {
   if (ratio >= 0.8) return COLORS.green;
   if (ratio >= 0.5) return COLORS.amber;
   return COLORS.red;
-}
-
-function CustomIndicator({ isSelected }: { isSelected?: boolean }) {
-  return (
-    <Text color={isSelected ? COLORS.amber : COLORS.gray}>
-      {isSelected ? "> " : "  "}
-    </Text>
-  );
-}
-
-function CustomItem({
-  isSelected,
-  label,
-}: {
-  isSelected?: boolean;
-  label: string;
-}) {
-  return (
-    <Text color={isSelected ? COLORS.amber : COLORS.gray} bold={isSelected}>
-      {label}
-    </Text>
-  );
 }
 
 export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
