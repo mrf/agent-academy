@@ -70,7 +70,7 @@ export function NoApiKey({ onContinue }: NoApiKeyProps) {
 
         <Box marginTop={1}>
           <Text color={COLORS.amber}>
-            {">"} Press any key to continue without AI features
+            [ANY KEY] Continue without AI features
           </Text>
         </Box>
       </Box>

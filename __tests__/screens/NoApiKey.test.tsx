@@ -68,6 +68,6 @@ describe("NoApiKey", () => {
 
   it("shows continue without AI prompt", () => {
     const { lastFrame } = renderNoApiKey();
-    expect(lastFrame()).toContain("Press any key to continue without AI");
+    expect(lastFrame()).toContain("[ANY KEY] Continue without AI");
   });
 });

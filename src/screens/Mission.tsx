@@ -206,7 +206,7 @@ export function Mission({
             {phase === "waitEnter" && (
               <Box marginTop={1}>
                 <Text color={COLORS.amber} bold>
-                  [ENTER] continue
+                  [ENTER] Continue
                 </Text>
               </Box>
             )}

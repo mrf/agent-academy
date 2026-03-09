@@ -66,7 +66,7 @@ export function Onboarding({ onContinue }: OnboardingProps) {
           ))}
           {allDone && (
             <Text color={COLORS.amber} bold>
-              [ENTER] to begin
+              [ENTER] Begin
             </Text>
           )}
         </Box>

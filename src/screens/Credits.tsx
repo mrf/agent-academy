@@ -61,7 +61,7 @@ export function Credits({ onClose }: CreditsProps) {
       <Box
         flexDirection="column"
         borderStyle="double"
-        borderColor={COLORS.amber}
+        borderColor={COLORS.cyan}
         paddingX={2}
         paddingY={1}
       >

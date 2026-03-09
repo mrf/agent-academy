@@ -8,11 +8,11 @@ interface BottomBarProps {
 }
 
 const ACTION_LABELS: Record<string, string> = {
-  continue: "[ENTER] continue",
-  handler: "[?] handler",
-  menu: "[ESC] menu",
-  submit: "[ENTER] submit",
-  intel: "[H] intel",
+  continue: "[ENTER] Continue",
+  handler: "[?] Handler",
+  menu: "[ESC] Menu",
+  submit: "[ENTER] Submit",
+  intel: "[H] Intel",
 };
 
 export function BottomBar({

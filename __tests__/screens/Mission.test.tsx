@@ -175,13 +175,13 @@ describe("Mission", () => {
       expect(inst.lastFrame()).toContain("COMMAND_STEP");
     });
 
-    it("shows [ENTER] continue prompt after print step completes", async () => {
+    it("shows [ENTER] Continue prompt after print step completes", async () => {
       const inst = renderMission();
       await tick(0);
 
       capturedPrintOnComplete!();
       await tick(0);
-      expect(inst.lastFrame()).toContain("[ENTER] continue");
+      expect(inst.lastFrame()).toContain("[ENTER] Continue");
     });
   });
 

@@ -292,7 +292,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
         <Box position="absolute" flexDirection="column" alignItems="center" width="100%">
           <Box
             borderStyle="single"
-            borderColor={COLORS.amber}
+            borderColor={COLORS.cyan}
             paddingX={2}
             paddingY={1}
           >

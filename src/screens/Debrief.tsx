@@ -124,7 +124,7 @@ export function Debrief({
         {animDone && (
           <Box justifyContent="flex-end" marginTop={1}>
             <Text color={COLORS.amber} bold>
-              [ENTER] Return to Mission Map
+              [ENTER] Return to mission map
             </Text>
           </Box>
         )}

@@ -253,7 +253,7 @@ export function MissionMap({
         <Box marginTop={1} />
 
         <Text color={dim}>
-          {"[UP/DOWN] Navigate  [ENTER] Start Mission"}
+          {"[UP/DOWN] Navigate  [ENTER] Start mission"}
           {allComplete ? "  [C] Credits" : ""}
         </Text>
       </Box>

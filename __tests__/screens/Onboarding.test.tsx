@@ -171,7 +171,7 @@ describe("Onboarding", () => {
 
     await typeAllLines();
 
-    expect(instance.lastFrame()).toContain("[ENTER] to begin");
+    expect(instance.lastFrame()).toContain("[ENTER] Begin");
   });
 
   it("does not show [ENTER] prompt before all lines complete", async () => {
@@ -180,7 +180,7 @@ describe("Onboarding", () => {
 
     await typeOutLine(INTRO_LINES[0]);
 
-    expect(instance.lastFrame()).not.toContain("[ENTER] to begin");
+    expect(instance.lastFrame()).not.toContain("[ENTER] Begin");
   });
 
   it("ENTER calls onContinue after all lines are typed", async () => {

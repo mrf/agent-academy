@@ -1,5 +1,6 @@
 import { type ReactNode, useState, useEffect } from "react";
 import { useStdout, Box, Text } from "ink";
+import { COLORS } from "../constants.js";
 
 export const MIN_WIDTH = 60;
 export const OPTIMAL_WIDTH = 80;
@@ -47,7 +48,7 @@ export function TerminalGuard({ children }: TerminalGuardProps): ReactNode {
   if (columns < MIN_WIDTH) {
     return (
       <Box padding={1}>
-        <Text color="yellow">
+        <Text color={COLORS.amber}>
           Terminal too narrow (need {MIN_WIDTH}+ cols, currently {columns})
         </Text>
       </Box>
