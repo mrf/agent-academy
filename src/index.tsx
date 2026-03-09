@@ -67,3 +67,4 @@ function Root() {
 
 const { waitUntilExit } = render(<Root />);
 await waitUntilExit();
+restoreTerminal();

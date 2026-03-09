@@ -42,7 +42,7 @@ Get your key from the [Anthropic Console](https://console.anthropic.com/).
 
 ## Tech Stack
 
-- [Ink v4](https://github.com/vadimdemedes/ink) — React for the terminal
+- [Ink v6](https://github.com/vadimdemedes/ink) — React for the terminal
 - TypeScript
 - [Anthropic SDK](https://www.npmjs.com/package/@anthropic-ai/sdk) — powers the AI handler and dynamic assessments
 
