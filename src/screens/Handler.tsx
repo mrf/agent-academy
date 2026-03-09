@@ -5,6 +5,7 @@ import { askHandler } from "../ai/instructor.js";
 import { safeApiError } from "../ai/client.js";
 import { COLORS, TIMING } from "../constants.js";
 import { getLoadingMessage } from "../lib/easter-eggs.js";
+import { useTerminalSize } from "../lib/terminal.js";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -15,6 +16,7 @@ interface HandlerProps {
 }
 
 export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
+  const { columns } = useTerminalSize();
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Message[]>([]);
   const [streamedText, setStreamedText] = useState("");
@@ -151,7 +153,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
       borderColor={COLORS.cyan}
       paddingX={2}
       paddingY={1}
-      width={60}
+      width={Math.min(60, columns - 4)}
     >
       <Box justifyContent="center" marginBottom={1}>
         <Text color={COLORS.cyan} bold>

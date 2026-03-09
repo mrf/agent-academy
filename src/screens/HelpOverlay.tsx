@@ -1,5 +1,6 @@
 import { Box, Text, useInput } from "ink";
 import { COLORS } from "../constants.js";
+import { useTerminalSize } from "../lib/terminal.js";
 import type { Screen } from "../types.js";
 
 interface HelpOverlayProps {
@@ -71,6 +72,8 @@ function Section({ title, bindings }: { title: string; bindings: KeyBinding[] })
 }
 
 export function HelpOverlay({ screen, onClose }: HelpOverlayProps) {
+  const { columns } = useTerminalSize();
+
   useInput((_input, key) => {
     if (key.escape || _input === "h") {
       onClose();
@@ -95,7 +98,7 @@ export function HelpOverlay({ screen, onClose }: HelpOverlayProps) {
       paddingX={2}
       paddingY={1}
       alignSelf="center"
-      width={44}
+      width={Math.min(44, columns - 4)}
     >
       <Box justifyContent="center" marginBottom={1}>
         <Text color={COLORS.cyan} bold>

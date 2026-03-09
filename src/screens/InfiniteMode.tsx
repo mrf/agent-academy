@@ -10,6 +10,7 @@ import {
   reportBadQuestion,
 } from "../store/progress.js";
 import { COLORS } from "../constants.js";
+import { useTerminalSize } from "../lib/terminal.js";
 import type { ClearanceLevel, QuizStep as QuizStepType } from "../types.js";
 
 type Phase =
@@ -78,6 +79,8 @@ function CustomItem({
 }
 
 export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
+  const { columns } = useTerminalSize();
+  const contentWidth = Math.max(20, columns - 8);
   const progress = loadProgress();
   const [phase, setPhase] = useState<Phase>("topic-select");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
@@ -327,7 +330,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
               </Text>
             </Text>
             <Text color={COLORS.gray}>
-              {"────────────────────────────────────────"}
+              {"─".repeat(contentWidth)}
             </Text>
             <Text color={COLORS.cyan}>
               Est. API cost:{" "}
@@ -375,7 +378,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
               </Text>
             </Box>
             <Text color={COLORS.gray}>
-              {"────────────────────────────────────────"}
+              {"─".repeat(contentWidth)}
             </Text>
             <QuizStep
               key={currentIndex}
