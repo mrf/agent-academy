@@ -1,5 +1,6 @@
 import { render, cleanup } from "ink-testing-library";
 import type { ReactElement } from "react";
+import { vi } from "vitest";
 
 export type RenderResult = ReturnType<typeof render>;
 
@@ -31,4 +32,10 @@ export function type(instance: RenderResult, text: string): void {
   for (const char of text) {
     instance.stdin.write(char);
   }
+}
+
+/** Advance fake timers by `ms`, then flush pending React state updates. */
+export async function tick(ms: number): Promise<void> {
+  await vi.advanceTimersByTimeAsync(ms);
+  await vi.advanceTimersByTimeAsync(0);
 }
