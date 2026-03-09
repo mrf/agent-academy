@@ -199,8 +199,8 @@ describe("Mission flow integration", () => {
       await answerStep(true);
 
       expect(onComplete).toHaveBeenCalledOnce();
-      // FXP closure lags: last step's +10 is enqueued but not captured by advanceStep
-      expect(onComplete).toHaveBeenCalledWith(3, 15);
+      // Refs ensure onComplete receives the correct accumulated FXP
+      expect(onComplete).toHaveBeenCalledWith(3, 25);
     });
 
     it("handles multiple print steps in sequence", async () => {
@@ -224,8 +224,8 @@ describe("Mission flow integration", () => {
       expect(inst.lastFrame()).toContain("QUIZ_STEP");
       await answerStep(true);
 
-      // FXP closure lags: last step's +10 is enqueued but not captured
-      expect(onComplete).toHaveBeenCalledWith(3, 10);
+      // Refs ensure onComplete receives the correct accumulated FXP
+      expect(onComplete).toHaveBeenCalledWith(3, 20);
     });
 
     it("handles a quiz-only mission", async () => {
@@ -240,8 +240,8 @@ describe("Mission flow integration", () => {
       await answerStep(true);
       await answerStep(true);
 
-      // FXP lags: only first +10 visible in closure
-      expect(onComplete).toHaveBeenCalledWith(3, 10);
+      // Refs ensure onComplete receives the correct accumulated FXP
+      expect(onComplete).toHaveBeenCalledWith(3, 20);
     });
   });
 
@@ -451,8 +451,8 @@ describe("Mission flow integration", () => {
       await completePrintStep(inst); // fxp=20
       await answerStep(true);        // fxp=30
 
-      // The closure captures fxp before the last setFxpEarned processes
-      expect(onComplete).toHaveBeenCalledWith(3, 20);
+      // Refs ensure onComplete receives the correct accumulated FXP
+      expect(onComplete).toHaveBeenCalledWith(3, 30);
     });
 
     it("retains FXP from print steps even when cover is blown", async () => {
@@ -642,7 +642,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(3, 15);
+      expect(onComplete).toHaveBeenCalledWith(3, 25);
       const [stars, fxp] = onComplete.mock.calls[0];
 
       // Simulate what app.tsx does: persist + check achievements
@@ -656,7 +656,7 @@ describe("Mission flow integration", () => {
       const progress = loadProgress();
       expect(progress.completedMissions).toContain("mission-1");
       expect(progress.starRatings["mission-1"]).toBe(3);
-      expect(progress.fxp).toBe(15);
+      expect(progress.fxp).toBe(25);
 
       expect(unlocked.some((a) => a.id === "PERFECTIONIST")).toBe(true);
       expect(unlocked.some((a) => a.id === "SPEEDRUNNER")).toBe(true);
