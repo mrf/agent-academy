@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
 import { COLORS, TIMING } from "../constants.js";
@@ -52,6 +52,11 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
     null,
   );
   const [helpHint, setHelpHint] = useState<string | null>(null);
+  const answerTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(answerTimerRef.current);
+  }, []);
 
   const handleSubmit = useCallback(
     async (input: string) => {
@@ -89,7 +94,7 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
         ? TIMING.pauseAfterConfirmed
         : TIMING.pauseAfterCompromised;
 
-      setTimeout(() => {
+      answerTimerRef.current = setTimeout(() => {
         onAnswer(result.correct);
       }, delay);
     },

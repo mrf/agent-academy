@@ -30,6 +30,11 @@ export function MissionMap({
   const [legacyMode, setLegacyMode] = useState(progress.legacyModeUnlocked);
   const [konamiFlash, setKonamiFlash] = useState(false);
   const konamiCheck = useRef(createKonamiTracker()).current;
+  const konamiTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(konamiTimerRef.current);
+  }, []);
 
   useEffect(() => {
     setTerminalTitle(
@@ -50,7 +55,8 @@ export function MissionMap({
       const nowActive = toggleLegacyMode();
       setLegacyMode(nowActive);
       setKonamiFlash(true);
-      setTimeout(() => setKonamiFlash(false), 2000);
+      clearTimeout(konamiTimerRef.current);
+      konamiTimerRef.current = setTimeout(() => setKonamiFlash(false), 2000);
     }
 
     // Credits screen (only after Full Clearance)
