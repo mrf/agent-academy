@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Debrief } from "../../src/screens/Debrief.js";
-import { renderInk, cleanup, keys, pressKey, type RenderResult } from "../helpers/render-ink.js";
+import { renderInk, cleanup, keys, pressKey, tick, type RenderResult } from "../helpers/render-ink.js";
 import { TIMING } from "../../src/constants.js";
 import { createMission } from "../helpers/mock-missions.js";
 import type { Mission } from "../../src/types.js";
@@ -43,12 +43,6 @@ afterEach(() => {
   cleanup();
   vi.useRealTimers();
 });
-
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  await vi.advanceTimersByTimeAsync(0);
-  await vi.advanceTimersByTimeAsync(0);
-}
 
 // ── Basic rendering ─────────────────────────────────────────────────
 

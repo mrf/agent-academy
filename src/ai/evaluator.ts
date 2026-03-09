@@ -29,7 +29,7 @@ function localMatch(input: string, variants: string[]): Evaluation {
   const matched = variants.some((v) => normalize(v) === norm);
   return matched
     ? { correct: true, feedback: "Correct.", score: 100 }
-    : { correct: false, feedback: "Incorrect.", score: 0 };
+    : PARSE_FAILURE;
 }
 
 export async function evaluateAnswer(

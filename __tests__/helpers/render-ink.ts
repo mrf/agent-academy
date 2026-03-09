@@ -38,4 +38,5 @@ export function type(instance: RenderResult, text: string): void {
 export async function tick(ms: number): Promise<void> {
   await vi.advanceTimersByTimeAsync(ms);
   await vi.advanceTimersByTimeAsync(0);
+  await vi.advanceTimersByTimeAsync(0);
 }

@@ -25,10 +25,12 @@ export function Achievement({
   const [phase, setPhase] = useState<Phase>(noAnimation ? "display" : "enter");
   const [slideOffset, setSlideOffset] = useState(noAnimation ? 0 : SLIDE_FRAMES);
 
-  // Terminal bell on mount
+  // Terminal bell on mount (skip when animations disabled)
   useEffect(() => {
-    process.stdout.write("\x07");
-  }, []);
+    if (!noAnimation) {
+      process.stdout.write("\x07");
+    }
+  }, [noAnimation]);
 
   // Slide-in animation
   useEffect(() => {

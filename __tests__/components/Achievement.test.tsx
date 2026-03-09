@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Achievement } from "../../src/components/Achievement.js";
-import { renderInk, cleanup } from "../helpers/render-ink.js";
+import { renderInk, cleanup, tick } from "../helpers/render-ink.js";
 import { TIMING } from "../../src/constants.js";
 
 const SLIDE_FRAMES = 5;
@@ -16,14 +16,6 @@ afterEach(() => {
   vi.useRealTimers();
   vi.restoreAllMocks();
 });
-
-/** Advance fake timers by `ms`, then flush pending React state updates. */
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  // Multiple zero-flushes to let chained React effects settle
-  await vi.advanceTimersByTimeAsync(0);
-  await vi.advanceTimersByTimeAsync(0);
-}
 
 /** Advance through N slide frames, flushing React state after each one. */
 async function advanceSlide(frames: number): Promise<void> {
@@ -63,10 +55,16 @@ describe("Achievement", () => {
 
   // ── Terminal bell ───────────────────────────────────────────────────
 
-  it("writes terminal bell on mount", async () => {
-    renderInk(<Achievement name="Bell Test" noAnimation />);
+  it("writes terminal bell on mount when animations enabled", async () => {
+    renderInk(<Achievement name="Bell Test" />);
     await tick(0);
     expect(process.stdout.write).toHaveBeenCalledWith("\x07");
+  });
+
+  it("does not write terminal bell when noAnimation is true", async () => {
+    renderInk(<Achievement name="Silent Test" noAnimation />);
+    await tick(0);
+    expect(process.stdout.write).not.toHaveBeenCalledWith("\x07");
   });
 
   // ── Animation phases ──────────────────────────────────────────────

@@ -6,6 +6,7 @@ import {
   cleanup,
   keys,
   pressKey,
+  tick,
   type RenderResult,
 } from "../helpers/render-ink.js";
 import {
@@ -72,13 +73,6 @@ vi.mock("../../src/store/progress.js", () => ({
 }));
 
 // ── Helpers ────────────────────────────────────────────────────────────
-
-/** Flush fake timers with extra cycles for React state updates from useInput. */
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  await vi.advanceTimersByTimeAsync(0);
-  await vi.advanceTimersByTimeAsync(0);
-}
 
 /** Mission with an extra quiz step so a single wrong answer doesn't blow cover. */
 const fourStepMission = createMission({

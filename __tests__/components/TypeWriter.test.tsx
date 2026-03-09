@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { TypeWriter } from "../../src/components/TypeWriter.js";
-import { renderInk, cleanup, type RenderResult } from "../helpers/render-ink.js";
+import { renderInk, cleanup, tick, type RenderResult } from "../helpers/render-ink.js";
 import { TIMING } from "../../src/constants.js";
 
 beforeEach(() => {
@@ -12,12 +12,6 @@ afterEach(() => {
   cleanup();
   vi.useRealTimers();
 });
-
-/** Advance fake timers by `ms`, then flush pending React state updates. */
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  await vi.advanceTimersByTimeAsync(0);
-}
 
 /** Render and flush React effects so setInterval is active. */
 async function renderTypeWriter(
