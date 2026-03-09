@@ -5,6 +5,7 @@ export type MissionContext = {
   currentMissionIndex: number;
   stars: 1 | 2 | 3;
   fxpEarned: number;
+  coverRemaining: number;
 };
 
 export type ScreenState = {
@@ -23,6 +24,7 @@ const DEFAULT_MISSION_CONTEXT: MissionContext = {
   currentMissionIndex: 0,
   stars: 1,
   fxpEarned: 0,
+  coverRemaining: 3,
 };
 
 export function useScreenState(initialScreen: Screen = "logo"): ScreenState {

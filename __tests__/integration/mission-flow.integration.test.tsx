@@ -200,7 +200,7 @@ describe("Mission flow integration", () => {
 
       expect(onComplete).toHaveBeenCalledOnce();
       // FXP closure lags: last step's +10 is enqueued but not captured by advanceStep
-      expect(onComplete).toHaveBeenCalledWith(3, 15);
+      expect(onComplete).toHaveBeenCalledWith(3, 15, 3);
     });
 
     it("handles multiple print steps in sequence", async () => {
@@ -225,7 +225,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
 
       // FXP closure lags: last step's +10 is enqueued but not captured
-      expect(onComplete).toHaveBeenCalledWith(3, 10);
+      expect(onComplete).toHaveBeenCalledWith(3, 10, 3);
     });
 
     it("handles a quiz-only mission", async () => {
@@ -241,7 +241,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
 
       // FXP lags: only first +10 visible in closure
-      expect(onComplete).toHaveBeenCalledWith(3, 10);
+      expect(onComplete).toHaveBeenCalledWith(3, 10, 3);
     });
   });
 
@@ -330,7 +330,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
 
       expect(onComplete).toHaveBeenCalledOnce();
-      expect(onComplete).toHaveBeenCalledWith(3, expect.any(Number));
+      expect(onComplete).toHaveBeenCalledWith(3, expect.any(Number), 3);
     });
   });
 
@@ -347,7 +347,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(3, expect.any(Number));
+      expect(onComplete).toHaveBeenCalledWith(3, expect.any(Number), 3);
     });
 
     it("awards 2 stars with 1 wrong answer", async () => {
@@ -360,7 +360,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number));
+      expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number), 2);
     });
 
     it("awards 1 star with 2 wrong answers", async () => {
@@ -374,7 +374,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(1, expect.any(Number));
+      expect(onComplete).toHaveBeenCalledWith(1, expect.any(Number), 1);
     });
 
     it("hitting cover=0 blows cover instead of completing with 0 stars", async () => {
@@ -452,7 +452,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);        // fxp=30
 
       // The closure captures fxp before the last setFxpEarned processes
-      expect(onComplete).toHaveBeenCalledWith(3, 20);
+      expect(onComplete).toHaveBeenCalledWith(3, 20, 3);
     });
 
     it("retains FXP from print steps even when cover is blown", async () => {
@@ -642,7 +642,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(3, 15);
+      expect(onComplete).toHaveBeenCalledWith(3, 15, 3);
       const [stars, fxp] = onComplete.mock.calls[0];
 
       // Simulate what app.tsx does: persist + check achievements
@@ -681,7 +681,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number));
+      expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number), 2);
       const [stars, fxp] = onComplete.mock.calls[0];
 
       saveMissionComplete(mission.id, stars, fxp);

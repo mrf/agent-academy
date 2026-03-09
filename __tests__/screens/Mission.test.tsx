@@ -227,7 +227,7 @@ describe("Mission", () => {
       await answerStep(true); // +10
 
       // onComplete receives the closure's fxp value at the time advanceStep runs
-      expect(onComplete).toHaveBeenCalledWith(3, 15);
+      expect(onComplete).toHaveBeenCalledWith(3, 15, 3);
     });
   });
 
@@ -303,7 +303,7 @@ describe("Mission", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(3, expect.any(Number));
+      expect(onComplete).toHaveBeenCalledWith(3, expect.any(Number), 3);
     });
 
     it("awards 2 stars with 1 wrong answer (cover=2)", async () => {
@@ -316,7 +316,7 @@ describe("Mission", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number));
+      expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number), 2);
     });
 
     it("awards 1 star with 2+ wrong answers (cover=1)", async () => {
@@ -330,7 +330,7 @@ describe("Mission", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(1, expect.any(Number));
+      expect(onComplete).toHaveBeenCalledWith(1, expect.any(Number), 1);
     });
   });
 
@@ -348,7 +348,7 @@ describe("Mission", () => {
 
       expect(onComplete).toHaveBeenCalledOnce();
       // fxp in advanceStep closure lags behind the queued setFxpEarned
-      expect(onComplete).toHaveBeenCalledWith(3, 15);
+      expect(onComplete).toHaveBeenCalledWith(3, 15, 3);
     });
 
     it("does not call onComplete before all steps are done", async () => {

@@ -11,7 +11,7 @@ import type { Mission as MissionType, Step } from "../types.js";
 
 interface MissionProps {
   mission: MissionType;
-  onComplete: (stars: 1 | 2 | 3, fxp: number) => void;
+  onComplete: (stars: 1 | 2 | 3, fxp: number, coverRemaining: number) => void;
   hasApiKey: boolean;
   noAnimation: boolean;
 }
@@ -80,12 +80,12 @@ export function Mission({
   const advanceStep = useCallback(() => {
     const nextIndex = currentStepIndex + 1;
     if (nextIndex >= mission.steps.length) {
-      onComplete(computeStars(hits), fxpEarned);
+      onComplete(computeStars(hits), fxpEarned, coverIntegrity);
     } else {
       setCurrentStepIndex(nextIndex);
       setPhase("step");
     }
-  }, [currentStepIndex, mission.steps.length, hits, fxpEarned, onComplete]);
+  }, [currentStepIndex, mission.steps.length, hits, fxpEarned, coverIntegrity, onComplete]);
 
   const handlePrintComplete = useCallback(() => {
     setFxpEarned((prev) => prev + FXP_PER_PRINT);
