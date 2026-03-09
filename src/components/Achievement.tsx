@@ -114,7 +114,7 @@ export function Achievement({
         <Text color={COLORS.gold} bold>
           ACHIEVEMENT UNLOCKED
         </Text>
-        <Text color={COLORS.amber} bold>
+        <Text color={COLORS.gold} bold>
           {name}
         </Text>
         {description && <Text color={COLORS.gray}>{description}</Text>}
