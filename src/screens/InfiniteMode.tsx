@@ -354,6 +354,9 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
           <Box flexDirection="column" gap={1}>
             <Box justifyContent="space-between">
               <Text color={COLORS.cyan}>
+                Topic: <Text color={COLORS.amber} bold>{selectedTopic}</Text>
+              </Text>
+              <Text color={COLORS.cyan}>
                 Q {currentIndex + 1}/{questions.length}
               </Text>
               <Text color={COLORS.amber}>

@@ -13,6 +13,9 @@ interface TypeWriterProps {
   speed?: "fast" | "normal" | "dramatic";
   onComplete?: () => void;
   noAnimation?: boolean;
+  color?: string;
+  bold?: boolean;
+  dimColor?: boolean;
 }
 
 export function TypeWriter({
@@ -20,6 +23,9 @@ export function TypeWriter({
   speed = "normal",
   onComplete,
   noAnimation = false,
+  color,
+  bold,
+  dimColor,
 }: TypeWriterProps) {
   const [charIndex, setCharIndex] = useState(0);
   const completedRef = useRef(false);
@@ -66,5 +72,9 @@ export function TypeWriter({
     return () => clearInterval(interval);
   }, [text, speed, noAnimation, charIndex, onComplete]);
 
-  return <Text>{text.slice(0, charIndex)}</Text>;
+  return (
+    <Text color={color} bold={bold} dimColor={dimColor}>
+      {text.slice(0, charIndex)}
+    </Text>
+  );
 }
