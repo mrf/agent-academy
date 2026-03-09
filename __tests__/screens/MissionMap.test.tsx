@@ -6,6 +6,7 @@ import {
   cleanup,
   keys,
   pressKey,
+  tick,
   type RenderResult,
 } from "../helpers/render-ink.js";
 import type { SaveData } from "../../src/types.js";
@@ -144,7 +145,7 @@ describe("MissionMap", () => {
     expect(frame).toContain("FXP");
   });
 
-  it("arrow keys navigate between missions", () => {
+  it("arrow keys navigate between missions", async () => {
     const inst = renderMap();
 
     // Initially first uncompleted (index 0) is selected
@@ -152,10 +153,12 @@ describe("MissionMap", () => {
 
     // Move down to mission 2
     pressKey(inst, keys.arrowDown);
+    await tick(0);
     expect(inst.lastFrame()!).toMatch(/>\s+.*02/);
 
     // Move back up
     pressKey(inst, keys.arrowUp);
+    await tick(0);
     expect(inst.lastFrame()!).toMatch(/>\s+.*01.*FIRST CONTACT/);
   });
 
@@ -177,18 +180,19 @@ describe("MissionMap", () => {
     expect(onSelectMission).toHaveBeenCalledWith(0);
   });
 
-  it("enter on locked mission does nothing", () => {
+  it("enter on locked mission does nothing", async () => {
     const onSelectMission = vi.fn();
     const inst = renderMap({ onSelectMission });
 
     // Navigate to mission 1 (locked — mission 0 not completed)
     pressKey(inst, keys.arrowDown);
+    await tick(0);
     pressKey(inst, keys.enter);
 
     expect(onSelectMission).not.toHaveBeenCalled();
   });
 
-  it("infinite mode entry shown and selectable after Full Clearance", () => {
+  it("infinite mode entry shown and selectable after Full Clearance", async () => {
     mockLoadProgress.mockReturnValue(allCompleteProgress());
     const onSelectInfiniteMode = vi.fn();
 
@@ -202,16 +206,18 @@ describe("MissionMap", () => {
     for (let i = 0; i < MISSIONS.length; i++) {
       pressKey(inst, keys.arrowDown);
     }
+    await tick(0);
     pressKey(inst, keys.enter);
 
     expect(onSelectInfiniteMode).toHaveBeenCalledOnce();
   });
 
-  it("konami code triggers toggleLegacyMode", () => {
+  it("konami code triggers toggleLegacyMode", async () => {
     mockKonamiCheck.mockReturnValue(true);
 
     const inst = renderMap();
     inst.stdin.write("a");
+    await tick(0);
 
     expect(mockToggleLegacyMode).toHaveBeenCalled();
     expect(inst.lastFrame()!).toContain("LEGACY MODE ACTIVATED");
