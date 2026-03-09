@@ -28,13 +28,32 @@ const hasApiKey = Boolean(process.env.ANTHROPIC_API_KEY);
 const noAnimation = args.includes("--no-animation");
 const reset = args.includes("--reset");
 
-// Restore terminal state on uncaught exceptions
-process.on("uncaughtException", (error) => {
-  process.stderr.write("\x1B[?25h\x1B[?1049l\x1B[0m");
-  console.error("\n[SIGNAL LOST] Unexpected error:");
+// Restore terminal state: show cursor, exit alt screen, reset attributes, clear title
+function restoreTerminal(): boolean {
+  return process.stderr.write("\x1B[?25h\x1B[?1049l\x1B[0m\x1B]0;\x1B\\");
+}
+
+function handleFatalError(label: string, error: unknown): void {
+  restoreTerminal();
+  console.error(`\n[SIGNAL LOST] ${label}:`);
   console.error(error);
   process.exit(1);
+}
+
+process.on("uncaughtException", (error) => {
+  handleFatalError("Unexpected error", error);
 });
+
+process.on("unhandledRejection", (reason) => {
+  handleFatalError("Unhandled promise rejection", reason);
+});
+
+for (const signal of ["SIGINT", "SIGTERM"] as const) {
+  process.on(signal, () => {
+    restoreTerminal();
+    process.exit(0);
+  });
+}
 
 function Root() {
   const [dismissed, setDismissed] = useState(hasApiKey);
