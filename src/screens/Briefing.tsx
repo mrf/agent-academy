@@ -67,13 +67,12 @@ export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
           </Text>
         </Box>
 
-        <Text color={COLORS.warmWhite}>
-          <TypeWriter
-            text={briefingText}
-            speed="dramatic"
-            onComplete={handleComplete}
-          />
-        </Text>
+        <TypeWriter
+          text={briefingText}
+          speed="dramatic"
+          onComplete={handleComplete}
+          color={COLORS.warmWhite}
+        />
 
         {typingDone && (
           <Box justifyContent="flex-end" marginTop={1}>

@@ -52,47 +52,44 @@ export function Logo({ onContinue }: LogoProps) {
         flexDirection="column"
         alignItems="center"
       >
-        <Text color={COLORS.warmWhite}>
-          <TypeWriter
-            text={ASCII_LOGO}
-            speed="dramatic"
-            onComplete={advancePhase}
-          />
-        </Text>
+        <TypeWriter
+          text={ASCII_LOGO}
+          speed="dramatic"
+          onComplete={advancePhase}
+          color={COLORS.warmWhite}
+        />
 
         {phaseIdx >= 1 && (
           <Box marginTop={1}>
-            <Text color={COLORS.cyan} bold>
-              <TypeWriter
-                text="[ C O D E   A C A D E M Y ]"
-                speed="dramatic"
-                onComplete={advancePhase}
-              />
-            </Text>
+            <TypeWriter
+              text="[ C O D E   A C A D E M Y ]"
+              speed="dramatic"
+              onComplete={advancePhase}
+              color={COLORS.cyan}
+              bold
+            />
           </Box>
         )}
 
         {phaseIdx >= 2 && (
           <Box marginTop={1} alignItems="center">
-            <Text dimColor>
-              <TypeWriter
-                text={"TERMINAL TRAINING DIVISION\nCLEARANCE LEVEL: PENDING"}
-                speed="normal"
-                onComplete={advancePhase}
-              />
-            </Text>
+            <TypeWriter
+              text={"TERMINAL TRAINING DIVISION\nCLEARANCE LEVEL: PENDING"}
+              speed="normal"
+              onComplete={advancePhase}
+              dimColor
+            />
           </Box>
         )}
 
         {phaseIdx >= 3 && (
           <Box marginTop={1}>
-            <Text color={COLORS.amber}>
-              <TypeWriter
-                text="[ENTER] Begin recruitment"
-                speed="normal"
-                onComplete={advancePhase}
-              />
-            </Text>
+            <TypeWriter
+              text="[ENTER] Begin recruitment"
+              speed="normal"
+              onComplete={advancePhase}
+              color={COLORS.amber}
+            />
           </Box>
         )}
 
