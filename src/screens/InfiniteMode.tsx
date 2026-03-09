@@ -383,7 +383,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
         {phase === "summary" && (
           <Box flexDirection="column" gap={1}>
             <Text color={COLORS.cyan} bold>
-              {"── ASSESSMENT COMPLETE ──"}
+              [ ASSESSMENT COMPLETE ]
             </Text>
             <Text color={COLORS.warmWhite}>
               Score:{" "}

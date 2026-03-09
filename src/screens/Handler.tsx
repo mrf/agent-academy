@@ -198,7 +198,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
 
       <Box>
         <Text color={COLORS.amber} bold>
-          {"? "}
+          {"> "}
         </Text>
         <TextInput
           value={input}
