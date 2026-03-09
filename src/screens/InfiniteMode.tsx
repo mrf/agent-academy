@@ -9,7 +9,7 @@ import {
   saveInfiniteResult,
   reportBadQuestion,
 } from "../store/progress.js";
-import { COLORS } from "../constants.js";
+import { COLORS, SEPARATOR } from "../constants.js";
 import type { ClearanceLevel, QuizStep as QuizStepType } from "../types.js";
 
 type Phase =
@@ -327,7 +327,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
               </Text>
             </Text>
             <Text color={COLORS.gray}>
-              {"────────────────────────────────────────"}
+              {SEPARATOR}
             </Text>
             <Text color={COLORS.cyan}>
               Est. API cost:{" "}
@@ -375,7 +375,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
               </Text>
             </Box>
             <Text color={COLORS.gray}>
-              {"────────────────────────────────────────"}
+              {SEPARATOR}
             </Text>
             <QuizStep
               key={currentIndex}

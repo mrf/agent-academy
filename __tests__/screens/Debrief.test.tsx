@@ -181,7 +181,7 @@ describe("Debrief", () => {
     it("does not show continue prompt before animation completes", async () => {
       const inst = renderDebrief({ fxpEarned: 5 });
       await tick(0);
-      expect(inst.lastFrame()).not.toContain("Return to Mission Map");
+      expect(inst.lastFrame()).not.toContain("Return to mission map");
     });
 
     it("shows continue prompt after all animations complete", async () => {
@@ -193,7 +193,7 @@ describe("Debrief", () => {
       }
       // Extra flush for animDone state update
       await tick(0);
-      expect(inst.lastFrame()).toContain("Return to Mission Map");
+      expect(inst.lastFrame()).toContain("Return to mission map");
     });
 
     it("ENTER does not call onContinue before animations finish", async () => {
@@ -236,7 +236,7 @@ describe("Debrief", () => {
       await tick(STAR_DELAY);
       // Extra flush for animDone state update
       await tick(0);
-      expect(inst.lastFrame()).toContain("Return to Mission Map");
+      expect(inst.lastFrame()).toContain("Return to mission map");
     });
   });
 

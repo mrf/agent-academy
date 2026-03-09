@@ -24,7 +24,7 @@ afterEach(() => {
 const LOGO_LEN = 295;
 const SUBTITLE_LEN = 27; // "[ C O D E   A C A D E M Y ]"
 const DIVISION_LEN = 51; // "TERMINAL TRAINING DIVISION\nCLEARANCE LEVEL: PENDING"
-const PROMPT_LEN = 36; // "> PRESS [ENTER] TO BEGIN RECRUITMENT"
+const PROMPT_LEN = 26; // "[ENTER] Begin recruitment"
 
 /** Enough time for a TypeWriter to finish a string of given length. */
 function twDuration(length: number, speed: "dramatic" | "normal") {
@@ -112,8 +112,8 @@ describe("Logo", () => {
     await completeDivision();
     await tick(TIMING.typewriterNormal * 3);
 
-    // Prompt has begun — partial text from "> PRESS [ENTER] TO BEGIN RECRUITMENT"
-    expect(lastFrame()).toContain("> P");
+    // Prompt has begun — partial text from "[ENTER] Begin recruitment"
+    expect(lastFrame()).toContain("[E");
   });
 
   it("shows version after all phases complete (ready phase)", async () => {
@@ -179,7 +179,7 @@ describe("Logo", () => {
     expect(frame).toContain("█");
     expect(frame).toContain("C O D E   A C A D E M Y");
     expect(frame).toContain("TERMINAL TRAINING DIVISION");
-    expect(frame).toContain("PRESS [ENTER]");
+    expect(frame).toContain("[ENTER] Begin recruitment");
     expect(frame).toContain(`v${VERSION}`);
   });
 

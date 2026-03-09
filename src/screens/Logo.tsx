@@ -88,7 +88,7 @@ export function Logo({ onContinue }: LogoProps) {
           <Box marginTop={1}>
             <Text color={COLORS.amber}>
               <TypeWriter
-                text="> PRESS [ENTER] TO BEGIN RECRUITMENT"
+                text="[ENTER] Begin recruitment"
                 speed="normal"
                 onComplete={advancePhase}
               />

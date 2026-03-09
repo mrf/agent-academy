@@ -567,7 +567,7 @@ describe("Mission flow integration", () => {
       capturedPrintOnComplete!();
       await tick(0);
 
-      expect(inst.lastFrame()).toContain("[ENTER] continue");
+      expect(inst.lastFrame()).toContain("[ENTER] Continue");
       expect(inst.lastFrame()).not.toContain("QUIZ_STEP");
 
       pressKey(inst, keys.enter);

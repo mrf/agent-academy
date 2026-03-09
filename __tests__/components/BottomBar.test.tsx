@@ -64,9 +64,9 @@ describe("BottomBar", () => {
       />,
     );
     const frame = inst.lastFrame()!;
-    expect(frame).toContain("[ENTER] continue");
-    expect(frame).toContain("[ESC] menu");
-    expect(frame).toContain("[H] intel");
+    expect(frame).toContain("[ENTER] Continue");
+    expect(frame).toContain("[ESC] Menu");
+    expect(frame).toContain("[H] Intel");
   });
 
   it("shows submit and handler labels", () => {
@@ -78,8 +78,8 @@ describe("BottomBar", () => {
       />,
     );
     const frame = inst.lastFrame()!;
-    expect(frame).toContain("[ENTER] submit");
-    expect(frame).toContain("[?] handler");
+    expect(frame).toContain("[ENTER] Submit");
+    expect(frame).toContain("[?] Handler");
   });
 
   it("falls back to bracketed action name for unknown actions", () => {

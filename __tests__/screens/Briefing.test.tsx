@@ -165,14 +165,14 @@ describe("Briefing", () => {
     const inst = await renderBriefing(props);
 
     await tick(TIMING.typewriterDramatic * 3);
-    expect(inst.lastFrame()).not.toContain("[ ENTER TO ACCEPT MISSION ]");
+    expect(inst.lastFrame()).not.toContain("[ENTER] Accept mission");
   });
 
   it("shows accept prompt after typing completes", async () => {
     const props = defaultProps();
     const { inst } = await renderAndComplete(props);
 
-    expect(inst.lastFrame()).toContain("[ ENTER TO ACCEPT MISSION ]");
+    expect(inst.lastFrame()).toContain("[ENTER] Accept mission");
   });
 
   // ── ENTER key behavior ────────────────────────────────────────

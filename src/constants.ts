@@ -36,6 +36,10 @@ export const TIMING = {
   achievementDisplay: 3000,
 } as const;
 
+// UI chrome
+
+export const SEPARATOR = "────────────────────────────────────────";
+
 // Version
 
 export const VERSION = "0.1.0";

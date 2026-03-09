@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box, Text, useInput, useStdout } from "ink";
-import { COLORS } from "../constants.js";
+import { COLORS, SEPARATOR } from "../constants.js";
 
 interface CreditsProps {
   onClose: () => void;
@@ -61,7 +61,7 @@ export function Credits({ onClose }: CreditsProps) {
       <Box
         flexDirection="column"
         borderStyle="double"
-        borderColor={COLORS.amber}
+        borderColor={COLORS.cyan}
         paddingX={2}
         paddingY={1}
       >
@@ -72,7 +72,7 @@ export function Credits({ onClose }: CreditsProps) {
         </Box>
 
         <Text color={COLORS.gray}>
-          {"────────────────────────────────────────"}
+          {SEPARATOR}
         </Text>
 
         <Box marginTop={1} flexDirection="column">
@@ -128,7 +128,7 @@ export function Credits({ onClose }: CreditsProps) {
 
         <Box marginTop={1}>
           <Text color={COLORS.gray}>
-            {"────────────────────────────────────────"}
+            {SEPARATOR}
           </Text>
         </Box>
 
