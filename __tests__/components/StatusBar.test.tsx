@@ -1,15 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { StatusBar } from "../../src/components/StatusBar.js";
-import { renderInk, cleanup, type RenderResult } from "../helpers/render-ink.js";
+import { renderInk, cleanup, tick, type RenderResult } from "../helpers/render-ink.js";
 
 afterEach(() => {
   cleanup();
 });
-
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  await vi.advanceTimersByTimeAsync(0);
-}
 
 const defaultProps = {
   coverIntegrity: 3,

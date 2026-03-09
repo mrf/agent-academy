@@ -20,6 +20,12 @@ Rules:
 let lastRequestTime = 0;
 let sessionQuestionCount = 0;
 
+/** Reset module-level session state (for tests and between missions). */
+export function resetInstructorState(): void {
+  lastRequestTime = 0;
+  sessionQuestionCount = 0;
+}
+
 export async function askHandler(options: {
   question: string;
   missionTitle: string;

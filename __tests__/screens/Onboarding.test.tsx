@@ -6,6 +6,7 @@ import {
   cleanup,
   keys,
   pressKey,
+  tick,
   type RenderResult,
 } from "../helpers/render-ink.js";
 import { TIMING } from "../../src/constants.js";
@@ -47,11 +48,6 @@ afterEach(() => {
   cleanup();
   vi.useRealTimers();
 });
-
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  await vi.advanceTimersByTimeAsync(0);
-}
 
 function renderOnboarding(onContinue = vi.fn()): {
   instance: RenderResult;

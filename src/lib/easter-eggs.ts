@@ -71,6 +71,11 @@ const LOADING_MESSAGES = [
 
 let lastMessageIndex = -1;
 
+/** Reset module-level state (for tests). */
+export function resetEasterEggState(): void {
+  lastMessageIndex = -1;
+}
+
 export function getLoadingMessage(): string {
   let index: number;
   do {

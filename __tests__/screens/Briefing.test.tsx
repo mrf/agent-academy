@@ -5,6 +5,7 @@ import {
   cleanup,
   keys,
   pressKey,
+  tick,
   type RenderResult,
 } from "../helpers/render-ink.js";
 import { createMission, createPrintStep } from "../helpers/mock-missions.js";
@@ -23,11 +24,6 @@ afterEach(() => {
 });
 
 // ── Helpers ──────────────────────────────────────────────────────────
-
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  await vi.advanceTimersByTimeAsync(0);
-}
 
 interface BriefingTestProps {
   mission: Mission;

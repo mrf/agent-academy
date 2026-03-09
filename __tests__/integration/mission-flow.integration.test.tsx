@@ -6,6 +6,7 @@ import {
   cleanup,
   keys,
   pressKey,
+  tick,
   type RenderResult,
 } from "../helpers/render-ink.js";
 import {
@@ -101,11 +102,6 @@ function cleanReset(): void {
   } as SaveData);
 }
 
-async function tick(ms: number): Promise<void> {
-  await vi.advanceTimersByTimeAsync(ms);
-  await vi.advanceTimersByTimeAsync(0);
-  await vi.advanceTimersByTimeAsync(0);
-}
 
 async function completePrintStep(inst: RenderResult): Promise<void> {
   capturedPrintOnComplete!();
