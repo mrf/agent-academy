@@ -36,20 +36,41 @@ export function Onboarding({ onContinue }: OnboardingProps) {
   });
 
   return (
-    <Box flexDirection="column" padding={1} gap={1}>
-      {INTRO_LINES.slice(0, lineIndex + 1).map((line, i) => (
-        <TypeWriter
-          key={i}
-          text={line}
-          speed={i === INTRO_LINES.length - 1 ? "fast" : "normal"}
-          onComplete={i === lineIndex ? handleLineComplete : undefined}
-        />
-      ))}
-      {allDone && (
-        <Text color={COLORS.amber} bold>
-          [ENTER] to begin
-        </Text>
-      )}
+    <Box
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      padding={1}
+    >
+      <Box
+        borderStyle="double"
+        borderColor={COLORS.cyan}
+        paddingX={2}
+        paddingY={1}
+        flexDirection="column"
+      >
+        <Box justifyContent="center" marginBottom={1}>
+          <Text color={COLORS.cyan} bold>
+            [ ORIENTATION ]
+          </Text>
+        </Box>
+
+        <Box flexDirection="column" gap={1}>
+          {INTRO_LINES.slice(0, lineIndex + 1).map((line, i) => (
+            <TypeWriter
+              key={i}
+              text={line}
+              speed={i === INTRO_LINES.length - 1 ? "fast" : "normal"}
+              onComplete={i === lineIndex ? handleLineComplete : undefined}
+            />
+          ))}
+          {allDone && (
+            <Text color={COLORS.amber} bold>
+              [ENTER] to begin
+            </Text>
+          )}
+        </Box>
+      </Box>
     </Box>
   );
 }

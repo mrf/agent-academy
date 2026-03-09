@@ -184,7 +184,7 @@ export function Mission({
         hasApiKey={hasApiKey}
       />
 
-      <Box flexDirection="column" flexGrow={1} paddingX={1} paddingY={1}>
+      <Box flexDirection="column" flexGrow={1} paddingX={2} paddingY={1}>
         {phase === "coverBlown" ? (
           <Box flexDirection="column" gap={1}>
             <Text color={COLORS.red} bold>
