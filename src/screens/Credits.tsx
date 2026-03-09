@@ -88,42 +88,34 @@ export function Credits({ onClose }: CreditsProps) {
           <Text color={COLORS.cyan} bold>
             PROJECT
           </Text>
-          <Text color={COLORS.warmWhite}>
-            {"  "}Claude Code Academy
-          </Text>
-          <Text color={COLORS.warmWhite}>
-            {"  "}Terminal Training Division
-          </Text>
-          <Text color={COLORS.warmWhite} dimColor>
-            {"  "}"Learn by doing. Survive by knowing."
-          </Text>
+          <Box marginLeft={2} flexDirection="column">
+            <Text color={COLORS.warmWhite}>Claude Code Academy</Text>
+            <Text color={COLORS.warmWhite}>Terminal Training Division</Text>
+            <Text color={COLORS.warmWhite} dimColor>
+              "Learn by doing. Survive by knowing."
+            </Text>
+          </Box>
         </Box>
 
         <Box marginTop={1} flexDirection="column">
           <Text color={COLORS.cyan} bold>
             DEVELOPED BY
           </Text>
-          <Text color={COLORS.warmWhite}>
-            {"  "}Anthropic
-          </Text>
-          <Text color={COLORS.warmWhite}>
-            {"  "}Powered by Claude
-          </Text>
+          <Box marginLeft={2} flexDirection="column">
+            <Text color={COLORS.warmWhite}>Anthropic</Text>
+            <Text color={COLORS.warmWhite}>Powered by Claude</Text>
+          </Box>
         </Box>
 
         <Box marginTop={1} flexDirection="column">
           <Text color={COLORS.cyan} bold>
             FIELD OPERATIVE
           </Text>
-          <Text color={COLORS.warmWhite}>
-            {"  "}You
-          </Text>
-          <Text color={COLORS.warmWhite}>
-            {"  "}Status: FULL CLEARANCE
-          </Text>
-          <Text color={COLORS.warmWhite}>
-            {"  "}Commendation: Distinguished Service
-          </Text>
+          <Box marginLeft={2} flexDirection="column">
+            <Text color={COLORS.warmWhite}>You</Text>
+            <Text color={COLORS.warmWhite}>Status: FULL CLEARANCE</Text>
+            <Text color={COLORS.warmWhite}>Commendation: Distinguished Service</Text>
+          </Box>
         </Box>
 
         <Box marginTop={1}>
@@ -134,7 +126,7 @@ export function Credits({ onClose }: CreditsProps) {
 
         {phase === "display" && (
           <Box marginTop={1} justifyContent="center">
-            <Text color={COLORS.amber}>[ENTER/ESC] Dismiss</Text>
+            <Text color={COLORS.gray} dimColor>[ENTER/ESC] Dismiss</Text>
           </Box>
         )}
 

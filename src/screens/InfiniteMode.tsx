@@ -318,7 +318,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
               </Text>
             </Text>
             <Text color={COLORS.cyan}>
-              Tier:{" "}
+              Clearance Tier:{" "}
               <Text color={COLORS.amber} bold>
                 {selectedDifficulty?.toUpperCase()}
               </Text>

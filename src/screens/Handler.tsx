@@ -209,8 +209,8 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
       </Box>
 
       <Box justifyContent="center" marginTop={1}>
-        <Text color={COLORS.gray}>
-          {isStreaming ? "ESC to cancel" : "ESC to close"}
+        <Text color={COLORS.gray} dimColor>
+          {isStreaming ? "[ESC] Cancel" : "[ESC] Close"}
         </Text>
       </Box>
     </Box>

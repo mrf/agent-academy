@@ -61,7 +61,7 @@ function KeyRow({ binding }: { binding: KeyBinding }) {
 function Section({ title, bindings }: { title: string; bindings: KeyBinding[] }) {
   return (
     <Box flexDirection="column">
-      <Text color={COLORS.gray} bold>
+      <Text color={COLORS.cyan} bold>
         {title}
       </Text>
       {bindings.map((b) => (
@@ -121,7 +121,7 @@ export function HelpOverlay({ screen, onClose }: HelpOverlayProps) {
       ))}
 
       <Box justifyContent="center" marginTop={1}>
-        <Text color={COLORS.gray}>Press ESC or h to close</Text>
+        <Text color={COLORS.gray} dimColor>[ESC/h] Close</Text>
       </Box>
     </Box>
   );

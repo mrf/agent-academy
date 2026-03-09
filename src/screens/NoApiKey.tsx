@@ -29,7 +29,7 @@ export function NoApiKey({ onContinue }: NoApiKeyProps) {
         paddingX={2}
         paddingY={1}
         flexDirection="column"
-        alignItems="center"
+        alignItems="flex-start"
       >
         <Text color={COLORS.red} bold>
           [ SIGNAL INTERRUPTED ]

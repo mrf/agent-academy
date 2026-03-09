@@ -16,7 +16,6 @@ export const COLORS = {
   cyan: "#00D4FF",
   gray: "#6B6B6B",
   gold: "#FFD700",
-  navy: "#0D1117",
 } as const;
 
 // Timing values (milliseconds)
