@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Box, Text, useInput, useStdout } from "ink";
+import { Box, Text, useInput } from "ink";
 import { COLORS } from "../constants.js";
+import { useTerminalSize } from "../lib/terminal.js";
 
 interface CreditsProps {
   onClose: () => void;
@@ -12,9 +13,8 @@ export function Credits({ onClose }: CreditsProps) {
   );
   const [countdown, setCountdown] = useState(3);
   const [wipeProgress, setWipeProgress] = useState(0);
-  const { stdout } = useStdout();
-  const cols = stdout?.columns ?? 80;
-  const rows = stdout?.rows ?? 24;
+  const { columns: cols, rows } = useTerminalSize();
+  const contentWidth = Math.max(20, cols - 8);
 
   useInput((_input, key) => {
     if (phase === "display" && (key.return || key.escape)) {
@@ -72,7 +72,7 @@ export function Credits({ onClose }: CreditsProps) {
         </Box>
 
         <Text color={COLORS.gray}>
-          {"────────────────────────────────────────"}
+          {"─".repeat(contentWidth)}
         </Text>
 
         <Box marginTop={1} flexDirection="column">
@@ -128,7 +128,7 @@ export function Credits({ onClose }: CreditsProps) {
 
         <Box marginTop={1}>
           <Text color={COLORS.gray}>
-            {"────────────────────────────────────────"}
+            {"─".repeat(contentWidth)}
           </Text>
         </Box>
 

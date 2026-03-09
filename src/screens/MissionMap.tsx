@@ -4,6 +4,7 @@ import { MISSIONS } from "../data/curriculum.js";
 import { loadProgress, toggleLegacyMode } from "../store/progress.js";
 import { COLORS } from "../constants.js";
 import { createKonamiTracker, setTerminalTitle } from "../lib/easter-eggs.js";
+import { useTerminalSize } from "../lib/terminal.js";
 
 interface MissionMapProps {
   onSelectMission: (missionIndex: number) => void;
@@ -16,6 +17,7 @@ export function MissionMap({
   onSelectInfiniteMode,
   onOpenCredits,
 }: MissionMapProps) {
+  const { columns } = useTerminalSize();
   const progress = loadProgress();
   const completedCount = progress.completedMissions.length;
   const allComplete = completedCount >= MISSIONS.length;
@@ -86,11 +88,15 @@ export function MissionMap({
   const clearanceLabel = progress.clearanceLevel.toUpperCase();
   const fxpFormatted = progress.fxp.toLocaleString();
 
+  // Content width inside the bordered box (outer padding + border + inner paddingX)
+  const contentWidth = Math.max(20, columns - 8);
+
   // CRT legacy mode colors
   const crt = legacyMode;
   const primary = crt ? COLORS.green : COLORS.cyan;
   const accent = crt ? COLORS.green : COLORS.amber;
   const dim = crt ? "#1a7a0a" : COLORS.gray;
+  const crtSeparator = "- ".repeat(Math.ceil(contentWidth / 2)).slice(0, contentWidth);
 
   return (
     <Box flexDirection="column" padding={1}>
@@ -114,7 +120,7 @@ export function MissionMap({
         {crt && (
           <Box justifyContent="center" marginBottom={1}>
             <Text color={dim}>
-              {"- - - - - - - - - - - - - - - - - - - -"}
+              {crtSeparator}
             </Text>
           </Box>
         )}
@@ -135,7 +141,7 @@ export function MissionMap({
         </Box>
 
         <Text color={dim}>
-          {"────────────────────────────────────────"}
+          {"─".repeat(contentWidth)}
         </Text>
 
         <Box marginTop={1} />
@@ -239,7 +245,7 @@ export function MissionMap({
         {crt && (
           <Box marginTop={1} justifyContent="center">
             <Text color={dim}>
-              {"- - - - - - - - - - - - - - - - - - - -"}
+              {crtSeparator}
             </Text>
           </Box>
         )}
