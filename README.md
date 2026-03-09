@@ -18,7 +18,7 @@ An interactive terminal game that teaches Claude Code patterns and best practice
 
 ## Features
 
-- **8 spy-themed missions** — from FIRST CONTACT to DEEP COVER, covering everything from setup to advanced workflows
+- **12 spy-themed missions** — from FIRST CONTACT to DEEP COVER, covering everything from setup to advanced workflows
 - **AI-powered handler** — ask questions mid-mission and get real answers, not pre-baked tooltips
 - **Dynamic field assessments** — AI-generated questions for infinite replay after the core curriculum
 - **Free-text evaluation** — answer in your own words; the AI evaluates correctness, not string matching

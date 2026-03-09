@@ -19,6 +19,8 @@ export function Credits({ onClose }: CreditsProps) {
   useInput((_input, key) => {
     if (phase === "display" && (key.return || key.escape)) {
       setPhase("destruct");
+    } else if (phase === "destruct" && key.escape) {
+      onClose();
     }
   });
 

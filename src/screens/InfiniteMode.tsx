@@ -280,12 +280,19 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
             <Text color={COLORS.cyan}>
               Select mission topic for field assessment:
             </Text>
-            <SelectInput
-              items={topicItems}
-              onSelect={handleTopicSelect}
-              indicatorComponent={CustomIndicator}
-              itemComponent={CustomItem}
-            />
+            {topicItems.length === 0 ? (
+              <Text color={COLORS.red}>
+                No completed missions. Complete a mission first to unlock field
+                assessments.
+              </Text>
+            ) : (
+              <SelectInput
+                items={topicItems}
+                onSelect={handleTopicSelect}
+                indicatorComponent={CustomIndicator}
+                itemComponent={CustomItem}
+              />
+            )}
             <Text color={COLORS.gray}>[ESC] Back to mission map</Text>
           </Box>
         )}

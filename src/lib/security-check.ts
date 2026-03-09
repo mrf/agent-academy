@@ -7,7 +7,9 @@ export type CheckResult = {
   detail: string;
 };
 
-const ROOT = resolve(import.meta.dirname, "../..");
+function root(): string {
+  return resolve(import.meta.dirname, "../..");
+}
 
 const SOURCE_EXT = /\.(ts|tsx|js|jsx)$/;
 const SKIP_DIRS = new Set(["node_modules", "dist"]);
@@ -16,7 +18,7 @@ const LOGGED_KEY_PATTERN =
   /console\.(log|error|warn|info|debug)\s*\(.*(?:apiKey|api_key|ANTHROPIC_API_KEY|process\.env)/i;
 
 function relativePath(absolute: string): string {
-  return absolute.replace(ROOT + "/", "");
+  return absolute.replace(root() + "/", "");
 }
 
 function walkDir(
@@ -59,7 +61,7 @@ function findMatchingFiles(
 }
 
 export function checkNoHardcodedKeys(): CheckResult {
-  const hits = findMatchingFiles(join(ROOT, "src"), API_KEY_PATTERN);
+  const hits = findMatchingFiles(join(root(), "src"), API_KEY_PATTERN);
   return {
     name: "No hardcoded API keys in source",
     pass: hits.length === 0,
@@ -68,7 +70,7 @@ export function checkNoHardcodedKeys(): CheckResult {
 }
 
 export function checkNoEnvInDist(): CheckResult {
-  const distDir = join(ROOT, "dist");
+  const distDir = join(root(), "dist");
   if (!existsSync(distDir)) {
     return { name: "No .env files in dist/", pass: true, detail: "dist/ not built yet" };
   }
@@ -82,7 +84,7 @@ export function checkNoEnvInDist(): CheckResult {
 }
 
 export function checkFilesArray(): CheckResult {
-  const pkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf-8"));
+  const pkg = JSON.parse(readFileSync(join(root(), "package.json"), "utf-8"));
   const files: string[] = pkg.files ?? [];
   const allDist = files.length > 0 && files.every((f: string) => f.startsWith("dist"));
   return {
@@ -93,7 +95,7 @@ export function checkFilesArray(): CheckResult {
 }
 
 export function checkApiKeyNotLogged(): CheckResult {
-  const hits = findMatchingFiles(join(ROOT, "src"), LOGGED_KEY_PATTERN, true);
+  const hits = findMatchingFiles(join(root(), "src"), LOGGED_KEY_PATTERN, true);
   return {
     name: "API key never logged or exposed in error messages",
     pass: hits.length === 0,
@@ -102,10 +104,10 @@ export function checkApiKeyNotLogged(): CheckResult {
 }
 
 export function checkGracefulMissingKey(): CheckResult {
-  const clientPath = join(ROOT, "src/ai/client.ts");
+  const clientPath = join(root(), "src/ai/client.ts");
   const content = readFileSync(clientPath, "utf-8");
   const hasSafeError = content.includes("safeApiError");
-  const hasNoKeyScreen = existsSync(join(ROOT, "src/screens/NoApiKey.tsx"));
+  const hasNoKeyScreen = existsSync(join(root(), "src/screens/NoApiKey.tsx"));
   return {
     name: "AI functions handle missing API key gracefully",
     pass: hasSafeError && hasNoKeyScreen,
@@ -117,7 +119,7 @@ export function checkGracefulMissingKey(): CheckResult {
 }
 
 export function checkAppExists(): CheckResult {
-  const appPath = join(ROOT, "src/app.tsx");
+  const appPath = join(root(), "src/app.tsx");
   if (!existsSync(appPath)) {
     return { name: "App component exists", pass: false, detail: "src/app.tsx not found" };
   }
