@@ -12,6 +12,7 @@ export const COLORS = {
   warmWhite: "#E8E6E3",
   amber: "#FFB627",
   green: "#39FF14",
+  dimGreen: "#1A7A0A",
   red: "#FF3131",
   cyan: "#00D4FF",
   gray: "#6B6B6B",

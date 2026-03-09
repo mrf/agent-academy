@@ -94,21 +94,27 @@ export function Debrief({
 
         {/* FXP earned */}
         <Box marginBottom={1}>
+          <Text color={COLORS.cyan} bold>
+            FXP EARNED:{" "}
+          </Text>
           <Text color={COLORS.amber} bold>
-            FXP EARNED: {fxpDisplay}
+            {fxpDisplay}
           </Text>
         </Box>
 
         {/* Cover integrity */}
         <Box marginBottom={1}>
+          <Text color={COLORS.cyan} bold>
+            COVER INTEGRITY:{" "}
+          </Text>
           <Text color={COLORS.warmWhite}>
-            COVER INTEGRITY: {renderCoverBlocks(coverRemaining)}
+            {renderCoverBlocks(coverRemaining)}
           </Text>
         </Box>
 
         {/* Objectives summary */}
         <Box flexDirection="column" marginBottom={1}>
-          <Text color={COLORS.warmWhite} bold>
+          <Text color={COLORS.cyan} bold>
             OBJECTIVES:
           </Text>
           {mission.objectives.map((obj, i) => {

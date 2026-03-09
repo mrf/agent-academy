@@ -96,7 +96,7 @@ export function MissionMap({
   const crt = legacyMode;
   const primary = crt ? COLORS.green : COLORS.cyan;
   const accent = crt ? COLORS.green : COLORS.amber;
-  const dim = crt ? "#1a7a0a" : COLORS.gray;
+  const dim = crt ? COLORS.dimGreen : COLORS.gray;
   const crtSeparator = "- ".repeat(Math.ceil(contentWidth / 2)).slice(0, contentWidth);
 
   return (
