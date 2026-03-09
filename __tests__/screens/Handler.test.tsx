@@ -152,10 +152,10 @@ describe("Handler", () => {
     expect(inst.lastFrame()).toContain("Ask your handler...");
   });
 
-  it("renders ESC to close hint when idle", async () => {
+  it("renders [ESC] Close hint when idle", async () => {
     const props = defaultProps();
     const inst = await renderHandler(props);
-    expect(inst.lastFrame()).toContain("ESC to close");
+    expect(inst.lastFrame()).toContain("[ESC] Close");
   });
 
   // ── Thinking animation ────────────────────────────────────────────
@@ -183,7 +183,7 @@ describe("Handler", () => {
     await tick(0);
   });
 
-  it("shows ESC to cancel while streaming", async () => {
+  it("shows [ESC] Cancel while streaming", async () => {
     const pending = mockPendingResponse();
     const props = defaultProps();
     const inst = await renderHandler(props);
@@ -191,7 +191,7 @@ describe("Handler", () => {
     await submitQuestion(inst, "Hello");
     await tick(TIMING.tokenBuffer + 1);
 
-    expect(inst.lastFrame()).toContain("ESC to cancel");
+    expect(inst.lastFrame()).toContain("[ESC] Cancel");
 
     pending.resolve("done");
     await tick(0);

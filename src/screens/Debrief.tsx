@@ -98,7 +98,7 @@ export function Debrief({
 
         {/* FXP earned */}
         <Box marginBottom={1}>
-          <Text color={COLORS.green} bold>
+          <Text color={COLORS.amber} bold>
             FXP EARNED: {fxpDisplay}
           </Text>
         </Box>
@@ -120,7 +120,7 @@ export function Debrief({
             const mark = passed ? "\u2713" : "\u2717";
             return (
               <Text key={i} color={objectiveColor(passed, stars)}>
-                {"  "}{mark}{" "}{obj}
+                {`  ${mark} ${obj}`}
               </Text>
             );
           })}

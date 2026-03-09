@@ -45,7 +45,7 @@ describe("HelpOverlay", () => {
 
   it("renders close hint text", () => {
     const { instance } = renderHelp();
-    expect(instance.lastFrame()).toContain("Press ESC or h to close");
+    expect(instance.lastFrame()).toContain("[ESC/h] Close");
   });
 
   // ── Global bindings ─────────────────────────────────────────────────
