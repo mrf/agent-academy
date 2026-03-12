@@ -223,7 +223,7 @@ describe("Mission", () => {
       await answerStep(true); // +10
 
       // Refs ensure onComplete receives the up-to-date accumulated FXP
-      expect(onComplete).toHaveBeenCalledWith(3, 25, 3);
+      expect(onComplete).toHaveBeenCalledWith(3, 25, 3, []);
     });
   });
 
@@ -300,7 +300,7 @@ describe("Mission", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(3, expect.any(Number), 3);
+      expect(onComplete).toHaveBeenCalledWith(3, expect.any(Number), 3, []);
     });
 
     it("awards 2 stars with 1 wrong answer (cover=2)", async () => {
@@ -313,7 +313,7 @@ describe("Mission", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number), 2);
+      expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number), 2, expect.any(Array));
     });
 
     it("awards 1 star with 2+ wrong answers (cover=1)", async () => {
@@ -327,7 +327,7 @@ describe("Mission", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(1, expect.any(Number), 1);
+      expect(onComplete).toHaveBeenCalledWith(1, expect.any(Number), 1, expect.any(Array));
     });
   });
 
@@ -345,7 +345,7 @@ describe("Mission", () => {
 
       expect(onComplete).toHaveBeenCalledOnce();
       // Refs ensure onComplete receives the up-to-date accumulated FXP
-      expect(onComplete).toHaveBeenCalledWith(3, 25, 3);
+      expect(onComplete).toHaveBeenCalledWith(3, 25, 3, []);
     });
 
     it("does not call onComplete before all steps are done", async () => {

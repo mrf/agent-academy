@@ -3,7 +3,7 @@ import { Debrief } from "../../src/screens/Debrief.js";
 import { renderInk, cleanup, keys, pressKey, tick, type RenderResult } from "../helpers/render-ink.js";
 import { TIMING } from "../../src/constants.js";
 import { createMission } from "../helpers/mock-missions.js";
-import type { Mission } from "../../src/types.js";
+import type { Mission, WrongAnswer } from "../../src/types.js";
 
 const STAR_FILLED = "\u2605";
 const STAR_EMPTY = "\u2606";
@@ -15,6 +15,7 @@ function renderDebrief(overrides: {
   stars?: 1 | 2 | 3;
   fxpEarned?: number;
   coverRemaining?: number;
+  wrongAnswers?: WrongAnswer[];
   onContinue?: () => void;
 } = {}): RenderResult {
   const {
@@ -22,6 +23,7 @@ function renderDebrief(overrides: {
     stars = 1,
     fxpEarned = 0,
     coverRemaining = 3,
+    wrongAnswers = [],
     onContinue = vi.fn(),
   } = overrides;
   return renderInk(
@@ -30,6 +32,7 @@ function renderDebrief(overrides: {
       stars={stars}
       fxpEarned={fxpEarned}
       coverRemaining={coverRemaining}
+      wrongAnswers={wrongAnswers}
       onContinue={onContinue}
     />,
   );

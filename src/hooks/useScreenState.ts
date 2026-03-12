@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
-import type { Screen, Overlay } from "../types.js";
+import type { Screen, Overlay, WrongAnswer } from "../types.js";
 
 export type MissionContext = {
   currentMissionIndex: number;
   stars: 1 | 2 | 3;
   fxpEarned: number;
   coverRemaining: number;
+  wrongAnswers: WrongAnswer[];
 };
 
 export type ScreenState = {
@@ -25,6 +26,7 @@ const DEFAULT_MISSION_CONTEXT: MissionContext = {
   stars: 1,
   fxpEarned: 0,
   coverRemaining: 3,
+  wrongAnswers: [],
 };
 
 export function useScreenState(initialScreen: Screen = "logo"): ScreenState {

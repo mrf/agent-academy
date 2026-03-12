@@ -7,11 +7,11 @@ import { StatusBar } from "../components/StatusBar.js";
 import { BottomBar } from "../components/BottomBar.js";
 import { saveStepProgress } from "../store/progress.js";
 import { COLORS } from "../constants.js";
-import type { Mission as MissionType, Step } from "../types.js";
+import type { Mission as MissionType, Step, WrongAnswer } from "../types.js";
 
 interface MissionProps {
   mission: MissionType;
-  onComplete: (stars: 1 | 2 | 3, fxp: number, coverRemaining: number) => void;
+  onComplete: (stars: 1 | 2 | 3, fxp: number, coverRemaining: number, wrongAnswers: WrongAnswer[]) => void;
   hasApiKey: boolean;
   noAnimation: boolean;
 }
@@ -26,6 +26,24 @@ function computeStars(hits: number): 1 | 2 | 3 {
   if (hits === 0) return 3;
   if (hits === 1) return 2;
   return 1;
+}
+
+function extractWrongAnswer(step: Step): WrongAnswer | null {
+  if (step.type === "quiz") {
+    return {
+      question: step.question,
+      correctAnswer: step.options[step.correct],
+      explanation: step.explanation,
+    };
+  }
+  if (step.type === "command") {
+    return {
+      question: step.question,
+      correctAnswer: step.expectedAnswer,
+      explanation: step.explanation,
+    };
+  }
+  return null;
 }
 
 function getAvailableActions(
@@ -66,6 +84,7 @@ export function Mission({
   // in the onComplete callback, so it lives exclusively in a ref.
   const fxpEarnedRef = useRef(0);
   const hitsRef = useRef(0);
+  const wrongAnswersRef = useRef<WrongAnswer[]>([]);
 
   // Track the highest step reached so already-seen print steps can
   // skip animation on cover-blown restart.
@@ -81,6 +100,7 @@ export function Mission({
     setPhase("step");
     fxpEarnedRef.current = 0;
     hitsRef.current = 0;
+    wrongAnswersRef.current = [];
     setSeenUpTo(-1);
   }
 
@@ -95,7 +115,7 @@ export function Mission({
     const nextIndex = currentStepIndex + 1;
     setSeenUpTo((prev) => Math.max(prev, currentStepIndex));
     if (nextIndex >= mission.steps.length) {
-      onComplete(computeStars(hitsRef.current), fxpEarnedRef.current, coverIntegrity);
+      onComplete(computeStars(hitsRef.current), fxpEarnedRef.current, coverIntegrity, wrongAnswersRef.current);
     } else {
       setCurrentStepIndex(nextIndex);
       setPhase("step");
@@ -114,6 +134,8 @@ export function Mission({
         fxpEarnedRef.current += FXP_PER_CORRECT;
         setFxpEarned(fxpEarnedRef.current);
       } else {
+        const wrong = extractWrongAnswer(currentStep);
+        if (wrong) wrongAnswersRef.current.push(wrong);
         const newCover = coverIntegrity - 1;
         setCoverIntegrity(newCover);
         hitsRef.current += 1;
@@ -124,7 +146,7 @@ export function Mission({
       }
       advanceStep();
     },
-    [coverIntegrity, advanceStep],
+    [currentStep, coverIntegrity, advanceStep],
   );
 
   useInput(
@@ -137,6 +159,7 @@ export function Mission({
           setCurrentStepIndex(0);
           setCoverIntegrity(MAX_COVER);
           hitsRef.current = 0;
+          wrongAnswersRef.current = [];
           fxpEarnedRef.current = 0;
           setFxpEarned(0);
           setPhase("step");

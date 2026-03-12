@@ -70,6 +70,12 @@ export type Answer = {
   correct: boolean;
 };
 
+export type WrongAnswer = {
+  question: string;
+  correctAnswer: string;
+  explanation: string;
+};
+
 export type MissionState = {
   currentMissionIndex: number;
   currentStepIndex: number;

@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import { COLORS, TIMING } from "../constants.js";
 import { renderStars } from "../lib/stars.js";
-import type { Mission } from "../types.js";
+import type { Mission, WrongAnswer } from "../types.js";
 
 interface DebriefProps {
   mission: Mission;
   stars: 1 | 2 | 3;
   fxpEarned: number;
   coverRemaining: number;
+  wrongAnswers: WrongAnswer[];
   onContinue: () => void;
 }
 
@@ -23,6 +24,7 @@ export function Debrief({
   stars,
   fxpEarned,
   coverRemaining,
+  wrongAnswers,
   onContinue,
 }: DebriefProps) {
   const [starsRevealed, setStarsRevealed] = useState(0);
@@ -117,6 +119,28 @@ export function Debrief({
             </Text>
           ))}
         </Box>
+
+        {/* Wrong answers review */}
+        {wrongAnswers.length > 0 && (
+          <Box flexDirection="column" marginBottom={1}>
+            <Text color={COLORS.red} bold>
+              REVIEW — WRONG ANSWERS:
+            </Text>
+            {wrongAnswers.map((wa, i) => (
+              <Box key={i} flexDirection="column" marginLeft={2} marginTop={1}>
+                <Text color={COLORS.warmWhite}>
+                  {`${i + 1}. ${wa.question}`}
+                </Text>
+                <Text color={COLORS.green}>
+                  {`   Correct: ${wa.correctAnswer}`}
+                </Text>
+                <Text color={COLORS.gray}>
+                  {`   ${wa.explanation}`}
+                </Text>
+              </Box>
+            ))}
+          </Box>
+        )}
 
         {/* Continue prompt */}
         {animDone && (
