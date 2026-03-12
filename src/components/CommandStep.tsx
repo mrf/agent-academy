@@ -3,15 +3,16 @@ import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
 import { COLORS, TIMING } from "../constants.js";
 import type { CommandStep as CommandStepType } from "../types.js";
-import { evaluateAnswer } from "../ai/evaluator.js";
+import { evaluateAnswer, localMatch } from "../ai/evaluator.js";
 
 interface CommandStepProps {
   step: CommandStepType;
   onAnswer: (correct: boolean) => void;
   isFocused: boolean;
+  hasApiKey?: boolean;
 }
 
-type Phase = "input" | "pausing" | "result";
+type Phase = "input" | "pausing" | "selfAssess" | "result";
 
 type SecretResponse = {
   message: string;
@@ -44,7 +45,7 @@ function getHelpHint(step: CommandStepType): string {
   return `Intel: the answer starts with "${revealed}..."`;
 }
 
-export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
+export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: CommandStepProps) {
   const [value, setValue] = useState("");
   const [phase, setPhase] = useState<Phase>("input");
   const [correct, setCorrect] = useState(false);
@@ -52,11 +53,28 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
     null,
   );
   const [helpHint, setHelpHint] = useState<string | null>(null);
+  const [userAnswer, setUserAnswer] = useState("");
   const answerTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     return () => clearTimeout(answerTimerRef.current);
   }, []);
+
+  const finishWithResult = useCallback(
+    (isCorrect: boolean) => {
+      setCorrect(isCorrect);
+      setPhase("result");
+
+      const delay = isCorrect
+        ? TIMING.pauseAfterConfirmed
+        : TIMING.pauseAfterCompromised;
+
+      answerTimerRef.current = setTimeout(() => {
+        onAnswer(isCorrect);
+      }, delay);
+    },
+    [onAnswer],
+  );
 
   const handleSubmit = useCallback(
     async (input: string) => {
@@ -78,6 +96,20 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
         return;
       }
 
+      if (!hasApiKey) {
+        // Offline mode: try local match first, then self-assessment
+        const local = localMatch(trimmed, step.acceptedVariants);
+        if (local.correct) {
+          finishWithResult(true);
+          return;
+        }
+        // Local match failed — ask agent to self-assess
+        setUserAnswer(trimmed);
+        setPhase("selfAssess");
+        return;
+      }
+
+      // Online mode: use API evaluation with local fallback
       setPhase("pausing");
 
       const result = await evaluateAnswer(
@@ -87,18 +119,9 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
         step.acceptedVariants,
       );
 
-      setCorrect(result.correct);
-      setPhase("result");
-
-      const delay = result.correct
-        ? TIMING.pauseAfterConfirmed
-        : TIMING.pauseAfterCompromised;
-
-      answerTimerRef.current = setTimeout(() => {
-        onAnswer(result.correct);
-      }, delay);
+      finishWithResult(result.correct);
     },
-    [phase, step, onAnswer],
+    [phase, step, hasApiKey, finishWithResult],
   );
 
   const handleChange = useCallback((newValue: string) => {
@@ -107,17 +130,24 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
     }
   }, []);
 
-  // Dismiss secret response / help hint on any key
   useInput(
-    (_input, _key) => {
-      if (secretResponse) {
-        setSecretResponse(null);
-      }
-      if (helpHint) {
-        setHelpHint(null);
-      }
+    () => {
+      if (secretResponse) setSecretResponse(null);
+      if (helpHint) setHelpHint(null);
     },
     { isActive: isFocused && (!!secretResponse || !!helpHint) },
+  );
+
+  useInput(
+    (input) => {
+      const char = input.toLowerCase();
+      if (char === "y") {
+        finishWithResult(true);
+      } else if (char === "n") {
+        finishWithResult(false);
+      }
+    },
+    { isActive: isFocused && phase === "selfAssess" },
   );
 
   return (
@@ -151,6 +181,29 @@ export function CommandStep({ step, onAnswer, isFocused }: CommandStepProps) {
         <Box marginTop={1}>
           <Text color={COLORS.gray} dimColor>
             Verifying...
+          </Text>
+        </Box>
+      )}
+
+      {phase === "selfAssess" && (
+        <Box flexDirection="column" gap={1}>
+          <Text color={COLORS.amber} dimColor>
+            Comms are down, agent. Verify your own intel.
+          </Text>
+          <Text color={COLORS.warmWhite}>
+            Your answer:{" "}
+            <Text color={COLORS.cyan} bold>
+              {userAnswer}
+            </Text>
+          </Text>
+          <Text color={COLORS.warmWhite}>
+            Expected:{" "}
+            <Text color={COLORS.green} bold>
+              {step.expectedAnswer}
+            </Text>
+          </Text>
+          <Text color={COLORS.amber} bold>
+            Did your answer match? [Y/N]
           </Text>
         </Box>
       )}

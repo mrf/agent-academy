@@ -160,6 +160,7 @@ export function Mission({
             step={step}
             onAnswer={handleAnswer}
             isFocused={isFocused}
+            hasApiKey={hasApiKey}
           />
         );
       case "ai":
