@@ -1,7 +1,8 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
-import { COLORS } from "../constants.js";
+import { useSpinner } from "../hooks/useSpinner.js";
+import { COLORS, TIMING } from "../constants.js";
 import type { CommandStep as CommandStepType } from "../types.js";
 import { evaluateAnswer, localMatch } from "../ai/evaluator.js";
 
@@ -48,6 +49,7 @@ function getHelpHint(step: CommandStepType): string {
 export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: CommandStepProps) {
   const [value, setValue] = useState("");
   const [phase, setPhase] = useState<Phase>("input");
+  const spinner = useSpinner(phase === "pausing");
   const [correct, setCorrect] = useState(false);
   const [secretResponse, setSecretResponse] = useState<SecretResponse | null>(
     null,
@@ -57,6 +59,11 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
   const phaseRef = useRef<Phase>(phase);
   phaseRef.current = phase;
   const correctRef = useRef(false);
+  const answerTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => {
+    return () => clearTimeout(answerTimerRef.current);
+  }, []);
 
   const finishWithResult = useCallback(
     (isCorrect: boolean) => {
@@ -180,7 +187,7 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
       {phase === "pausing" && (
         <Box marginTop={1}>
           <Text color={COLORS.gray} dimColor>
-            Verifying...
+            {spinner} Verifying...
           </Text>
         </Box>
       )}

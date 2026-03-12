@@ -10,6 +10,7 @@ interface BottomBarProps {
 const ACTION_LABELS: Record<string, string> = {
   continue: "[ENTER] Continue",
   restart: "[ENTER] Restart Mission",
+  skip: "[ANY] Skip",
   handler: "[?] Handler",
   menu: "[ESC] Menu",
   submit: "[ENTER] Submit",
