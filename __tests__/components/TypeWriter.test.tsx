@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { TypeWriter } from "../../src/components/TypeWriter.js";
-import { renderInk, cleanup, tick, type RenderResult } from "../helpers/render-ink.js";
+import { renderInk, cleanup, tick, pressKey, keys, type RenderResult } from "../helpers/render-ink.js";
 import { TIMING } from "../../src/constants.js";
 
 beforeEach(() => {
@@ -117,6 +117,39 @@ describe("TypeWriter", () => {
 
     await tick(TIMING.typewriterNormal * text.length);
     expect(inst.lastFrame()).toBe("Line 1\nLine 2");
+  });
+
+  // ── Skip on keypress ───────────────────────────────────────────
+
+  it("pressing any key during animation skips to full text", async () => {
+    const onComplete = vi.fn();
+    const inst = await renderTypeWriter({ text: "Hello World", onComplete });
+
+    // Partially animated
+    await tick(TIMING.typewriterNormal * 3);
+    expect(inst.lastFrame()).toBe("Hel");
+
+    // Press a key to skip
+    pressKey(inst, keys.space);
+    await tick(0);
+
+    expect(inst.lastFrame()).toBe("Hello World");
+    expect(onComplete).toHaveBeenCalledOnce();
+  });
+
+  it("keypress after animation completes does not re-trigger onComplete", async () => {
+    const onComplete = vi.fn();
+    const inst = await renderTypeWriter({ text: "Hi", onComplete });
+
+    // Complete the animation naturally
+    await tick(TIMING.typewriterNormal * 2);
+    await tick(0);
+    expect(onComplete).toHaveBeenCalledOnce();
+
+    // Pressing a key after completion should not re-trigger
+    pressKey(inst, keys.space);
+    await tick(0);
+    expect(onComplete).toHaveBeenCalledOnce();
   });
 
   // ── Cleanup ─────────────────────────────────────────────────────

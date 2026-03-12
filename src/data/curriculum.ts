@@ -15,7 +15,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Welcome to the Terminal Training Division, recruit. Your first mission: understand the tool that will define your career as a field operative.\n\nClaude Code is an agentic AI coding assistant built by Anthropic. Unlike browser-based chat interfaces, it lives in your terminal — right where the code is.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -87,7 +87,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Before you can operate in the field, you need your equipment. This mission covers the dead drop — picking up Claude Code and getting it operational.\n\nPay attention. A botched installation means a blown cover.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -153,7 +153,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Every operative needs to know their tools. Claude Code comes equipped with a set of built-in tools — each designed for a specific operation.\n\nMaster these tools and you master the field.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -244,7 +244,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Every operation needs standing orders — rules that persist across sessions, instructions that never expire. In Claude Code, those orders live in a file called CLAUDE.md.\n\nThis is the phantom protocol. Invisible to the end user, always guiding the agent.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -338,7 +338,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Communication is everything in the field. This mission covers how you talk to Claude Code — and how it talks back.\n\nMaster the signal chain and you control the operation.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -430,7 +430,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Every intelligence channel has bandwidth limits. In Claude Code, that limit is the context window — the total amount of information Claude can hold in working memory.\n\nFill it carelessly and you lose critical intel. Manage it wisely and you operate without limits.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -540,7 +540,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Security is non-negotiable. Claude Code can read your files, run commands, and modify your codebase. That power requires safeguards.\n\nThis mission covers the iron curtain — the permission system that keeps you in control.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -650,7 +650,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "You've completed basic training. Now we go deep cover — advanced workflows that separate field operatives from headquarters analysts.\n\nHeadless mode, piping, hooks, subagents, and multi-session orchestration. This is the final exam.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -774,7 +774,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Deep cover training complete. Headless mode for automation. Subagents for parallel ops. Hooks for custom workflows. Permissions for security. CLAUDE.md for persistence.\n\nYou've mastered the advanced arsenal. Next: applying these skills to real-world multi-file operations and git workflows.",
-        speed: "dramatic",
+        speed: "normal",
       },
     ],
   },
@@ -794,7 +794,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Field operations rarely involve a single target. Real codebases span hundreds of files — a change in one ripples through many others.\n\nThis mission trains you to coordinate multi-file operations, integrate with git, and let Claude Code drive test-driven development.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -909,7 +909,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Every deep cover operative builds a legend — a crafted identity tailored to the mission. CLAUDE.md is how you build Claude Code's legend for each project.\n\nThis mission goes beyond the basics. You'll learn to craft instructions that make Claude Code an expert in your specific codebase.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -1030,7 +1030,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "A burned operative is one whose cover has been compromised. In the world of AI-assisted development, security breaches come from unexpected directions.\n\nThis mission covers the threats that most developers don't see coming — and how to defend against them.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -1152,7 +1152,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "You've trained as a solo operative. Now you command the control tower — coordinating Claude Code across teams, pipelines, and production systems.\n\nThis final mission covers the patterns that scale Claude Code from personal tool to organizational capability.",
-        speed: "dramatic",
+        speed: "normal",
       },
       {
         type: "print",
@@ -1251,7 +1251,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "print",
         text: "Final debrief, operative. You've completed the full Claude Code training program — from first contact to control tower operations.\n\nYou know the tools, the workflows, the security model, and the team patterns. You understand context management, cost optimization, and multi-agent orchestration.\n\nThe control tower is yours. Command it well.",
-        speed: "dramatic",
+        speed: "normal",
       },
     ],
   },

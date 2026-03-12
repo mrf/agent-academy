@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Text } from "ink";
+import { Text, useInput } from "ink";
 import { TIMING } from "../constants.js";
 
 const SPEED_MAP = {
@@ -29,6 +29,10 @@ export function TypeWriter({
 }: TypeWriterProps) {
   const [charIndex, setCharIndex] = useState(0);
   const completedRef = useRef(false);
+  const animating = !noAnimation && charIndex < text.length;
+
+  // Skip to end on any keypress during animation
+  useInput(() => setCharIndex(text.length), { isActive: animating });
 
   // Reset completion tracking when text shrinks (new text entirely)
   useEffect(() => {

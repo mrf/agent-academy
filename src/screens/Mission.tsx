@@ -63,6 +63,10 @@ export function Mission({
   const fxpEarnedRef = useRef(0);
   const hitsRef = useRef(0);
 
+  // Track the highest step reached so already-seen print steps can
+  // skip animation on cover-blown restart.
+  const [seenUpTo, setSeenUpTo] = useState(-1);
+
   // Track mission ID to reset state if mission changes
   const missionIdRef = useRef(mission.id);
   if (missionIdRef.current !== mission.id) {
@@ -73,6 +77,7 @@ export function Mission({
     setPhase("step");
     fxpEarnedRef.current = 0;
     hitsRef.current = 0;
+    setSeenUpTo(-1);
   }
 
   const currentStep = mission.steps[currentStepIndex] as Step;
@@ -84,6 +89,7 @@ export function Mission({
 
   const advanceStep = useCallback(() => {
     const nextIndex = currentStepIndex + 1;
+    setSeenUpTo((prev) => Math.max(prev, currentStepIndex));
     if (nextIndex >= mission.steps.length) {
       onComplete(computeStars(hitsRef.current), fxpEarnedRef.current, coverIntegrity);
     } else {
@@ -123,6 +129,7 @@ export function Mission({
         if (phase === "waitEnter") {
           advanceStep();
         } else if (phase === "coverBlown") {
+          setSeenUpTo((prev) => Math.max(prev, currentStepIndex));
           setCurrentStepIndex(0);
           setCoverIntegrity(MAX_COVER);
           hitsRef.current = 0;
@@ -136,6 +143,7 @@ export function Mission({
   const isFocused = phase === "step";
 
   function renderStep(step: Step) {
+    const skipAnim = noAnimation || currentStepIndex <= seenUpTo;
     switch (step.type) {
       case "print":
         return (
@@ -143,7 +151,7 @@ export function Mission({
             text={step.text}
             speed={step.speed}
             onComplete={handlePrintComplete}
-            noAnimation={noAnimation}
+            noAnimation={skipAnim}
           />
         );
       case "quiz":
@@ -168,7 +176,7 @@ export function Mission({
           <TypeWriter
             text={step.prompt}
             onComplete={handlePrintComplete}
-            noAnimation={noAnimation}
+            noAnimation={skipAnim}
           />
         );
     }
