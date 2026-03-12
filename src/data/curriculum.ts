@@ -282,20 +282,16 @@ export const MISSIONS: Mission[] = [
           "The user-level CLAUDE.md lives at ~/.claude/CLAUDE.md. Its instructions apply across all your Claude Code sessions in every project.",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
           "Where do you place a CLAUDE.md for project-wide instructions?",
-        expectedAnswer: "project root",
-        acceptedVariants: [
-          "project root",
-          "the project root",
-          "root of the project",
-          "repository root",
-          "repo root",
-          "./CLAUDE.md",
-          "in the project root",
-          "at the project root",
+        options: [
+          "~/.claude/",
+          "Any subdirectory",
+          "Project root",
+          "/etc/claude/",
         ],
+        correct: 2,
         explanation:
           "Place CLAUDE.md at your project's root directory. Claude Code automatically discovers and loads it from there.",
       },
@@ -592,16 +588,16 @@ export const MISSIONS: Mission[] = [
           "--dangerously-skip-permissions is designed exclusively for CI/CD and scripted environments where human approval isn't possible. Using it interactively removes your safety net.",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
           "What CLI flag disables all permission checks for Claude Code?",
-        expectedAnswer: "--dangerously-skip-permissions",
-        acceptedVariants: [
+        options: [
+          "--skip-permissions",
+          "--no-approve",
           "--dangerously-skip-permissions",
-          "dangerously-skip-permissions",
-          "the --dangerously-skip-permissions flag",
-          "dangerously skip permissions",
+          "--auto-accept",
         ],
+        correct: 2,
         explanation:
           "The flag is intentionally named to be alarming — it's a reminder that you're removing a critical safety layer.",
       },
@@ -773,17 +769,16 @@ export const MISSIONS: Mission[] = [
           "--max-turns limits the number of agentic turns in headless mode. This prevents runaway automation and keeps scripted Claude Code usage predictable and bounded.",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
           "What flag controls the output format in headless mode?",
-        expectedAnswer: "--output-format",
-        acceptedVariants: [
+        options: [
+          "--response-type",
           "--output-format",
-          "output-format",
-          "--output-format json",
-          "the --output-format flag",
-          "output format flag",
+          "--format",
+          "--json",
         ],
+        correct: 1,
         explanation:
           "--output-format controls how Claude Code returns results. Use '--output-format json' for machine-readable structured output in scripts and CI pipelines.",
       },
@@ -1257,17 +1252,16 @@ export const MISSIONS: Mission[] = [
         speed: "fast",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
           "What git feature lets you run multiple Claude Code sessions on the same repo simultaneously?",
-        expectedAnswer: "worktrees",
-        acceptedVariants: [
-          "worktrees",
-          "git worktrees",
-          "git worktree",
-          "worktree",
-          "git worktrees feature",
+        options: [
+          "Branches",
+          "Submodules",
+          "Worktrees",
+          "Clones",
         ],
+        correct: 2,
         explanation:
           "Git worktrees create independent working directories from the same repository. Each worktree can have its own branch and its own Claude Code session, enabling parallel development.",
       },
