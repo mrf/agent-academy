@@ -891,9 +891,18 @@ export const MISSIONS: Mission[] = [
           "In test-driven development, tests come first. Tell Claude Code what behavior you expect, have it write failing tests, then ask it to write the implementation that makes them pass.",
       },
       {
-        type: "ai",
-        prompt:
-          "Give me an example prompt I could send to Claude Code to start a TDD workflow for adding an email validation function to a TypeScript project. Keep it to 2-3 sentences.",
+        type: "quiz",
+        question:
+          "You need to add email validation to your TypeScript project using TDD. Which prompt to Claude Code best follows the TDD approach?",
+        options: [
+          "'Add an email validation function to utils.ts that handles all edge cases'",
+          "'Write failing tests for email validation first — cover valid addresses, missing @, and empty strings — then implement to make them pass'",
+          "'Implement email validation in utils.ts and then write tests afterward to verify it works correctly'",
+          "'Generate a complete email validation module with implementation, tests, docs, and usage examples'",
+        ],
+        correct: 1,
+        explanation:
+          "The TDD prompt explicitly asks for tests first and describes the expected behaviors. This gives Claude Code a clear red-green-refactor path: write failing tests, then implement until they pass. The other options skip the 'tests first' discipline or don't mention testing at all.",
       },
       {
         type: "print",
