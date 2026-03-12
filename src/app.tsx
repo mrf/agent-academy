@@ -27,6 +27,7 @@ import {
   checkHandlerOpen,
 } from "./lib/achievements.js";
 import type { Achievement as AchievementDef } from "./lib/achievements.js";
+import type { WrongAnswer } from "./types.js";
 import { MISSIONS } from "./data/curriculum.js";
 import { COLORS } from "./constants.js";
 
@@ -118,7 +119,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   }, [state]);
 
   const handleMissionComplete = useCallback(
-    (stars: 1 | 2 | 3, fxpEarned: number, coverRemaining: number) => {
+    (stars: 1 | 2 | 3, fxpEarned: number, coverRemaining: number, wrongAnswers: WrongAnswer[]) => {
       const mission = MISSIONS[state.missionContext.currentMissionIndex];
       if (mission) {
         saveMissionComplete(mission.id, stars, fxpEarned);
@@ -132,7 +133,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
       });
       enqueueAchievements(...unlocked);
 
-      state.setMissionContext({ stars, fxpEarned, coverRemaining });
+      state.setMissionContext({ stars, fxpEarned, coverRemaining, wrongAnswers });
       state.navigateTo("debrief");
     },
     [state, enqueueAchievements],
@@ -242,6 +243,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             stars={state.missionContext.stars}
             fxpEarned={state.missionContext.fxpEarned}
             coverRemaining={state.missionContext.coverRemaining}
+            wrongAnswers={state.missionContext.wrongAnswers}
             onContinue={handleDebriefContinue}
           />
         );

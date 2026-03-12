@@ -105,6 +105,7 @@ describe("useScreenState", () => {
       stars: 1,
       fxpEarned: 0,
       coverRemaining: 3,
+      wrongAnswers: [],
     });
     cleanup();
   });
@@ -116,6 +117,7 @@ describe("useScreenState", () => {
       stars: 1,
       fxpEarned: 0,
       coverRemaining: 3,
+      wrongAnswers: [],
     });
     cleanup();
   });
