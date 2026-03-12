@@ -150,7 +150,7 @@ export const MISSIONS: Mission[] = [
     codename: "BRASS COMPASS",
     title: "Tools of the Trade",
     briefing:
-      "Six core tools. Each one purpose-built for a specific operation. Know when to deploy which.",
+      "Core file and search tools — each one purpose-built for a specific operation. Know when to deploy which.",
     objectives: [
       "Identify Claude Code's core built-in tools",
       "Understand how the Edit tool works with str_replace",
@@ -159,7 +159,7 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "Every operative needs to know their tools. Claude Code has six: Read, Edit, Write, Bash, Glob, and Grep — each built for a specific operation.",
+        text: "Every operative needs to know their tools. Claude Code's core toolkit includes Read, Edit, Write, Bash, Glob, and Grep — each built for a specific operation. There are additional tools like Agent (for spawning subagents) and others you'll encounter later, but these six handle most of your day-to-day work.",
         speed: "normal",
       },
       {
@@ -227,7 +227,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Debrief: you've mapped Claude Code's full toolkit. Six tools, each with a purpose. The Edit tool's uniqueness constraint isn't a limitation — it's your safety net.\n\nRight tool, right job. That principle will serve you well in the field.",
+        text: "Debrief: you've mapped Claude Code's core toolkit. Read, Edit, Write, Bash, Glob, and Grep cover most operations, and you'll meet additional tools like Agent in later missions. The Edit tool's uniqueness constraint isn't a limitation — it's your safety net.\n\nRight tool, right job. That principle will serve you well in the field.",
       },
     ],
   },
@@ -571,7 +571,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "For experienced operatives, Claude Code offers ways to streamline permissions. You can configure allowedTools in your settings — specific tools that run without prompting.\n\nThere's also a nuclear option: --dangerously-skip-permissions. This flag disables ALL permission checks. It exists for CI pipelines and automated scripts — never for interactive use.",
+        text: "For experienced operatives, Claude Code offers ways to streamline permissions. In your settings, the permissions key gives you three-way control:\n\n- permissions.allow — tools that run without prompting\n- permissions.deny — tools that are blocked entirely (deny always wins)\n- permissions.ask — tools that always prompt, even if another rule would allow them\n\nRules are evaluated in order: deny → ask → allow. First match wins.\n\nThere's also a nuclear option: --dangerously-skip-permissions. This flag disables ALL permission checks. It exists for CI pipelines and automated scripts — never for interactive use.",
       },
       {
         type: "quiz",
@@ -607,7 +607,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "The settings file supports two key arrays:\n\n- allowedTools — tools that run without asking (e.g., Read, Glob, Grep)\n- deniedTools — tools that are blocked entirely\n\nBash commands can be granular. You might allow 'Bash(npm test)' so Claude can run tests freely, while keeping other Bash commands gated behind approval.",
+        text: "Here's what the permissions block looks like in settings.json:\n\n{ \"permissions\": { \"allow\": [\"Read\", \"Glob\", \"Grep\", \"Bash(npm test)\"], \"deny\": [\"Bash(rm:*)\"], \"ask\": [\"Write\"] } }\n\nBash commands can be granular — allow 'Bash(npm test)' so Claude can run tests freely, while keeping other Bash commands gated behind approval.\n\nThe legacy allowedTools key still works but permissions.allow/ask/deny are more expressive and preferred.",
         speed: "fast",
       },
       {
@@ -616,31 +616,31 @@ export const MISSIONS: Mission[] = [
           "What settings key lists tools that run without prompting?",
         options: [
           "autoApprove",
-          "allowedTools",
-          "permissions",
+          "permissions.allow",
+          "permissions.trust",
           "trustedTools",
         ],
         correct: 1,
         explanation:
-          "The allowedTools array in settings.json lists tools that Claude Code can run without prompting. Note: the key is allowedTools, not autoApprove — it describes what is allowed, not how approval works.",
+          "The permissions.allow array in settings.json lists tools that Claude Code can run without prompting. The legacy allowedTools key also works, but permissions.allow/ask/deny are the preferred format.",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
-          "What settings key blocks specific tools from being used entirely?",
-        expectedAnswer: "deniedTools",
-        acceptedVariants: [
-          "deniedTools",
-          "denied tools",
-          "deniedTools array",
-          "the deniedTools key",
+          "In the permissions block, which sub-key blocks specific tools from being used entirely?",
+        options: [
+          "permissions.block",
+          "permissions.ask",
+          "permissions.deny",
+          "permissions.restrict",
         ],
+        correct: 2,
         explanation:
-          "The deniedTools array in settings.json blocks specific tools completely, providing a hard security boundary.",
+          "permissions.deny blocks specific tools completely. Deny rules are evaluated first and always take precedence over allow and ask rules.",
       },
       {
         type: "print",
-        text: "The iron curtain stands, operative. You control what Claude Code can and cannot do. Default to safety — ask-first permissions. Allowlist only what you trust. Reserve the nuclear option for machines, not humans.\n\nSecurity isn't a feature. It's a discipline.",
+        text: "The iron curtain stands, operative. You control what Claude Code can and cannot do. Default to safety — ask-first permissions. Use permissions.allow for trusted tools, permissions.deny for hard blocks, and permissions.ask for tools that should always prompt. Reserve the nuclear option for machines, not humans.\n\nSecurity isn't a feature. It's a discipline.",
       },
     ],
   },
@@ -964,7 +964,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Don't want to write your CLAUDE.md from scratch? The /init command has you covered. Run /init inside Claude Code and it will analyze your project — scanning your tech stack, directory structure, and conventions — then generate an initial CLAUDE.md automatically.\n\nIt's the fastest way to onboard Claude Code to an existing codebase.",
+        text: "Don't want to write your CLAUDE.md from scratch? The /init command has you covered. Run /init inside a Claude Code session and it will read through your project — looking at your tech stack, directory structure, and conventions — then generate an initial CLAUDE.md for you.\n\nIt's the fastest way to get a working CLAUDE.md for an existing codebase.",
       },
       {
         type: "command",
@@ -979,7 +979,7 @@ export const MISSIONS: Mission[] = [
           "claude /init",
         ],
         explanation:
-          "/init analyzes your project structure and generates an initial CLAUDE.md with detected tech stack, conventions, and project layout.",
+          "/init reads your project structure and generates an initial CLAUDE.md with your tech stack, conventions, and project layout.",
       },
       {
         type: "print",
