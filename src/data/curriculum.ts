@@ -120,17 +120,17 @@ export const MISSIONS: Mission[] = [
           "'claude login' opens a browser-based authentication flow. You can also set the ANTHROPIC_API_KEY environment variable for headless environments.",
       },
       {
-        type: "command",
-        question: "What npm command installs Claude Code globally?",
-        expectedAnswer: "npm install -g @anthropic-ai/claude-code",
-        acceptedVariants: [
+        type: "quiz",
+        question: "Which command installs Claude Code globally?",
+        options: [
+          "npm install @anthropic-ai/claude-code",
           "npm install -g @anthropic-ai/claude-code",
-          "npm i -g @anthropic-ai/claude-code",
-          "npm install --global @anthropic-ai/claude-code",
-          "npm i --global @anthropic-ai/claude-code",
+          "npx @anthropic-ai/claude-code",
+          "brew install claude-code",
         ],
+        correct: 1,
         explanation:
-          "'npm install -g @anthropic-ai/claude-code' installs Claude Code globally, making the 'claude' command available everywhere.",
+          "'npm install -g @anthropic-ai/claude-code' installs Claude Code globally, making the 'claude' command available everywhere. The -g flag is key — without it, the command won't be available system-wide.",
       },
       {
         type: "print",
@@ -690,7 +690,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "command",
         question:
-          "What flag enables headless (non-interactive) mode with a direct prompt?",
+          "What is the short flag (single dash, single letter) for headless mode?",
         expectedAnswer: "-p",
         acceptedVariants: [
           "-p",
@@ -833,18 +833,18 @@ export const MISSIONS: Mission[] = [
           "Claude Code handles local git operations — staging, committing, branching, diffing. Remote operations like push and pull should remain under your direct control.",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
-          "What command would you ask Claude Code to run to see unstaged changes before committing?",
-        expectedAnswer: "git diff",
-        acceptedVariants: [
-          "git diff",
-          "git diff .",
-          "run git diff",
-          "git status",
+          "You want to see what changed before committing. How should you ask Claude Code?",
+        options: [
+          "Type 'git diff' into the Claude Code prompt",
+          "Describe what you want: 'show me what changed since my last commit'",
+          "Exit Claude Code and run git diff manually",
+          "Ask Claude Code to open a diff viewer GUI",
         ],
+        correct: 1,
         explanation:
-          "'git diff' shows unstaged changes in your working directory. Claude Code typically runs both 'git status' and 'git diff' before crafting a commit message.",
+          "Claude Code is agentic — describe the outcome you want in natural language. It will figure out the right commands (git diff, git status, etc.) on its own. You don't need to memorize git commands.",
       },
       {
         type: "print",
@@ -946,6 +946,10 @@ export const MISSIONS: Mission[] = [
         correct: 2,
         explanation:
           "Both files are loaded, but project-level instructions are more specific and contextually relevant. Claude Code treats them as additive, with project context naturally taking precedence for project work.",
+      },
+      {
+        type: "print",
+        text: "Don't want to write your CLAUDE.md from scratch? The /init command has you covered. Run /init inside Claude Code and it will analyze your project — scanning your tech stack, directory structure, and conventions — then generate an initial CLAUDE.md automatically.\n\nIt's the fastest way to onboard Claude Code to an existing codebase.",
       },
       {
         type: "command",
