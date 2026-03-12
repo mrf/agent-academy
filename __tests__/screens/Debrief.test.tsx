@@ -237,7 +237,7 @@ describe("Debrief", () => {
   // ── Multiple objectives ────────────────────────────────────────────
 
   describe("objectives display", () => {
-    it("renders all objectives with checkmarks", async () => {
+    it("renders all objectives as a reference list with bullets", async () => {
       const objectives = ["Obj A", "Obj B", "Obj C"];
       const inst = renderDebrief({
         mission: createMission({ objectives }),
@@ -247,7 +247,10 @@ describe("Debrief", () => {
       for (const obj of objectives) {
         expect(frame).toContain(obj);
       }
-      expect(frame).toContain("\u2713");
+      // Objectives shown as bullet list, not pass/fail checkmarks
+      expect(frame).toContain("\u2022");
+      expect(frame).not.toContain("\u2713");
+      expect(frame).not.toContain("\u2717");
     });
   });
 });

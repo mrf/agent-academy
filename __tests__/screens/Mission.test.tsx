@@ -283,6 +283,7 @@ describe("Mission", () => {
 
       expect(inst.lastFrame()).toContain("PRINT:");
       expect(inst.lastFrame()).toContain("cover=3");
+      expect(inst.lastFrame()).toContain("fxp=0");
       expect(inst.lastFrame()).not.toContain("COVER BLOWN");
     });
   });

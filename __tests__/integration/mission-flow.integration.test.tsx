@@ -451,7 +451,7 @@ describe("Mission flow integration", () => {
       expect(onComplete).toHaveBeenCalledWith(3, 30, 3);
     });
 
-    it("retains FXP from print steps even when cover is blown", async () => {
+    it("resets FXP on cover blown and shows loss message", async () => {
       const inst = renderMission({ mission: fiveStepMission });
       await tick(0);
 
@@ -463,7 +463,12 @@ describe("Mission flow integration", () => {
       await answerStep(false); // cover blown
 
       expect(inst.lastFrame()).toContain("COVER BLOWN");
-      expect(inst.lastFrame()).toContain("FXP earned this attempt will be retained");
+      expect(inst.lastFrame()).toContain("FXP from this attempt has been lost");
+
+      // After restart, FXP is reset to 0
+      pressKey(inst, keys.enter);
+      await tick(0);
+      expect(inst.lastFrame()).toContain("fxp=0");
     });
   });
 

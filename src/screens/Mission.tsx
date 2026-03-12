@@ -133,6 +133,8 @@ export function Mission({
           setCurrentStepIndex(0);
           setCoverIntegrity(MAX_COVER);
           hitsRef.current = 0;
+          fxpEarnedRef.current = 0;
+          setFxpEarned(0);
           setPhase("step");
         }
       }
@@ -211,7 +213,7 @@ export function Mission({
               Your identity has been compromised. Mission failed.
             </Text>
             <Text color={COLORS.gray}>
-              FXP earned this attempt will be retained.
+              FXP from this attempt has been lost. Try again, operative.
             </Text>
           </Box>
         ) : (
