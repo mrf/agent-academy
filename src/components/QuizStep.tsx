@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
-import { Box, Text } from "ink";
+import { Box, Text, useInput } from "ink";
 import SelectInput from "ink-select-input";
 import { COLORS, TIMING } from "../constants.js";
 import { CustomIndicator, CustomItem } from "./SelectItems.js";
@@ -35,12 +35,24 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const correct = selectedIndex !== -1 && selectedIndex === step.correct;
+  const phaseRef = useRef<Phase>(phase);
+  phaseRef.current = phase;
+  const correctRef = useRef(false);
 
   useEffect(() => {
     return () => {
       timers.current.forEach(clearTimeout);
     };
   }, []);
+
+  useInput(
+    (_input, key) => {
+      if (key.return && phaseRef.current === "result") {
+        onAnswer(correctRef.current);
+      }
+    },
+    { isActive: isFocused },
+  );
 
   const items = useMemo(
     () =>
@@ -72,6 +84,7 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
       if (phase !== "selecting") return;
 
       const isCorrect = item.value === step.correct;
+      correctRef.current = isCorrect;
       setSelectedIndex(item.value);
       setPhase("pausing");
 
@@ -81,14 +94,8 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
           runShake();
         }
       }, TIMING.pauseBeforeResult);
-
-      const delay = isCorrect
-        ? TIMING.pauseBeforeResult + TIMING.pauseAfterConfirmed
-        : TIMING.pauseBeforeResult + TIMING.pauseAfterCompromised;
-
-      trackTimer(() => onAnswer(isCorrect), delay);
     },
-    [phase, step.correct, onAnswer, runShake, trackTimer],
+    [phase, step.correct, runShake, trackTimer],
   );
 
   return (
@@ -160,6 +167,11 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
           )}
           <Box marginTop={1}>
             <Text color={COLORS.gray}>{step.explanation}</Text>
+          </Box>
+          <Box marginTop={1}>
+            <Text color={COLORS.gray} dimColor>
+              [Enter] to continue
+            </Text>
           </Box>
         </Box>
       )}

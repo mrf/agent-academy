@@ -131,11 +131,12 @@ async function answerQuestion(inst: RenderResult, chooseCorrect = true): Promise
   }
   await press(inst, keys.enter);
 
-  const delay = chooseCorrect
-    ? TIMING.pauseBeforeResult + TIMING.pauseAfterConfirmed
-    : TIMING.pauseBeforeResult + TIMING.pauseAfterCompromised;
-  await tick(delay);
+  // Wait for result phase to appear
+  await tick(TIMING.pauseBeforeResult);
   await tick(0);
+
+  // Press Enter to continue past the result
+  await press(inst, keys.enter);
 }
 
 // ── Setup / Teardown ──────────────────────────────────────────────────

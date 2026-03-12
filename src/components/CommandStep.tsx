@@ -1,7 +1,7 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
-import { COLORS, TIMING } from "../constants.js";
+import { COLORS } from "../constants.js";
 import type { CommandStep as CommandStepType } from "../types.js";
 import { evaluateAnswer, localMatch } from "../ai/evaluator.js";
 
@@ -54,26 +54,26 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
   );
   const [helpHint, setHelpHint] = useState<string | null>(null);
   const [userAnswer, setUserAnswer] = useState("");
-  const answerTimerRef = useRef<ReturnType<typeof setTimeout>>();
-
-  useEffect(() => {
-    return () => clearTimeout(answerTimerRef.current);
-  }, []);
+  const phaseRef = useRef<Phase>(phase);
+  phaseRef.current = phase;
+  const correctRef = useRef(false);
 
   const finishWithResult = useCallback(
     (isCorrect: boolean) => {
+      correctRef.current = isCorrect;
       setCorrect(isCorrect);
       setPhase("result");
-
-      const delay = isCorrect
-        ? TIMING.pauseAfterConfirmed
-        : TIMING.pauseAfterCompromised;
-
-      answerTimerRef.current = setTimeout(() => {
-        onAnswer(isCorrect);
-      }, delay);
     },
-    [onAnswer],
+    [],
+  );
+
+  useInput(
+    (_input, key) => {
+      if (key.return && phaseRef.current === "result") {
+        onAnswer(correctRef.current);
+      }
+    },
+    { isActive: isFocused },
   );
 
   const handleSubmit = useCallback(
@@ -229,6 +229,11 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
           )}
           <Box marginTop={1}>
             <Text color={COLORS.gray}>{step.explanation}</Text>
+          </Box>
+          <Box marginTop={1}>
+            <Text color={COLORS.gray} dimColor>
+              [Enter] to continue
+            </Text>
           </Box>
         </Box>
       )}

@@ -26,8 +26,6 @@ export const TIMING = {
   typewriterNormal: 20,
   typewriterDramatic: 40,
   pauseBeforeResult: 400,
-  pauseAfterConfirmed: 600,
-  pauseAfterCompromised: 800,
   screenTransition: 200,
   tokenBuffer: 50,
   cursorBlink: 500,
