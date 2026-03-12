@@ -35,6 +35,7 @@ export type Mission = {
   id: string;
   codename: string;
   title: string;
+  briefing?: string;
   objectives: string[];
   steps: Step[];
 };

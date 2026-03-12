@@ -29,11 +29,7 @@ export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
     }
   });
 
-  const firstPrintStep = mission.steps.find((s) => s.type === "print");
-  const intel =
-    firstPrintStep && "text" in firstPrintStep
-      ? firstPrintStep.text
-      : mission.codename;
+  const intel = mission.briefing ?? mission.codename;
 
   const briefingText = [
     `MISSION:     ${missionNumber} — ${mission.codename}`,
