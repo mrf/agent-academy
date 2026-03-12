@@ -164,9 +164,11 @@ export function Mission({
         );
       case "ai":
         return (
-          <Text color={COLORS.gray}>
-            [AI Step — coming soon] {step.prompt}
-          </Text>
+          <TypeWriter
+            text={step.prompt}
+            onComplete={handlePrintComplete}
+            noAnimation={noAnimation}
+          />
         );
     }
   }
