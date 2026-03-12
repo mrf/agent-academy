@@ -12,12 +12,6 @@ interface DebriefProps {
   onContinue: () => void;
 }
 
-function objectiveColor(passed: boolean, stars: 1 | 2 | 3): string {
-  if (passed) return COLORS.green;
-  if (stars === 2) return COLORS.amber;
-  return COLORS.red;
-}
-
 function renderCoverBlocks(remaining: number): string {
   return Array.from({ length: 3 }, (_, i) =>
     i < remaining ? "\u25A0" : "\u25A1"
@@ -117,15 +111,11 @@ export function Debrief({
           <Text color={COLORS.cyan} bold>
             OBJECTIVES:
           </Text>
-          {mission.objectives.map((obj, i) => {
-            const passed = stars === 3 || i < Math.ceil(mission.objectives.length * (stars / 3));
-            const mark = passed ? "\u2713" : "\u2717";
-            return (
-              <Text key={i} color={objectiveColor(passed, stars)}>
-                {`  ${mark} ${obj}`}
-              </Text>
-            );
-          })}
+          {mission.objectives.map((obj, i) => (
+            <Text key={i} color={COLORS.warmWhite}>
+              {`  \u2022 ${obj}`}
+            </Text>
+          ))}
         </Box>
 
         {/* Continue prompt */}
