@@ -31,7 +31,7 @@ export const TIMING = {
   screenTransition: 200,
   tokenBuffer: 50,
   cursorBlink: 500,
-  thinkingDots: 300,
+  thinkingDots: 150,
   fxpTick: 30,
   achievementDisplay: 3000,
 } as const;

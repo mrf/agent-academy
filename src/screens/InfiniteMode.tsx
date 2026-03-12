@@ -10,7 +10,7 @@ import {
   saveInfiniteResult,
   reportBadQuestion,
 } from "../store/progress.js";
-import { COLORS } from "../constants.js";
+import { COLORS, TIMING } from "../constants.js";
 import { useTerminalSize } from "../lib/terminal.js";
 import type { ClearanceLevel, QuizStep as QuizStepType } from "../types.js";
 
@@ -86,7 +86,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
     if (phase !== "generating") return;
     const timer = setInterval(() => {
       setDots((prev) => (prev.length >= 3 ? "." : prev + "."));
-    }, 500);
+    }, TIMING.thinkingDots);
     return () => clearInterval(timer);
   }, [phase]);
 
