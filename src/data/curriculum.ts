@@ -16,12 +16,8 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "Welcome to the Terminal Training Division, recruit. Your first mission: understand the tool that will define your career as a field operative.\n\nClaude Code is an agentic AI coding assistant built by Anthropic. Unlike browser-based chat interfaces, it lives in your terminal — right where the code is.",
+        text: "Welcome to the Terminal Training Division, recruit. Claude Code is an agentic AI coding assistant that lives in your terminal — right where the code is.",
         speed: "normal",
-      },
-      {
-        type: "print",
-        text: "What makes Claude Code 'agentic'? It doesn't just suggest code — it takes action. It reads your files, edits your codebase, runs shell commands, and searches through your project. All with your permission, all in your terminal.\n\nThink of it as an AI pair programmer with direct access to your development environment.",
       },
       {
         type: "quiz",
@@ -39,7 +35,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Claude Code understands project context automatically. When you start a conversation, it can explore your directory structure, read relevant files, and understand how your codebase fits together.\n\nYou don't need to copy-paste code into a chat window. Tell Claude Code what you need and it figures out what to read.",
+        text: "What makes it 'agentic'? It doesn't just suggest code — it takes action. It reads your files, edits your codebase, runs shell commands, and searches through your project. All with your permission.",
       },
       {
         type: "quiz",
@@ -53,6 +49,10 @@ export const MISSIONS: Mission[] = [
         correct: 1,
         explanation:
           "Claude Code can read, write, and edit files in your project, run commands, and search your codebase. It works with any programming language.",
+      },
+      {
+        type: "print",
+        text: "Claude Code understands project context automatically. Tell it what you need and it figures out what files to read — no copy-pasting into a chat window.",
       },
       {
         type: "command",
@@ -90,12 +90,8 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "Before you can operate in the field, you need your equipment. This mission covers the dead drop — picking up Claude Code and getting it operational.\n\nPay attention. A botched installation means a blown cover.",
+        text: "Before you can operate in the field, you need your equipment. Claude Code runs natively on macOS, Linux, and Windows via WSL2 with zero dependencies.",
         speed: "normal",
-      },
-      {
-        type: "print",
-        text: "System requirements are light. Claude Code runs natively on macOS, Linux, and Windows via WSL2 — no Node.js or other runtime needed.\n\nThe native installer handles everything in one step.",
       },
       {
         type: "quiz",
@@ -163,13 +159,8 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "Every operative needs to know their tools. Claude Code comes equipped with a set of built-in tools — each designed for a specific operation.\n\nMaster these tools and you master the field.",
+        text: "Every operative needs to know their tools. Claude Code has six: Read, Edit, Write, Bash, Glob, and Grep — each built for a specific operation.",
         speed: "normal",
-      },
-      {
-        type: "print",
-        text: "Claude Code's core toolset includes six primary tools:\n\n- Read — reads file contents with line numbers\n- Edit — modifies existing files using str_replace\n- Write — creates new files or completely rewrites existing ones\n- Bash — runs shell commands\n- Glob — finds files by name patterns\n- Grep — searches file contents by pattern",
-        speed: "fast",
       },
       {
         type: "quiz",
@@ -218,7 +209,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Claude Code prefers dedicated tools over Bash equivalents. Use Read instead of cat, Glob instead of find, and Grep instead of grep.\n\nDedicated tools provide better output formatting, handle edge cases, and give Claude Code clearer signals about what happened. Save Bash for commands that have no dedicated equivalent.",
+        text: "Claude Code prefers dedicated tools over Bash equivalents. Use Read instead of cat, Glob instead of find, and Grep instead of grep. Save Bash for commands with no dedicated equivalent.",
       },
       {
         type: "quiz",
@@ -256,12 +247,8 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "Every operation needs standing orders — rules that persist across sessions, instructions that never expire. In Claude Code, those orders live in a file called CLAUDE.md.\n\nThis is the phantom protocol. Invisible to the end user, always guiding the agent.",
+        text: "Every operation needs standing orders. In Claude Code, those orders live in CLAUDE.md — a Markdown file loaded automatically at the start of every conversation.",
         speed: "normal",
-      },
-      {
-        type: "print",
-        text: "CLAUDE.md is a Markdown file that provides persistent instructions to Claude Code. It's automatically loaded at the start of every conversation — no manual setup required.\n\nThink of it as your project's standing orders. Coding standards, architecture decisions, workflow rules — anything Claude Code should always know.",
       },
       {
         type: "quiz",
