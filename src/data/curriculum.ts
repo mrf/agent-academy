@@ -928,25 +928,25 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "A great CLAUDE.md has structure. Start with what matters most:\n\n1. Tech stack and versions (e.g., 'TypeScript 5.3, React 18, Bun')\n2. Project structure overview (where key directories live)\n3. Coding conventions (naming, formatting, patterns)\n4. Build and test commands\n5. Architecture constraints ('Never import from X into Y')\n\nOrder matters. Claude Code reads top-down, and the most important instructions should come first.",
+        text: "You already know the basics of CLAUDE.md from earlier missions. Now let's go deeper — structure, layering, and advanced techniques.\n\nOrder matters. Claude Code reads top-down, so put the most critical instructions first. A well-structured CLAUDE.md follows a priority order:\n\n1. Critical constraints ('Never import from X into Y')\n2. Build/test/lint commands\n3. Architecture patterns and boundaries\n4. Workflow rules (commit style, branch naming)\n5. Communication preferences",
         speed: "fast",
       },
       {
         type: "quiz",
-        question: "What should appear at the top of a CLAUDE.md file?",
+        question: "Why does instruction order in CLAUDE.md matter?",
         options: [
-          "A detailed project history",
-          "The tech stack and most critical instructions",
-          "A welcome message for developers",
-          "License and copyright information",
+          "Later instructions are ignored entirely",
+          "Claude Code reads top-down and prioritizes accordingly",
+          "Only the first 10 lines are read",
+          "Order doesn't matter — it reads everything equally",
         ],
         correct: 1,
         explanation:
-          "Put the most important information first — tech stack, critical conventions, and key constraints. Claude Code reads top-down and prioritizes accordingly.",
+          "Claude Code reads top-down. When context is tight, earlier instructions carry more weight. Put critical constraints and commands at the top.",
       },
       {
         type: "print",
-        text: "Layering instructions gives you flexibility. Your user-level CLAUDE.md (~/.claude/CLAUDE.md) sets personal defaults — your preferred test runner, commit style, communication preferences.\n\nProject-level CLAUDE.md files override or extend these defaults for each repository. The result: consistent personal style plus project-specific rules.",
+        text: "Layering is where CLAUDE.md gets powerful. Your user-level file sets personal defaults — preferred test runner, commit style, communication tone.\n\nProject-level files add repo-specific rules. When both are loaded, project context naturally takes precedence for project work. The result: consistent personal style plus project-specific rules, with zero manual switching.",
       },
       {
         type: "quiz",
@@ -964,22 +964,21 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Don't want to write your CLAUDE.md from scratch? The /init command has you covered. Run /init inside Claude Code and it will analyze your project — scanning your tech stack, directory structure, and conventions — then generate an initial CLAUDE.md automatically.\n\nIt's the fastest way to onboard Claude Code to an existing codebase.",
+        text: "Don't want to write your CLAUDE.md from scratch? The /init command analyzes your project — tech stack, directory structure, conventions — and generates an initial CLAUDE.md automatically. It's the fastest way to onboard Claude Code to an existing codebase.\n\nAnd if something's not working right, /doctor diagnoses configuration and environment issues.",
       },
       {
         type: "command",
         question:
-          "What command initializes a new CLAUDE.md in your project by analyzing the codebase?",
-        expectedAnswer: "/init",
+          "What command diagnoses Claude Code configuration and environment issues?",
+        expectedAnswer: "/doctor",
         acceptedVariants: [
-          "/init",
-          "init",
-          "slash init",
-          "the /init command",
-          "claude /init",
+          "/doctor",
+          "doctor",
+          "slash doctor",
+          "the /doctor command",
         ],
         explanation:
-          "/init analyzes your project structure and generates an initial CLAUDE.md with detected tech stack, conventions, and project layout.",
+          "/doctor runs diagnostics on your Claude Code setup — checking authentication, configuration, environment, and common issues.",
       },
       {
         type: "print",
@@ -993,39 +992,39 @@ export const MISSIONS: Mission[] = [
       {
         type: "quiz",
         question:
-          "What is the purpose of the /doctor command?",
+          "What is the benefit of referencing external docs from CLAUDE.md instead of inlining everything?",
         options: [
-          "It fixes bugs in your code automatically",
-          "It diagnoses Claude Code configuration and environment issues",
-          "It optimizes your CLAUDE.md for performance",
-          "It checks your code for security vulnerabilities",
+          "External docs load faster than inline text",
+          "It keeps CLAUDE.md concise while giving Claude Code access to detailed docs on demand",
+          "Claude Code can only read Markdown files linked from CLAUDE.md",
+          "External docs are automatically version-controlled",
         ],
         correct: 1,
         explanation:
-          "/doctor runs diagnostics on your Claude Code setup — checking authentication, configuration, environment, and common issues that might affect performance.",
+          "Referencing external docs keeps CLAUDE.md short and scannable. Claude Code can read the linked files when it needs the detail, without bloating the instructions loaded into every conversation.",
       },
       {
         type: "print",
-        text: "Pro technique: use CLAUDE.md to define project-specific slash commands via custom skills. You can also reference other documentation files from CLAUDE.md to keep it concise while pointing Claude Code to detailed architecture docs.",
+        text: "Pro techniques for power users:\n\n- Define custom slash commands via skills referenced in CLAUDE.md\n- Reference external docs to keep CLAUDE.md concise: 'For API patterns, see docs/api-conventions.md'\n- Use conditional rules: 'In src/legacy/, preserve existing patterns. In src/v2/, use modern idioms.'\n- Add project-specific safety rails: 'Never drop tables in migration files without explicit confirmation'",
       },
       {
         type: "command",
         question:
-          "Where does the user-level CLAUDE.md file live on your filesystem?",
-        expectedAnswer: "~/.claude/CLAUDE.md",
+          "What command lets Claude Code analyze your project and generate an initial CLAUDE.md?",
+        expectedAnswer: "/init",
         acceptedVariants: [
-          "~/.claude/CLAUDE.md",
-          "$HOME/.claude/CLAUDE.md",
-          "home directory/.claude/CLAUDE.md",
-          "in ~/.claude/",
-          "~/.claude",
+          "/init",
+          "init",
+          "slash init",
+          "the /init command",
+          "claude /init",
         ],
         explanation:
-          "The user-level CLAUDE.md lives at ~/.claude/CLAUDE.md. It applies across all projects and all Claude Code sessions.",
+          "/init scans your codebase — tech stack, directory structure, conventions — and generates a CLAUDE.md as a starting point you can refine.",
       },
       {
         type: "print",
-        text: "Legend built, operative. Your CLAUDE.md files are your most durable tool — surviving compaction, persisting across sessions, shaping every interaction.\n\nA well-crafted CLAUDE.md turns Claude Code from a general-purpose assistant into a domain expert for your specific project.\n\nNext: the threats most developers don't see coming — security in agentic AI.",
+        text: "Legend built, operative. You've gone beyond the basics — instruction ordering, layering strategies, external doc references, and conditional rules.\n\nA well-crafted CLAUDE.md turns Claude Code from a general-purpose assistant into a domain expert for your specific project.\n\nNext: the threats most developers don't see coming — security in agentic AI.",
       },
     ],
   },
