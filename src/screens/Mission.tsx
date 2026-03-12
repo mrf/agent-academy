@@ -31,8 +31,12 @@ function computeStars(hits: number): 1 | 2 | 3 {
 function getAvailableActions(
   phase: Phase,
   hasApiKey: boolean,
+  stepType?: Step["type"],
 ): string[] {
   const actions: string[] = [];
+  if (phase === "step" && (stepType === "print" || stepType === "ai")) {
+    actions.push("skip");
+  }
   if (phase === "waitEnter") {
     actions.push("continue");
   }
@@ -222,7 +226,7 @@ export function Mission({
       <BottomBar
         currentStep={currentStepIndex + 1}
         totalSteps={mission.steps.length}
-        availableActions={getAvailableActions(phase, hasApiKey)}
+        availableActions={getAvailableActions(phase, hasApiKey, currentStep.type)}
       />
     </Box>
   );

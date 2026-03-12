@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
+import { useSpinner } from "../hooks/useSpinner.js";
 import { COLORS, TIMING } from "../constants.js";
 import type { CommandStep as CommandStepType } from "../types.js";
 import { evaluateAnswer, localMatch } from "../ai/evaluator.js";
@@ -48,13 +49,14 @@ function getHelpHint(step: CommandStepType): string {
 export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: CommandStepProps) {
   const [value, setValue] = useState("");
   const [phase, setPhase] = useState<Phase>("input");
+  const spinner = useSpinner(phase === "pausing");
   const [correct, setCorrect] = useState(false);
   const [secretResponse, setSecretResponse] = useState<SecretResponse | null>(
     null,
   );
   const [helpHint, setHelpHint] = useState<string | null>(null);
   const [userAnswer, setUserAnswer] = useState("");
-  const answerTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const answerTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(answerTimerRef.current);
@@ -180,7 +182,7 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
       {phase === "pausing" && (
         <Box marginTop={1}>
           <Text color={COLORS.gray} dimColor>
-            Verifying...
+            {spinner} Verifying...
           </Text>
         </Box>
       )}

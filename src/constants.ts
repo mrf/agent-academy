@@ -34,6 +34,7 @@ export const TIMING = {
   thinkingDots: 150,
   fxpTick: 30,
   achievementDisplay: 3000,
+  evalTimeout: 10_000,
 } as const;
 
 // Version
