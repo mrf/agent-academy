@@ -83,7 +83,7 @@ export const MISSIONS: Mission[] = [
     briefing:
       "Time to pick up your equipment. One command, two auth methods, zero excuses.",
     objectives: [
-      "Know the prerequisites for running Claude Code",
+      "Know the system requirements for running Claude Code",
       "Install Claude Code correctly",
       "Set up authentication",
     ],
@@ -143,7 +143,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Equipment secured, recruit. You've got the prerequisites, the install command, and two authentication methods in your toolkit.\n\nYour terminal is now a command center. Time to learn what it can do.",
+        text: "Equipment secured, recruit. You've got the install command and two authentication methods in your toolkit.\n\nYour terminal is now a command center. Time to learn what it can do.",
       },
     ],
   },
@@ -375,7 +375,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Slash commands give you direct control over the session:\n\n- /help — show available commands\n- /cost — display token usage and estimated cost\n- /compact — manually compress conversation history\n- /clear — reset conversation, start fresh\n- /config — view or modify settings\n- /doctor — diagnose common issues",
+        text: "Slash commands give you direct control over the session:\n\n- /help — show available commands\n- /context — display token usage and context window status\n- /compact — manually compress conversation history\n- /clear — reset conversation, start fresh\n- /config — view or modify settings\n- /doctor — diagnose common issues",
         speed: "fast",
       },
       {
@@ -394,16 +394,16 @@ export const MISSIONS: Mission[] = [
       {
         type: "command",
         question:
-          "What slash command shows your current token usage and cost?",
-        expectedAnswer: "/cost",
+          "What slash command shows your current token usage and context window status?",
+        expectedAnswer: "/context",
         acceptedVariants: [
-          "/cost",
-          "cost",
-          "slash cost",
-          "the /cost command",
+          "/context",
+          "context",
+          "slash context",
+          "the /context command",
         ],
         explanation:
-          "/cost displays your current session's token usage and estimated API cost.",
+          "/context displays your current session's token usage and context window status.",
       },
       {
         type: "print",
@@ -446,12 +446,20 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "Every intelligence channel has bandwidth limits. In Claude Code, that limit is the context window — the total amount of information Claude can hold in working memory.\n\nFill it carelessly and you lose critical intel. Manage it wisely and you operate without limits.",
+        text: "Before we talk tools, you need to understand the single most important concept in working with any AI assistant: the context window.\n\nThe context window is Claude's working memory — the total information it can see and reason about during your conversation. Think of it like a desk: everything Claude needs to work with has to fit on that desk at the same time.",
         speed: "normal",
       },
       {
         type: "print",
-        text: "The context window is measured in tokens — roughly 4 characters per token. It includes everything: your messages, Claude's responses, file contents from Read operations, command outputs, and system instructions.\n\nWhen the context window fills up, older information gets compressed or dropped.",
+        text: "Why does the context window fill up? Every interaction adds to it. Your messages, Claude's responses, file contents from Read operations, command outputs, even system instructions — it all consumes space.\n\nWhen the context window is full, older information gets compressed or dropped entirely. Claude loses access to earlier parts of the conversation. Performance degrades. Responses become less accurate.",
+      },
+      {
+        type: "print",
+        text: "This is why context management matters. Without it, long sessions silently lose critical information. Claude might forget instructions you gave earlier, re-read files it already processed, or lose track of the task.\n\nThe good news: Claude Code gives you tools to manage this. That's what this mission is about.",
+      },
+      {
+        type: "print",
+        text: "The context window is measured in tokens — roughly 4 characters per token. Everything counts: your prompts, Claude's responses, file reads, tool outputs, and system instructions.\n\nUnderstanding tokens is key to understanding why some operations are more expensive than others.",
       },
       {
         type: "quiz",
@@ -622,7 +630,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "quiz",
         question:
-          "What settings key lets you auto-approve specific tools?",
+          "What settings key lists tools that run without prompting?",
         options: [
           "autoApprove",
           "allowedTools",
@@ -631,7 +639,7 @@ export const MISSIONS: Mission[] = [
         ],
         correct: 1,
         explanation:
-          "The allowedTools array in settings.json lists tools that Claude Code can run without prompting. You can be granular — even allowing particular Bash commands by pattern.",
+          "The allowedTools array in settings.json lists tools that Claude Code can run without prompting. Note: the key is allowedTools, not autoApprove — it describes what is allowed, not how approval works.",
       },
       {
         type: "command",
@@ -1213,6 +1221,10 @@ export const MISSIONS: Mission[] = [
         correct: 1,
         explanation:
           "Reading entire files floods the context with unnecessary tokens. Use Grep to find specific code sections, then Read only the relevant lines. Surgical reads save significant costs.",
+      },
+      {
+        type: "print",
+        text: "One powerful cost lever: the --model flag. Not every task needs the most capable (and expensive) model. Use --model to select a lighter model for simpler tasks like formatting, documentation, or boilerplate generation.\n\nFor example: claude --model claude-haiku-4-5-20251001 'format this file' uses a faster, cheaper model for a straightforward task.",
       },
       {
         type: "command",
