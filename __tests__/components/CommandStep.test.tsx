@@ -66,7 +66,7 @@ async function flush(ms = 0): Promise<void> {
 // ── Setup / Teardown ────────────────────────────────────────────────
 
 beforeEach(() => {
-  // Only fake setTimeout/setInterval/Date (used by the component for onAnswer delay).
+  // Only fake setTimeout/setInterval/Date.
   // Leave queueMicrotask real so React 19 can flush batched state updates.
   vi.useFakeTimers({
     toFake: ["setTimeout", "clearTimeout", "setInterval", "clearInterval", "Date"],
@@ -144,7 +144,7 @@ describe("CommandStep correct answer", () => {
     expect(instance.lastFrame()).toContain(step.explanation);
   });
 
-  it("calls onAnswer(true) after confirmed delay", async () => {
+  it("calls onAnswer(true) after Enter on result", async () => {
     mockEvaluateAnswer.mockResolvedValue(CORRECT_RESULT);
     const { instance, onAnswer } = renderStep();
 
@@ -153,7 +153,8 @@ describe("CommandStep correct answer", () => {
 
     expect(onAnswer).not.toHaveBeenCalled();
 
-    await flush(600);
+    instance.stdin.write(keys.enter);
+    await delay();
 
     expect(onAnswer).toHaveBeenCalledWith(true);
   });
@@ -211,7 +212,7 @@ describe("CommandStep wrong answer", () => {
     expect(instance.lastFrame()).toContain(step.explanation);
   });
 
-  it("calls onAnswer(false) after compromised delay", async () => {
+  it("calls onAnswer(false) after Enter on result", async () => {
     mockEvaluateAnswer.mockResolvedValue(WRONG_RESULT);
     const { instance, onAnswer } = renderStep();
 
@@ -220,7 +221,8 @@ describe("CommandStep wrong answer", () => {
 
     expect(onAnswer).not.toHaveBeenCalled();
 
-    await flush(800);
+    instance.stdin.write(keys.enter);
+    await delay();
 
     expect(onAnswer).toHaveBeenCalledWith(false);
   });
@@ -432,7 +434,8 @@ describe("CommandStep self-assessment (hasApiKey=false)", () => {
 
     expect(instance.lastFrame()).toContain("CONFIRMED");
 
-    await flush(600);
+    instance.stdin.write(keys.enter);
+    await delay();
     expect(onAnswer).toHaveBeenCalledWith(true);
   });
 
@@ -448,7 +451,8 @@ describe("CommandStep self-assessment (hasApiKey=false)", () => {
 
     expect(instance.lastFrame()).toContain("COMPROMISED");
 
-    await flush(800);
+    instance.stdin.write(keys.enter);
+    await delay();
     expect(onAnswer).toHaveBeenCalledWith(false);
   });
 

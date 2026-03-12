@@ -111,21 +111,27 @@ describe("QuizStep", () => {
     expect(frame).toContain("COMPROMISED");
   });
 
-  it("calls onAnswer with correct: true for right answer", async () => {
+  it("calls onAnswer with correct: true after Enter on result", async () => {
     const { instance, onAnswer } = renderQuiz();
 
     await selectCorrectAnswer(instance);
-    await advance(TIMING.pauseBeforeResult + TIMING.pauseAfterConfirmed);
+    await advance(TIMING.pauseBeforeResult);
+
+    pressKey(instance, keys.enter);
+    await flush();
 
     expect(onAnswer).toHaveBeenCalledOnce();
     expect(onAnswer).toHaveBeenCalledWith(true);
   });
 
-  it("calls onAnswer with correct: false for wrong answer", async () => {
+  it("calls onAnswer with correct: false after Enter on result", async () => {
     const { instance, onAnswer } = renderQuiz();
 
     await selectWrongAnswer(instance);
-    await advance(TIMING.pauseBeforeResult + TIMING.pauseAfterCompromised);
+    await advance(TIMING.pauseBeforeResult);
+
+    pressKey(instance, keys.enter);
+    await flush();
 
     expect(onAnswer).toHaveBeenCalledOnce();
     expect(onAnswer).toHaveBeenCalledWith(false);
@@ -157,12 +163,14 @@ describe("QuizStep", () => {
     await selectWrongAnswer(instance);
 
     // Additional inputs should be ignored during pausing phase
-    pressKey(instance, keys.enter);
     pressKey(instance, keys.arrowDown);
-    pressKey(instance, keys.enter);
     await flush();
 
-    await advance(TIMING.pauseBeforeResult + TIMING.pauseAfterCompromised);
+    await advance(TIMING.pauseBeforeResult);
+
+    // Now in result phase — only one Enter should trigger onAnswer
+    pressKey(instance, keys.enter);
+    await flush();
 
     expect(onAnswer).toHaveBeenCalledOnce();
   });
@@ -231,7 +239,8 @@ describe("QuizStep", () => {
     const frame = instance.lastFrame()!;
     expect(frame).toContain("CONFIRMED");
 
-    await advance(TIMING.pauseAfterConfirmed);
+    pressKey(instance, keys.enter);
+    await flush();
     expect(onAnswer).toHaveBeenCalledWith(true);
   });
 });
