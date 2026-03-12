@@ -41,7 +41,12 @@ const MAX_INPUT_LENGTH = 200;
 
 function getHelpHint(step: CommandStepType): string {
   const answer = step.expectedAnswer;
-  if (answer.length <= 3) return `Intel: the answer is ${answer.length} characters long.`;
+  if (answer.length <= 6) {
+    if (answer.startsWith("/")) {
+      return `Intel: it's a slash command, ${answer.length} characters long.`;
+    }
+    return `Intel: the answer is ${answer.length} characters long.`;
+  }
   const revealed = answer.slice(0, Math.ceil(answer.length / 3));
   return `Intel: the answer starts with "${revealed}..."`;
 }
