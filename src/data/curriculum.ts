@@ -1141,18 +1141,17 @@ export const MISSIONS: Mission[] = [
       {
         type: "command",
         question:
-          "What file should you add to .gitignore to prevent accidentally committing secrets?",
-        expectedAnswer: ".env",
+          "What file can you create to prevent Claude Code from reading sensitive files like .env?",
+        expectedAnswer: ".claudeignore",
         acceptedVariants: [
-          ".env",
-          ".env file",
-          "the .env file",
-          "dotenv",
-          ".env files",
-          ".env*",
+          ".claudeignore",
+          "claudeignore",
+          "a .claudeignore file",
+          "the .claudeignore file",
+          ".claudeignore file",
         ],
         explanation:
-          ".env files store secrets and API keys as environment variables. Always add .env to .gitignore to prevent accidental commits. This is your first line of defense for credential management.",
+          "A .claudeignore file works like .gitignore but for Claude Code — it prevents Claude from reading matched files. Add patterns like .env, *.pem, and secrets/ to keep sensitive data out of your AI sessions entirely.",
       },
       {
         type: "print",

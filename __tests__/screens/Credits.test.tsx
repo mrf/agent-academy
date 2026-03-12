@@ -26,44 +26,76 @@ function renderCredits(
   return Object.assign(inst, { onClose });
 }
 
-describe("Credits", () => {
-  // ── Display phase ───────────────────────────────────────────────
+/** Advance from summary phase to credits phase */
+async function advanceToCredits(inst: RenderResult): Promise<void> {
+  pressKey(inst, keys.enter);
+  await tick(0);
+}
 
-  it("renders DECLASSIFIED header", () => {
+describe("Credits", () => {
+  // ── Summary phase (initial) ───────────────────────────────────────
+
+  it("renders final debrief header on initial load", () => {
     const { lastFrame } = renderCredits();
-    expect(lastFrame()).toContain("DECLASSIFIED");
+    expect(lastFrame()).toContain("FINAL DEBRIEF");
   });
 
-  it("renders personnel file content", () => {
+  it("shows FXP and mission stats in summary phase", () => {
     const { lastFrame } = renderCredits();
     const frame = lastFrame();
+    expect(frame).toContain("TOTAL FXP");
+    expect(frame).toContain("MISSIONS");
+    expect(frame).toContain("STARS");
+  });
+
+  it("shows continue prompt in summary phase", () => {
+    const { lastFrame } = renderCredits();
+    expect(lastFrame()).toContain("Continue to credits");
+  });
+
+  // ── Credits phase (after summary) ────────────────────────────────
+
+  it("renders DECLASSIFIED header after advancing from summary", async () => {
+    const inst = renderCredits();
+    await advanceToCredits(inst);
+    expect(inst.lastFrame()).toContain("DECLASSIFIED");
+  });
+
+  it("renders personnel file content", async () => {
+    const inst = renderCredits();
+    await advanceToCredits(inst);
+    const frame = inst.lastFrame();
     expect(frame).toContain("PERSONNEL FILE");
     expect(frame).toContain("TOP SECRET");
   });
 
-  it("shows project info", () => {
-    const { lastFrame } = renderCredits();
-    const frame = lastFrame();
+  it("shows project info", async () => {
+    const inst = renderCredits();
+    await advanceToCredits(inst);
+    const frame = inst.lastFrame();
     expect(frame).toContain("Claude Code Academy");
     expect(frame).toContain("Terminal Training Division");
   });
 
-  it("shows developer info", () => {
-    const { lastFrame } = renderCredits();
-    const frame = lastFrame();
+  it("shows developer info", async () => {
+    const inst = renderCredits();
+    await advanceToCredits(inst);
+    const frame = inst.lastFrame();
     expect(frame).toContain("Anthropic");
     expect(frame).toContain("Powered by Claude");
   });
 
-  it("shows dismiss prompt in display phase", () => {
-    const { lastFrame } = renderCredits();
-    expect(lastFrame()).toContain("[ENTER/ESC] Dismiss");
+  it("shows dismiss prompt in credits phase", async () => {
+    const inst = renderCredits();
+    await advanceToCredits(inst);
+    expect(inst.lastFrame()).toContain("[ENTER/ESC] Dismiss");
   });
 
   // ── Self-destruct countdown ─────────────────────────────────────
 
-  it("enters destruct phase on enter key", async () => {
+  it("enters destruct phase on enter key from credits", async () => {
     const inst = renderCredits();
+    await advanceToCredits(inst);
 
     pressKey(inst, keys.enter);
     await tick(0);
@@ -71,8 +103,9 @@ describe("Credits", () => {
     expect(inst.lastFrame()).toContain("self-destruct in 3");
   });
 
-  it("enters destruct phase on escape key", async () => {
+  it("enters destruct phase on escape key from credits", async () => {
     const inst = renderCredits();
+    await advanceToCredits(inst);
 
     pressKey(inst, keys.escape);
     await tick(0);
@@ -82,6 +115,7 @@ describe("Credits", () => {
 
   it("does not enter destruct phase on other keys", async () => {
     const inst = renderCredits();
+    await advanceToCredits(inst);
 
     pressKey(inst, "a");
     await tick(0);
@@ -92,6 +126,7 @@ describe("Credits", () => {
 
   it("counts down from 3 to 1", async () => {
     const inst = renderCredits();
+    await advanceToCredits(inst);
 
     pressKey(inst, keys.enter);
     await tick(0);
@@ -108,6 +143,7 @@ describe("Credits", () => {
 
   it("enters wipe phase after countdown reaches 0", async () => {
     const inst = renderCredits();
+    await advanceToCredits(inst);
 
     pressKey(inst, keys.enter);
     await tick(0);
@@ -126,6 +162,7 @@ describe("Credits", () => {
   it("calls onClose after wipe animation completes", async () => {
     const onClose = vi.fn();
     const inst = renderCredits(onClose);
+    await advanceToCredits(inst);
 
     pressKey(inst, keys.enter);
     await tick(0);
@@ -149,6 +186,7 @@ describe("Credits", () => {
   it("does not call onClose before sequence completes", async () => {
     const onClose = vi.fn();
     const inst = renderCredits(onClose);
+    await advanceToCredits(inst);
 
     pressKey(inst, keys.enter);
     await tick(0);
@@ -160,13 +198,20 @@ describe("Credits", () => {
 
   // ── Cleanup ─────────────────────────────────────────────────────
 
-  it("unmounts cleanly during display phase", () => {
+  it("unmounts cleanly during summary phase", () => {
     const inst = renderCredits();
+    expect(() => inst.unmount()).not.toThrow();
+  });
+
+  it("unmounts cleanly during credits phase", async () => {
+    const inst = renderCredits();
+    await advanceToCredits(inst);
     expect(() => inst.unmount()).not.toThrow();
   });
 
   it("unmounts cleanly during destruct phase", async () => {
     const inst = renderCredits();
+    await advanceToCredits(inst);
 
     pressKey(inst, keys.enter);
     await tick(400);
