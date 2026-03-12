@@ -24,7 +24,7 @@ function normalize(s: string): string {
   return s.trim().toLowerCase().replace(STRIP_PREFIXES, "");
 }
 
-function localMatch(input: string, variants: string[]): Evaluation {
+export function localMatch(input: string, variants: string[]): Evaluation {
   const norm = normalize(input);
   const matched = variants.some((v) => normalize(v) === norm);
   return matched

@@ -4,12 +4,14 @@ import { renderInk, cleanup, keys } from "../helpers/render-ink.js";
 import { createCommandStep } from "../helpers/mock-missions.js";
 import type { RenderResult } from "../helpers/render-ink.js";
 
-// ── Mock evaluateAnswer ─────────────────────────────────────────────
+// ── Mock evaluator ──────────────────────────────────────────────────
 
 const mockEvaluateAnswer = vi.fn();
+const mockLocalMatch = vi.fn();
 
 vi.mock("../../src/ai/evaluator.js", () => ({
   evaluateAnswer: (...args: unknown[]) => mockEvaluateAnswer(...args),
+  localMatch: (...args: unknown[]) => mockLocalMatch(...args),
 }));
 
 const { CommandStep } = await import("../../src/components/CommandStep.js");
@@ -21,12 +23,17 @@ const WRONG_RESULT = { correct: false, feedback: "Incorrect.", score: 0 };
 
 function renderStep(
   overrides?: Parameters<typeof createCommandStep>[0],
-  options?: { isFocused?: boolean },
+  options?: { isFocused?: boolean; hasApiKey?: boolean },
 ) {
   const step = createCommandStep(overrides);
   const onAnswer = vi.fn();
   const instance = renderInk(
-    <CommandStep step={step} onAnswer={onAnswer} isFocused={options?.isFocused ?? true} />,
+    <CommandStep
+      step={step}
+      onAnswer={onAnswer}
+      isFocused={options?.isFocused ?? true}
+      hasApiKey={options?.hasApiKey ?? true}
+    />,
   );
   return { instance, step, onAnswer };
 }
@@ -64,7 +71,8 @@ beforeEach(() => {
   vi.useFakeTimers({
     toFake: ["setTimeout", "clearTimeout", "setInterval", "clearInterval", "Date"],
   });
-  mockEvaluateAnswer.mockReset();
+  mockEvaluateAnswer.mockReset().mockResolvedValue(WRONG_RESULT);
+  mockLocalMatch.mockReset().mockReturnValue(WRONG_RESULT);
 });
 
 afterEach(() => {
@@ -371,5 +379,89 @@ describe("CommandStep input behavior", () => {
 
     resolveEval!({ correct: true, feedback: "OK", score: 100 });
     await flush();
+  });
+});
+
+// ── Self-assessment (no API key) ────────────────────────────────────
+
+describe("CommandStep self-assessment (hasApiKey=false)", () => {
+  it("uses localMatch instead of evaluateAnswer", async () => {
+    mockLocalMatch.mockReturnValue(CORRECT_RESULT);
+    const { instance } = renderStep(undefined, { hasApiKey: false });
+
+    await submitAnswer(instance, "ls");
+    await flush();
+
+    expect(mockLocalMatch).toHaveBeenCalled();
+    expect(mockEvaluateAnswer).not.toHaveBeenCalled();
+  });
+
+  it("shows CONFIRMED on local match success", async () => {
+    mockLocalMatch.mockReturnValue(CORRECT_RESULT);
+    const { instance } = renderStep(undefined, { hasApiKey: false });
+
+    await submitAnswer(instance, "ls");
+    await flush();
+
+    expect(instance.lastFrame()).toContain("CONFIRMED");
+  });
+
+  it("shows self-assess prompt when local match fails", async () => {
+    mockLocalMatch.mockReturnValue(WRONG_RESULT);
+    const { instance } = renderStep(undefined, { hasApiKey: false });
+
+    await submitAnswer(instance, "list files");
+    await flush();
+
+    const frame = instance.lastFrame();
+    expect(frame).toContain("Comms are down, agent");
+    expect(frame).toContain("Did your answer match?");
+    expect(frame).toContain("list files");
+    expect(frame).toContain("ls");
+  });
+
+  it("treats Y as correct in self-assessment", async () => {
+    mockLocalMatch.mockReturnValue(WRONG_RESULT);
+    const { instance, onAnswer } = renderStep(undefined, { hasApiKey: false });
+
+    await submitAnswer(instance, "list files");
+    await flush();
+
+    instance.stdin.write("y");
+    await flush();
+
+    expect(instance.lastFrame()).toContain("CONFIRMED");
+
+    await flush(600);
+    expect(onAnswer).toHaveBeenCalledWith(true);
+  });
+
+  it("treats N as incorrect in self-assessment", async () => {
+    mockLocalMatch.mockReturnValue(WRONG_RESULT);
+    const { instance, onAnswer } = renderStep(undefined, { hasApiKey: false });
+
+    await submitAnswer(instance, "list files");
+    await flush();
+
+    instance.stdin.write("n");
+    await flush();
+
+    expect(instance.lastFrame()).toContain("COMPROMISED");
+
+    await flush(800);
+    expect(onAnswer).toHaveBeenCalledWith(false);
+  });
+
+  it("ignores non-Y/N keys during self-assessment", async () => {
+    mockLocalMatch.mockReturnValue(WRONG_RESULT);
+    const { instance } = renderStep(undefined, { hasApiKey: false });
+
+    await submitAnswer(instance, "list files");
+    await flush();
+
+    instance.stdin.write("x");
+    await flush();
+
+    expect(instance.lastFrame()).toContain("Did your answer match?");
   });
 });
