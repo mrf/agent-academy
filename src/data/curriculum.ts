@@ -41,14 +41,14 @@ export const MISSIONS: Mission[] = [
         type: "quiz",
         question: "Which of these can Claude Code do directly?",
         options: [
-          "Deploy to production servers",
+          "Access and modify files on remote servers",
           "Read files and edit code in your project",
-          "Replace your entire development team",
-          "Write code only in JavaScript",
+          "Automatically fix all bugs without review",
+          "Run code in a sandboxed browser environment",
         ],
         correct: 1,
         explanation:
-          "Claude Code can read, write, and edit files in your project, run commands, and search your codebase. It works with any programming language.",
+          "Claude Code can read, write, and edit files in your local project, run commands, and search your codebase. It works within your local environment with your permission.",
       },
       {
         type: "print",
@@ -358,7 +358,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Slash commands give you direct control over the session:\n\n- /help — show available commands\n- /context — display token usage and context window status\n- /compact — manually compress conversation history\n- /clear — reset conversation, start fresh\n- /config — view or modify settings\n- /doctor — diagnose common issues",
+        text: "Slash commands give you direct control over the session:\n\n- /context — display token usage and context window status\n- /compact — manually compress conversation history\n- /clear — reset conversation, start fresh\n- /config — view or modify settings\n- /doctor — diagnose common issues\n\nTip: type /help at any time to see all available commands.",
         speed: "fast",
       },
       {
@@ -407,6 +407,19 @@ export const MISSIONS: Mission[] = [
           "/clear resets your conversation history, giving you a fresh context window. Useful when switching between unrelated tasks.",
       },
       {
+        type: "quiz",
+        question: "What does the /config command let you do?",
+        options: [
+          "Configure your terminal color scheme",
+          "View or modify Claude Code settings",
+          "Set up a new project from a template",
+          "Edit your shell configuration files",
+        ],
+        correct: 1,
+        explanation:
+          "/config lets you view and modify Claude Code's settings, including permission modes, preferred model, and other options.",
+      },
+      {
         type: "print",
         text: "Signal chain established. You know how conversations flow, which slash commands control your session, and how to write prompts that get results.\n\nNext up: the most critical resource management skill — your context window.",
       },
@@ -434,7 +447,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Why does the context window fill up? Every interaction adds to it. Your messages, Claude's responses, file contents from Read operations, command outputs, even system instructions — it all consumes space.\n\nWhen the context window is full, older information gets compressed or dropped entirely. Claude loses access to earlier parts of the conversation. Performance degrades. Responses become less accurate.",
+        text: "Why does the context window fill up? Every interaction adds to it. Your messages, Claude's responses, file contents from Read operations, command outputs, even system instructions — it all consumes space.\n\nWhen the context window fills up, Claude Code automatically summarizes older messages to make room. Key information is preserved, but the full detail of earlier exchanges is lost. Without that summarization, Claude loses track of the conversation entirely and responses become less accurate.",
       },
       {
         type: "print",
