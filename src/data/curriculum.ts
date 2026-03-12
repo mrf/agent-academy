@@ -89,14 +89,9 @@ export const MISSIONS: Mission[] = [
     ],
     steps: [
       {
-        type: "print",
-        text: "Before you can operate in the field, you need your equipment. Claude Code runs natively on macOS, Linux, and Windows via WSL2 with zero dependencies.",
-        speed: "normal",
-      },
-      {
         type: "quiz",
         question:
-          "What external runtime does the native Claude Code installer require?",
+          "Quick field check before we gear up — what external runtime does the native Claude Code installer require?",
         options: [
           "Node.js 18 or higher",
           "Python 3.10 or higher",
@@ -106,6 +101,11 @@ export const MISSIONS: Mission[] = [
         correct: 2,
         explanation:
           "The native Claude Code installer requires no external runtime. It downloads a self-contained binary — no Node.js, Python, or other dependencies needed.",
+      },
+      {
+        type: "print",
+        text: "Good instincts. Before you can operate in the field, you need your equipment. Claude Code runs natively on macOS, Linux, and Windows via WSL2 with zero dependencies.",
+        speed: "normal",
       },
       {
         type: "print",
@@ -177,7 +177,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "The Edit tool is Claude Code's precision instrument. It uses str_replace to swap specific text in a file. There's one critical rule: the old_str you're replacing must appear exactly once in the file.\n\nIf old_str matches zero times or more than once, the edit fails. This is a safety feature — it forces precision and prevents accidental changes to the wrong location.",
+        text: "The Edit tool is Claude Code's precision instrument — the scalpel in your field kit. It uses str_replace to swap specific text in a file. There's one critical rule: the old_str you're replacing must appear exactly once in the file.\n\nIf old_str matches zero times or more than once, the edit fails. This is a safety feature — it forces precision and prevents accidental changes to the wrong location.",
       },
       {
         type: "quiz",
@@ -209,7 +209,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Claude Code prefers dedicated tools over Bash equivalents. Use Read instead of cat, Glob instead of find, and Grep instead of grep. Save Bash for commands with no dedicated equivalent.",
+        text: "Standard operating procedure: Claude Code prefers dedicated tools over Bash equivalents. Use Read instead of cat, Glob instead of find, and Grep instead of grep. Save Bash for commands with no dedicated equivalent.",
       },
       {
         type: "quiz",
@@ -297,7 +297,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "What goes in a good CLAUDE.md? Keep it actionable and concise:\n\n- Tech stack and language versions\n- Coding conventions (naming, formatting, patterns)\n- Testing requirements and commands\n- Architecture decisions and constraints\n- Workflow rules (commit style, branch naming)\n\nAvoid lengthy prose. Claude Code works best with clear, direct instructions.",
+        text: "What intel goes into a solid CLAUDE.md? Keep it actionable and concise — orders, not essays:\n\n- Tech stack and language versions\n- Coding conventions (naming, formatting, patterns)\n- Testing requirements and commands\n- Architecture decisions and constraints\n- Workflow rules (commit style, branch naming)\n\nAvoid lengthy prose. Claude Code works best with clear, direct instructions.",
         speed: "fast",
       },
       {
@@ -340,7 +340,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "A Claude Code conversation is multi-turn. You type a prompt, Claude reads files, runs commands, and responds. Each exchange builds on the previous context.\n\nClaude Code doesn't just answer questions — it takes action. A single prompt might trigger multiple tool calls: reading files, searching code, editing files, and running tests.",
+        text: "A Claude Code conversation is multi-turn — think of it as an ongoing radio exchange. You transmit a prompt, Claude reads files, runs commands, and responds. Each exchange builds on the previous context.\n\nClaude Code doesn't just answer questions — it takes action. A single prompt might trigger multiple tool calls: reading files, searching code, editing files, and running tests.",
       },
       {
         type: "quiz",
@@ -390,7 +390,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Effective prompting makes the difference between a good session and a great one. Be specific about what you want. Reference file paths directly. Describe the desired outcome, not just the problem.\n\nBad: 'fix the bug'\nGood: 'The login function in src/auth.ts throws on empty passwords. Add validation before the API call.'",
+        text: "Effective prompting is the difference between a clean op and a messy one. Be specific about what you want. Reference file paths directly. Describe the desired outcome, not just the problem.\n\nBad: 'fix the bug'\nGood: 'The login function in src/auth.ts throws on empty passwords. Add validation before the API call.'",
       },
       {
         type: "command",
@@ -447,7 +447,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Why does the context window fill up? Every interaction adds to it. Your messages, Claude's responses, file contents from Read operations, command outputs, even system instructions — it all consumes space.\n\nWhen the context window fills up, Claude Code automatically summarizes older messages to make room. Key information is preserved, but the full detail of earlier exchanges is lost. Without that summarization, Claude loses track of the conversation entirely and responses become less accurate.",
+        text: "Here's where operatives get careless. Every interaction adds to the context window. Your messages, Claude's responses, file contents from Read operations, command outputs, even system instructions — it all consumes space.\n\nWhen the context window fills up, Claude Code automatically summarizes older messages to make room. Key information is preserved, but the full detail of earlier exchanges is lost. Without that summarization, Claude loses track of the conversation entirely and responses become less accurate.",
       },
       {
         type: "print",
@@ -472,7 +472,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "What fills your context fastest? Large file reads are the biggest consumer. Reading a 1000-line file dumps all those lines into context. Long command outputs from Bash are another common culprit.\n\nClaude Code tries to read only what's needed — but awareness of context consumption is your responsibility too.",
+        text: "What burns through your context fastest? Large file reads are the biggest consumer. Reading a 1000-line file dumps all those lines into context. Long command outputs from Bash are another common culprit.\n\nClaude Code tries to read only what's needed — but awareness of context consumption is your responsibility too.",
       },
       {
         type: "quiz",
@@ -504,11 +504,11 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Context compaction isn't just manual. Claude Code automatically compacts when the conversation approaches the context limit. But proactive management is always better than reactive recovery.",
+        text: "Context compaction isn't just manual. Claude Code automatically compacts when the conversation approaches the context limit. But a good operative manages proactively — don't wait for the alarm to go off.",
       },
       {
         type: "print",
-        text: "Strategies for lean context management:\n\n- Read specific line ranges instead of entire files when possible\n- Use Grep to find relevant code instead of reading everything\n- Keep prompts focused — one task per conversation works best\n- Use /compact before switching tasks in the same session\n- Start fresh with /clear when changing projects entirely",
+        text: "Field-tested strategies for lean context management:\n\n- Read specific line ranges instead of entire files when possible\n- Use Grep to find relevant code instead of reading everything\n- Keep prompts focused — one task per conversation works best\n- Use /compact before switching tasks in the same session\n- Start fresh with /clear when changing projects entirely",
         speed: "fast",
       },
       {
@@ -561,17 +561,9 @@ export const MISSIONS: Mission[] = [
     ],
     steps: [
       {
-        type: "print",
-        text: "Security is non-negotiable. Claude Code can read your files, run commands, and modify your codebase. That power requires safeguards.\n\nThis mission covers the iron curtain — the permission system that keeps you in control.",
-        speed: "normal",
-      },
-      {
-        type: "print",
-        text: "By default, Claude Code operates on an ask-first basis. Before running a tool — reading a file, executing a command, editing code — it requests your approval.\n\nYou can approve or deny each action individually. This is the safest mode and the default for good reason.",
-      },
-      {
         type: "quiz",
-        question: "What is Claude Code's default permission behavior?",
+        question:
+          "Trust check, operative. What do you think Claude Code's default permission behavior is?",
         options: [
           "It runs all tools automatically",
           "It asks for approval before each tool use",
@@ -581,6 +573,15 @@ export const MISSIONS: Mission[] = [
         correct: 1,
         explanation:
           "By default, Claude Code asks for your approval before each tool use. This gives you full visibility and control over what actions it takes.",
+      },
+      {
+        type: "print",
+        text: "Security is non-negotiable. Claude Code can read your files, run commands, and modify your codebase. That power requires safeguards.\n\nThis mission covers the iron curtain — the permission system that keeps you in control.",
+        speed: "normal",
+      },
+      {
+        type: "print",
+        text: "As you just identified, Claude Code operates on an ask-first basis by default. Before running a tool — reading a file, executing a command, editing code — it requests your approval.\n\nYou can approve or deny each action individually. This is the safest mode and the default for good reason.",
       },
       {
         type: "print",
@@ -679,7 +680,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Headless mode lets you run Claude Code non-interactively. Instead of starting a conversation, you pass a prompt directly and get a result back.\n\nThis is the foundation for scripting, automation, and CI/CD integration.",
+        text: "Headless mode is your sleeper agent. It runs Claude Code non-interactively — pass a prompt, get a result, no conversation needed.\n\nThis is the foundation for scripting, automation, and CI/CD integration.",
       },
       {
         type: "quiz",
@@ -734,7 +735,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "The Agent tool spawns subagents — independent Claude instances that handle subtasks in parallel. Need to search a large codebase, analyze multiple files, or explore complex architecture? Subagents divide and conquer.\n\nThey get their own context windows, keeping the main conversation clean and focused.",
+        text: "The Agent tool deploys subagents — independent operatives that handle subtasks in parallel. Need to search a large codebase, analyze multiple files, or explore complex architecture? Subagents divide and conquer.\n\nThey get their own context windows, keeping the main conversation clean and focused.",
       },
       {
         type: "quiz",
@@ -751,7 +752,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Hooks are shell commands that execute in response to Claude Code events. You can configure hooks that run before or after specific tool calls — like running a linter after every Edit, or logging Bash commands for audit trails.\n\nHooks are configured in your settings file under the 'hooks' key.",
+        text: "Hooks are your tripwires — shell commands that trigger in response to Claude Code events. You can configure hooks that run before or after specific tool calls — like running a linter after every Edit, or logging Bash commands for audit trails.\n\nHooks are configured in your settings file under the 'hooks' key.",
       },
       {
         type: "command",
@@ -824,7 +825,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Claude Code excels at multi-file edits. When you ask it to rename a function, add a new feature, or refactor a module, it traces dependencies across your project. It reads imports, follows type definitions, and updates every file that needs to change.\n\nThe key: describe the outcome you want, not every individual edit. Claude Code plans the operation, then executes it file by file.",
+        text: "Claude Code excels at coordinated multi-file ops. When you ask it to rename a function, add a new feature, or refactor a module, it traces dependencies across your project. It reads imports, follows type definitions, and updates every file that needs to change.\n\nThe key: describe the outcome you want, not every individual edit. Claude Code plans the operation, then executes it file by file.",
       },
       {
         type: "quiz",
@@ -842,7 +843,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Git integration is built into Claude Code's DNA. It can stage files, create commits with meaningful messages, check diffs, view logs, and manage branches — all through the Bash tool.\n\nBut there's a discipline here: Claude Code should create commits, not push them. Pushing to remotes is your call, not the agent's.",
+        text: "Git integration is part of the operative's core training. Claude Code can stage files, create commits with meaningful messages, check diffs, view logs, and manage branches — all through the Bash tool.\n\nBut there's a discipline here: Claude Code should create commits, not push them. Pushing to remotes is your call, not the agent's.",
       },
       {
         type: "quiz",
@@ -874,7 +875,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Test-driven development with Claude Code follows a powerful pattern:\n\n1. Describe the behavior you want\n2. Ask Claude to write the tests first\n3. Run the tests — watch them fail\n4. Ask Claude to write the implementation\n5. Run the tests again — watch them pass\n\nClaude Code handles the full red-green-refactor cycle. It writes tests, implements code, runs the suite, and iterates until everything passes.",
+        text: "Test-driven development with Claude Code follows a disciplined protocol:\n\n1. Describe the behavior you want\n2. Ask Claude to write the tests first\n3. Run the tests — watch them fail\n4. Ask Claude to write the implementation\n5. Run the tests again — watch them pass\n\nClaude Code handles the full red-green-refactor cycle. It writes tests, implements code, runs the suite, and iterates until everything passes.",
       },
       {
         type: "quiz",
@@ -906,7 +907,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "For large codebases, Claude Code uses a search-then-read strategy. It doesn't read every file upfront. Instead, it uses Glob and Grep to locate relevant files, reads only what it needs, and builds a mental map of the architecture.\n\nThis is why well-organized codebases with clear naming conventions work best with Claude Code — they're easier to search.",
+        text: "For large codebases, Claude Code uses a recon-then-read strategy. It doesn't read every file upfront. Instead, it uses Glob and Grep to scout for relevant files, reads only what it needs, and builds a mental map of the architecture.\n\nThis is why well-organized codebases with clear naming conventions work best with Claude Code — they're easier to search.",
       },
       {
         type: "command",
@@ -968,7 +969,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Layering is where CLAUDE.md gets powerful. Your user-level file sets personal defaults — preferred test runner, commit style, communication tone.\n\nProject-level files add repo-specific rules. When both are loaded, project context naturally takes precedence for project work. The result: consistent personal style plus project-specific rules, with zero manual switching.",
+        text: "Layering instructions gives you operational flexibility. Your user-level CLAUDE.md (~/.claude/CLAUDE.md) sets personal defaults — your preferred test runner, commit style, communication preferences.\n\nProject-level CLAUDE.md files override or extend these defaults for each repository. The result: consistent personal style plus project-specific rules.",
       },
       {
         type: "quiz",
@@ -1004,7 +1005,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "You can shape Claude Code's communication style directly in CLAUDE.md. Want terse responses? Add 'Be concise — no preamble, no filler.' Want detailed explanations? Say so.\n\nYou can also set behavioral rules: 'Always run tests after editing code.' 'Never modify files in the vendor/ directory.' 'Use functional patterns, avoid classes.'",
+        text: "You can shape your operative's communication style directly in CLAUDE.md. Want terse responses? Add 'Be concise — no preamble, no filler.' Want detailed explanations? Say so.\n\nYou can also set behavioral rules: 'Always run tests after editing code.' 'Never modify files in the vendor/ directory.' 'Use functional patterns, avoid classes.'",
       },
       {
         type: "ai",
@@ -1191,7 +1192,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "CI/CD integration is where headless mode shines. Common patterns:\n\n- Automated code review on pull requests\n- Generating changelogs from git history\n- Creating and updating documentation\n- Running security audits on changed files\n- Translating or localizing content\n\nThe recipe: claude -p 'your prompt' --output-format json in a CI script, with --dangerously-skip-permissions since there's no human to approve.",
+        text: "CI/CD integration is where your sleeper agent shines. Common deployment patterns:\n\n- Automated code review on pull requests\n- Generating changelogs from git history\n- Creating and updating documentation\n- Running security audits on changed files\n- Translating or localizing content\n\nThe recipe: claude -p 'your prompt' --output-format json in a CI script, with --dangerously-skip-permissions since there's no human to approve.",
       },
       {
         type: "quiz",
@@ -1209,7 +1210,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Cost optimization starts with understanding what costs money. Every token — input and output — has a price. Large file reads, verbose prompts, and long conversations all drive costs up.\n\nKey strategies:\n- Use /compact proactively to reduce context size\n- Prefer Grep over Read for finding specific code\n- Start fresh sessions for unrelated tasks\n- Use --max-turns to bound automated workflows\n- Choose the right model tier for each task",
+        text: "Resource management is critical for any sustained operation. Every token — input and output — has a price. Large file reads, verbose prompts, and long conversations all drive costs up.\n\nKey strategies:\n- Use /compact proactively to reduce context size\n- Prefer Grep over Read for finding specific code\n- Start fresh sessions for unrelated tasks\n- Use --max-turns to bound automated workflows\n- Choose the right model tier for each task",
       },
       {
         type: "quiz",
@@ -1227,7 +1228,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "One powerful cost lever: the --model flag. Not every task needs the most capable (and expensive) model. Use --model to select a lighter model for simpler tasks like formatting, documentation, or boilerplate generation.\n\nFor example: claude --model claude-haiku-4-5-20251001 'format this file' uses a faster, cheaper model for a straightforward task.",
+        text: "One powerful lever in your arsenal: the --model flag. Not every task needs the most capable (and expensive) model. Use --model to select a lighter model for simpler tasks like formatting, documentation, or boilerplate generation.\n\nFor example: claude --model claude-haiku-4-5-20251001 'format this file' uses a faster, cheaper model for a straightforward task.",
       },
       {
         type: "command",
@@ -1246,7 +1247,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Team workflows require shared conventions. Establish these in your project-level CLAUDE.md:\n\n- Commit message format and conventions\n- Test requirements (what must pass before committing)\n- Code review standards (what Claude should check)\n- File organization rules\n- Naming conventions for branches, variables, files\n\nWhen every developer's Claude Code reads the same CLAUDE.md, the whole team produces consistent output.",
+        text: "Team deployments require shared conventions — everyone reading from the same playbook. Establish these in your project-level CLAUDE.md:\n\n- Commit message format and conventions\n- Test requirements (what must pass before committing)\n- Code review standards (what Claude should check)\n- File organization rules\n- Naming conventions for branches, variables, files\n\nWhen every developer's Claude Code reads the same CLAUDE.md, the whole team produces consistent output.",
       },
       {
         type: "quiz",
@@ -1269,7 +1270,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Multi-agent patterns unlock the highest level of productivity. Use git worktrees to run parallel Claude Code sessions — each in its own branch, working on independent features simultaneously.\n\nThe pattern: one 'coordinator' session that creates tasks, and multiple 'worker' sessions that execute them. Merge results back to main when each worker completes.",
+        text: "Multi-agent patterns are the pinnacle of field operations. Use git worktrees to deploy parallel Claude Code sessions — each in its own branch, working on independent objectives simultaneously.\n\nThe pattern: one 'coordinator' session that creates tasks, and multiple 'worker' sessions that execute them. Merge results back to main when each worker completes.",
         speed: "fast",
       },
       {
