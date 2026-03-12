@@ -6,6 +6,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-01",
     codename: "FIRST CONTACT",
     title: "What Is Claude Code?",
+    briefing:
+      "Your orientation begins here. Learn what makes this tool different from every AI assistant you've used before.",
     objectives: [
       "Understand what Claude Code is and how it works",
       "Know how it differs from chat-based AI assistants",
@@ -78,6 +80,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-02",
     codename: "DEAD DROP",
     title: "Installation & Setup",
+    briefing:
+      "Time to pick up your equipment. One command, two auth methods, zero excuses.",
     objectives: [
       "Know the prerequisites for running Claude Code",
       "Install Claude Code correctly",
@@ -91,20 +95,25 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Prerequisites are minimal. You need Node.js version 18 or higher and npm (which comes bundled with Node.js). Claude Code runs on macOS, Linux, and Windows via WSL2.\n\nIf you're unsure about your Node version, run: node --version",
+        text: "System requirements are light. Claude Code runs natively on macOS, Linux, and Windows via WSL2 — no Node.js or other runtime needed.\n\nThe native installer handles everything in one step.",
       },
       {
         type: "quiz",
         question:
-          "What is the minimum Node.js version required for Claude Code?",
-        options: ["Node.js 14", "Node.js 16", "Node.js 18", "Node.js 20"],
+          "What external runtime does the native Claude Code installer require?",
+        options: [
+          "Node.js 18 or higher",
+          "Python 3.10 or higher",
+          "None — it installs with zero dependencies",
+          "Docker",
+        ],
         correct: 2,
         explanation:
-          "Claude Code requires Node.js 18 or higher. Run 'node --version' to check your current version.",
+          "The native Claude Code installer requires no external runtime. It downloads a self-contained binary — no Node.js, Python, or other dependencies needed.",
       },
       {
         type: "print",
-        text: "Installation is a single npm command. Once installed globally, you authenticate with 'claude login' which opens a secure browser-based flow.\n\nAlternatively, set the ANTHROPIC_API_KEY environment variable directly. Either method works — choose what fits your workflow.",
+        text: "Installation is a single curl command:\n\ncurl -fsSL https://claude.ai/install.sh | bash\n\nOnce installed, you authenticate with 'claude login' which opens a secure browser-based flow. Alternatively, set the ANTHROPIC_API_KEY environment variable directly. Either method works — choose what fits your workflow.",
       },
       {
         type: "quiz",
@@ -121,16 +130,16 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "quiz",
-        question: "Which command installs Claude Code globally?",
+        question: "Which command installs Claude Code?",
         options: [
-          "npm install @anthropic-ai/claude-code",
-          "npm install -g @anthropic-ai/claude-code",
-          "npx @anthropic-ai/claude-code",
           "brew install claude-code",
+          "curl -fsSL https://claude.ai/install.sh | bash",
+          "pip install claude-code",
+          "apt-get install claude-code",
         ],
         correct: 1,
         explanation:
-          "'npm install -g @anthropic-ai/claude-code' installs Claude Code globally, making the 'claude' command available everywhere. The -g flag is key — without it, the command won't be available system-wide.",
+          "The official installation method is: curl -fsSL https://claude.ai/install.sh | bash. This downloads and installs Claude Code with no additional dependencies required.",
       },
       {
         type: "print",
@@ -144,6 +153,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-03",
     codename: "BRASS COMPASS",
     title: "Tools of the Trade",
+    briefing:
+      "Six core tools. Each one purpose-built for a specific operation. Know when to deploy which.",
     objectives: [
       "Identify Claude Code's core built-in tools",
       "Understand how the Edit tool works with str_replace",
@@ -235,6 +246,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-04",
     codename: "PHANTOM PROTOCOL",
     title: "The CLAUDE.md File",
+    briefing:
+      "Standing orders that persist across sessions. Learn the configuration file that shapes every interaction.",
     objectives: [
       "Understand CLAUDE.md's purpose and function",
       "Know where CLAUDE.md files can be placed",
@@ -329,6 +342,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-05",
     codename: "SIGNAL CHAIN",
     title: "Conversation Flow",
+    briefing:
+      "How you talk to the agent — and how it talks back. Master the communication protocol.",
     objectives: [
       "Understand how conversations with Claude Code work",
       "Use slash commands effectively",
@@ -420,6 +435,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-06",
     codename: "GLASS HIGHWAY",
     title: "Context Window Management",
+    briefing:
+      "The context window has limits. Fill it carelessly and you lose critical intel. Learn to manage it.",
     objectives: [
       "Understand what the context window is and how it works",
       "Know what fills up context and how to monitor it",
@@ -530,6 +547,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-07",
     codename: "IRON CURTAIN",
     title: "Permissions & Safety",
+    briefing:
+      "Power without safeguards is a liability. Learn the permission system that keeps you in control.",
     objectives: [
       "Understand Claude Code's permission system",
       "Know the different permission modes",
@@ -640,6 +659,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-08",
     codename: "DEEP COVER",
     title: "Advanced Workflows",
+    briefing:
+      "Basic training is over. Headless mode, piping, hooks, and subagents await.",
     objectives: [
       "Use Claude Code in non-interactive headless mode",
       "Understand piping and scripting patterns",
@@ -784,6 +805,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-09",
     codename: "DOUBLE AGENT",
     title: "Multi-File Operations & Git",
+    briefing:
+      "Real codebases span hundreds of files. Learn to coordinate changes that ripple across all of them.",
     objectives: [
       "Coordinate edits across multiple files in a single session",
       "Use Claude Code for git operations and commit workflows",
@@ -899,6 +922,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-10",
     codename: "LEGEND BUILDER",
     title: "Custom Instructions & Project Context",
+    briefing:
+      "Craft a legend — project-specific instructions that make the agent an expert in your codebase.",
     objectives: [
       "Write effective CLAUDE.md files for different project types",
       "Layer user-level and project-level instructions",
@@ -1020,6 +1045,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-11",
     codename: "BURNED NOTICE",
     title: "Security & Safety",
+    briefing:
+      "Threats come from unexpected directions. Prompt injection, trust boundaries, and credential hygiene.",
     objectives: [
       "Recognize and defend against prompt injection attacks",
       "Use Claude Code for security-focused code review",
@@ -1068,21 +1095,16 @@ export const MISSIONS: Mission[] = [
           "Untrusted repositories may contain files with embedded prompt injections — in READMEs, config files, comments, or even variable names. Review suspicious content before letting Claude Code process it.",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
           "What should you NEVER put in a CLAUDE.md or commit to version control?",
-        expectedAnswer: "API keys",
-        acceptedVariants: [
-          "API keys",
-          "secrets",
-          "passwords",
-          "credentials",
-          "api keys and secrets",
-          "sensitive data",
-          "tokens",
-          "API keys and passwords",
-          "secret keys",
+        options: [
+          "Coding conventions and style rules",
+          "API keys and secrets",
+          "Architecture decisions",
+          "Test commands and build instructions",
         ],
+        correct: 1,
         explanation:
           "Never commit secrets, API keys, passwords, or credentials to version control — including CLAUDE.md. Use environment variables and .env files (gitignored) instead.",
       },
@@ -1142,6 +1164,8 @@ export const MISSIONS: Mission[] = [
     id: "mission-12",
     codename: "CONTROL TOWER",
     title: "Production Patterns & Team Workflows",
+    briefing:
+      "From solo operative to team commander. Scale Claude Code across pipelines, teams, and production.",
     objectives: [
       "Integrate Claude Code into CI/CD pipelines",
       "Optimize token usage and control costs",
