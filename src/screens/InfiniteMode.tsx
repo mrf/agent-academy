@@ -157,15 +157,15 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
     (isCorrect: boolean) => {
       const newTotal = total + 1;
       const newCorrect = correct + (isCorrect ? 1 : 0);
-      const fxp = isCorrect ? FXP_PER_CORRECT : 0;
+      const newFxpEarned = fxpEarned + (isCorrect ? FXP_PER_CORRECT : 0);
       setTotal(newTotal);
       setCorrect(newCorrect);
-      setFxpEarned((prev) => prev + fxp);
+      setFxpEarned(newFxpEarned);
       setReported(false);
 
       const nextIndex = currentIndex + 1;
       if (nextIndex >= questions.length) {
-        saveInfiniteResult(newCorrect, newTotal, fxpEarned + fxp);
+        saveInfiniteResult(newCorrect, newTotal, newFxpEarned);
         setPhase("summary");
       } else {
         setCurrentIndex(nextIndex);
