@@ -170,7 +170,8 @@ export function Mission({
           setPhase("step");
         }
       }
-    }
+    },
+    { isActive: phase === "waitEnter" || phase === "coverBlown" },
   );
 
   const isFocused = phase === "step";
