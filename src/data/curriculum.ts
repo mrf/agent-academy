@@ -64,6 +64,8 @@ export const MISSIONS: Mission[] = [
           "the claude command",
           "run claude",
           "type claude",
+          "claude code",
+          "npx claude",
         ],
         explanation:
           "Just type 'claude' in your terminal to start an interactive session. Simple as that.",
@@ -201,8 +203,9 @@ export const MISSIONS: Mission[] = [
           "Edit",
           "the Edit tool",
           "str_replace",
-          "Edit tool",
-          "edit",
+          "str_replace_editor",
+          "string replace",
+          "the edit command",
         ],
         explanation:
           "The Edit tool (which uses str_replace under the hood) is Claude Code's primary tool for modifying existing file content.",
@@ -384,6 +387,7 @@ export const MISSIONS: Mission[] = [
           "context",
           "slash context",
           "the /context command",
+          "the context command",
         ],
         explanation:
           "/context displays your current session's token usage and context window status.",
@@ -402,6 +406,8 @@ export const MISSIONS: Mission[] = [
           "clear",
           "slash clear",
           "the /clear command",
+          "the clear command",
+          "/reset",
         ],
         explanation:
           "/clear resets your conversation history, giving you a fresh context window. Useful when switching between unrelated tasks.",
@@ -498,6 +504,9 @@ export const MISSIONS: Mission[] = [
           "compact",
           "slash compact",
           "the /compact command",
+          "the compact command",
+          "/compress",
+          "compaction",
         ],
         explanation:
           "/compact manually triggers summarization of your conversation history, freeing context space while preserving essential information.",
@@ -532,9 +541,10 @@ export const MISSIONS: Mission[] = [
         expectedAnswer: "CLAUDE.md",
         acceptedVariants: [
           "CLAUDE.md",
-          "claude.md",
-          "the CLAUDE.md file",
           "CLAUDE.md file",
+          "claudemd",
+          "claude md file",
+          "claude md",
         ],
         explanation:
           "CLAUDE.md content persists through compaction — it's re-loaded every time. This makes it the ideal place for instructions that must always be available.",
@@ -722,9 +732,13 @@ export const MISSIONS: Mission[] = [
           "-p",
           "--print",
           "the -p flag",
-          "-p flag",
           "claude -p",
           "--print flag",
+          "p",
+          "print",
+          "the print flag",
+          "dash p",
+          "the -p option",
         ],
         explanation:
           "The -p (or --print) flag runs Claude Code in headless mode. Usage: claude -p 'your prompt here'",
@@ -764,6 +778,8 @@ export const MISSIONS: Mission[] = [
           "the hooks key",
           "hooks setting",
           "hooks configuration",
+          "hook",
+          "event hooks",
         ],
         explanation:
           "The 'hooks' key in settings.json configures shell commands that run automatically in response to Claude Code events like tool calls.",
@@ -917,8 +933,9 @@ export const MISSIONS: Mission[] = [
         acceptedVariants: [
           "Grep",
           "the Grep tool",
-          "grep",
-          "Grep tool",
+          "ripgrep",
+          "rg",
+          "the grep command",
         ],
         explanation:
           "The Grep tool searches file contents by pattern. Claude Code uses it to find function definitions, imports, usages, and any text pattern across your project.",
@@ -999,6 +1016,7 @@ export const MISSIONS: Mission[] = [
           "doctor",
           "slash doctor",
           "the /doctor command",
+          "the doctor command",
         ],
         explanation:
           "/doctor runs diagnostics on your Claude Code setup — checking authentication, configuration, environment, and common issues.",
@@ -1041,6 +1059,9 @@ export const MISSIONS: Mission[] = [
           "slash init",
           "the /init command",
           "claude /init",
+          "the init command",
+          "initialize",
+          "initialise",
         ],
         explanation:
           "/init scans your codebase — tech stack, directory structure, conventions — and generates a CLAUDE.md as a starting point you can refine.",
@@ -1156,9 +1177,10 @@ export const MISSIONS: Mission[] = [
         acceptedVariants: [
           ".claudeignore",
           "claudeignore",
-          "a .claudeignore file",
-          "the .claudeignore file",
           ".claudeignore file",
+          "claude ignore",
+          ".claude-ignore",
+          "claudeignore file",
         ],
         explanation:
           "A .claudeignore file works like .gitignore but for Claude Code — it prevents Claude from reading matched files. Add patterns like .env, *.pem, and secrets/ to keep sensitive data out of your AI sessions entirely.",
@@ -1238,8 +1260,11 @@ export const MISSIONS: Mission[] = [
           "--model",
           "model",
           "the --model flag",
-          "--model flag",
           "-m",
+          "the -m flag",
+          "the model flag",
+          "--model option",
+          "-m option",
         ],
         explanation:
           "The --model flag lets you choose a less expensive model for simpler tasks like formatting or documentation, saving costs while reserving the most capable model for complex coding work.",
