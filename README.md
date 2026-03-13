@@ -158,6 +158,8 @@ This unlocks:
 
 Get your key from the [Anthropic Console](https://console.anthropic.com/).
 
+> **Estimated API costs:** The handler and evaluator use Claude Haiku. Quiz generation uses Claude Sonnet. A full 12-mission playthrough typically costs **under $0.15**. Each Infinite Mode round (5 questions) costs roughly **$0.02--$0.03**. Actual costs depend on how often you ask your handler for help.
+
 ## Tech Stack
 
 | Layer | Technology |
