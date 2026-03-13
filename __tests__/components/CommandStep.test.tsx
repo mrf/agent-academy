@@ -42,7 +42,7 @@ function renderStep(
 // React 19 uses queueMicrotask to schedule batch flushes, so a real
 // setTimeout(0) is needed to yield past the microtask queue for renders.
 const realSetTimeout = globalThis.setTimeout;
-function delay(ms = 10): Promise<void> {
+function delay(ms = 30): Promise<void> {
   return new Promise(function (resolve) { realSetTimeout(resolve, ms); });
 }
 
