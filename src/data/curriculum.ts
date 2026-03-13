@@ -516,9 +516,39 @@ export const MISSIONS: Mission[] = [
         text: "Context compaction isn't just manual. Claude Code automatically compacts when the conversation approaches the context limit. But a good operative manages proactively — don't wait for the alarm to go off.",
       },
       {
+        type: "quiz",
+        question:
+          "What happens automatically when your conversation approaches the context window limit?",
+        options: [
+          "Claude Code crashes and you lose your work",
+          "Claude Code summarizes older messages to free space",
+          "Claude Code stops responding until you clear the session",
+          "Claude Code deletes files to reduce context size",
+        ],
+        correct: 1,
+        explanation:
+          "Claude Code automatically compacts by summarizing older messages when approaching the limit. Key information is preserved, but full detail of earlier exchanges is lost.",
+      },
+      {
         type: "print",
         text: "Field-tested strategies for lean context management:\n\n- Read specific line ranges instead of entire files when possible\n- Use Grep to find relevant code instead of reading everything\n- Keep prompts focused — one task per conversation works best\n- Use /compact before switching tasks in the same session\n- Start fresh with /clear when changing projects entirely",
         speed: "fast",
+      },
+      {
+        type: "command",
+        question:
+          "What slash command clears your conversation entirely to start fresh?",
+        expectedAnswer: "/clear",
+        acceptedVariants: [
+          "/clear",
+          "clear",
+          "slash clear",
+          "the /clear command",
+          "the clear command",
+          "/reset",
+        ],
+        explanation:
+          "/clear wipes the entire conversation history and starts fresh. Use it when switching to a completely different task or project.",
       },
       {
         type: "quiz",
