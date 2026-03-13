@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:unit": "vitest run --exclude '**/integration/**' --exclude '**/e2e/**'",
-    "test:integration": "vitest run --include '**/integration/**'"
+    "test:integration": "vitest run --include '**/integration/**'",
+    "prepublishOnly": "npm run build"
   },
   "engines": {
     "node": ">=20"
@@ -30,7 +31,16 @@
     "ink",
     "terminal"
   ],
+  "author": "mrf",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrf/agent-academy.git"
+  },
+  "homepage": "https://github.com/mrf/agent-academy#readme",
+  "bugs": {
+    "url": "https://github.com/mrf/agent-academy/issues"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
     "conf": "^15.1.0",
