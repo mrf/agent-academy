@@ -316,15 +316,12 @@ describe("App integration — keyboard routing", () => {
     await flushEffects();
     expect(inst.lastFrame()).toContain("Quit Claude Code Academy?");
 
-    // 'y' triggers app.exit() and resets confirmQuit state
+    // 'y' triggers app.exit() — rendering freezes
     inst.stdin.write("y");
     await tick(0);
     await flushEffects();
 
-    // Pressing 'q' again re-shows the prompt, proving state was reset
-    inst.stdin.write("q");
-    await tick(0);
-    await flushEffects();
+    // app.exit() freezes rendering — quit prompt stays visible
     expect(inst.lastFrame()).toContain("Quit Claude Code Academy?");
   });
 

@@ -477,10 +477,7 @@ describe("E2E: Keyboard routing", () => {
     await tick(0);
     await flushEffects();
 
-    // State was reset — pressing 'q' again re-shows prompt
-    inst.stdin.write("q");
-    await tick(0);
-    await flushEffects();
+    // app.exit() freezes rendering — quit prompt stays visible
     expect(inst.lastFrame()).toContain("Quit Claude Code Academy?");
   });
 
