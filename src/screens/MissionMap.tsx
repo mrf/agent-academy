@@ -33,7 +33,7 @@ export function MissionMap({
   const [legacyMode, setLegacyMode] = useState(progress.legacyModeUnlocked);
   const [konamiFlash, setKonamiFlash] = useState(false);
   const konamiCheck = useRef(createKonamiTracker()).current;
-  const konamiTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const konamiTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(konamiTimerRef.current);
