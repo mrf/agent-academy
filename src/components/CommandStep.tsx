@@ -8,7 +8,7 @@ import { evaluateAnswer, localMatch } from "../ai/evaluator.js";
 
 interface CommandStepProps {
   step: CommandStepType;
-  onAnswer: (correct: boolean) => void;
+  onAnswer: (correct: boolean | null) => void;
   isFocused: boolean;
   hasApiKey?: boolean;
 }
@@ -104,12 +104,13 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
   const phaseRef = useRef<Phase>(phase);
   phaseRef.current = phase;
   const correctRef = useRef(false);
+  const evalFailedRef = useRef(false);
 
   const finishWithResult = useCallback(
     (isCorrect: boolean, failed?: boolean) => {
-      const effectiveCorrect = isCorrect || !!failed;
-      correctRef.current = effectiveCorrect;
-      setCorrect(effectiveCorrect);
+      correctRef.current = isCorrect;
+      evalFailedRef.current = !!failed;
+      setCorrect(isCorrect);
       setEvalFailed(!!failed);
       setPhase("result");
     },
@@ -119,7 +120,7 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
   useInput(
     (_input, key) => {
       if (key.return && phaseRef.current === "result") {
-        onAnswer(correctRef.current);
+        onAnswer(evalFailedRef.current ? null : correctRef.current);
       }
     },
     { isActive: isFocused },
