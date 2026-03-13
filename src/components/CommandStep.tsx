@@ -1,8 +1,8 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { type ReactNode, useState, useCallback, useRef } from "react";
 import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
 import { useSpinner } from "../hooks/useSpinner.js";
-import { COLORS, TIMING } from "../constants.js";
+import { COLORS } from "../constants.js";
 import type { CommandStep as CommandStepType } from "../types.js";
 import { evaluateAnswer, localMatch } from "../ai/evaluator.js";
 
@@ -39,6 +39,45 @@ const SECRET_COMMANDS: Record<string, SecretResponse> = {
 
 const MAX_INPUT_LENGTH = 200;
 
+interface ResultBannerProps {
+  evalFailed: boolean;
+  correct: boolean;
+  expectedAnswer: string;
+}
+
+function ResultBanner({ evalFailed, correct, expectedAnswer }: ResultBannerProps): ReactNode {
+  if (evalFailed) {
+    return (
+      <Text color={COLORS.amber} bold>
+        ⚠ UNABLE TO VERIFY — Comms down. Could not verify your answer.
+        Moving on.
+      </Text>
+    );
+  }
+
+  if (correct) {
+    return (
+      <Text color={COLORS.green} bold>
+        ✔ CONFIRMED
+      </Text>
+    );
+  }
+
+  return (
+    <>
+      <Text color={COLORS.red} bold>
+        ✘ COMPROMISED
+      </Text>
+      <Text color={COLORS.warmWhite}>
+        Expected:{" "}
+        <Text color={COLORS.green} bold>
+          {expectedAnswer}
+        </Text>
+      </Text>
+    </>
+  );
+}
+
 function getHelpHint(step: CommandStepType): string {
   const answer = step.expectedAnswer;
   if (answer.length <= 6) {
@@ -56,6 +95,7 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
   const [phase, setPhase] = useState<Phase>("input");
   const spinner = useSpinner(phase === "pausing");
   const [correct, setCorrect] = useState(false);
+  const [evalFailed, setEvalFailed] = useState(false);
   const [secretResponse, setSecretResponse] = useState<SecretResponse | null>(
     null,
   );
@@ -64,16 +104,13 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
   const phaseRef = useRef<Phase>(phase);
   phaseRef.current = phase;
   const correctRef = useRef(false);
-  const answerTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(() => {
-    return () => clearTimeout(answerTimerRef.current);
-  }, []);
 
   const finishWithResult = useCallback(
-    (isCorrect: boolean) => {
-      correctRef.current = isCorrect;
-      setCorrect(isCorrect);
+    (isCorrect: boolean, failed?: boolean) => {
+      const effectiveCorrect = isCorrect || !!failed;
+      correctRef.current = effectiveCorrect;
+      setCorrect(effectiveCorrect);
+      setEvalFailed(!!failed);
       setPhase("result");
     },
     [],
@@ -131,7 +168,7 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
         step.acceptedVariants,
       );
 
-      finishWithResult(result.correct);
+      finishWithResult(result.correct, result.evalFailed);
     },
     [phase, step, hasApiKey, finishWithResult],
   );
@@ -222,23 +259,11 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
 
       {phase === "result" && (
         <Box flexDirection="column">
-          {correct ? (
-            <Text color={COLORS.green} bold>
-              ✔ CONFIRMED
-            </Text>
-          ) : (
-            <>
-              <Text color={COLORS.red} bold>
-                ✘ COMPROMISED
-              </Text>
-              <Text color={COLORS.warmWhite}>
-                Expected:{" "}
-                <Text color={COLORS.green} bold>
-                  {step.expectedAnswer}
-                </Text>
-              </Text>
-            </>
-          )}
+          <ResultBanner
+            evalFailed={evalFailed}
+            correct={correct}
+            expectedAnswer={step.expectedAnswer}
+          />
           <Box marginTop={1}>
             <Text color={COLORS.gray}>{step.explanation}</Text>
           </Box>
