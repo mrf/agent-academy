@@ -6,9 +6,8 @@ import {
   keys,
   pressKey,
   tick,
-  type RenderResult,
 } from "../helpers/render-ink.js";
-import { createMission, createPrintStep } from "../helpers/mock-missions.js";
+import { createMission } from "../helpers/mock-missions.js";
 import { TIMING } from "../../src/constants.js";
 import type { Mission, ClearanceLevel } from "../../src/types.js";
 
@@ -25,91 +24,61 @@ afterEach(() => {
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
-interface BriefingTestProps {
-  mission: Mission;
-  clearanceLevel: ClearanceLevel;
-  onAccept: () => void;
-}
+/** Generous upper bound on typewriter duration to ensure animation completes. */
+const TYPEWRITER_COMPLETE = TIMING.typewriterDramatic * 500;
 
-function defaultProps(overrides?: {
+function renderBriefing(overrides: {
   mission?: Mission;
   clearanceLevel?: ClearanceLevel;
   onAccept?: () => void;
-}): BriefingTestProps {
-  return {
-    mission: overrides?.mission ?? createMission(),
-    clearanceLevel: overrides?.clearanceLevel ?? "recruit",
-    onAccept: overrides?.onAccept ?? vi.fn(),
-  };
+} = {}) {
+  const {
+    mission = createMission(),
+    clearanceLevel = "recruit",
+    onAccept = vi.fn(),
+  } = overrides;
+  return renderInk(
+    <Briefing
+      mission={mission}
+      clearanceLevel={clearanceLevel}
+      onAccept={onAccept}
+    />,
+  );
 }
 
-async function renderBriefing(
-  props: BriefingTestProps,
-): Promise<RenderResult> {
-  const inst = renderInk(<Briefing {...props} />);
-  await tick(0);
+async function renderAndComplete(overrides: {
+  mission?: Mission;
+  clearanceLevel?: ClearanceLevel;
+  onAccept?: () => void;
+} = {}) {
+  const inst = renderBriefing(overrides);
+  await tick(TYPEWRITER_COMPLETE);
   return inst;
-}
-
-function buildBriefingText(mission: Mission, clearanceLevel: ClearanceLevel): string {
-  const missionNumber = mission.id.replace("mission-", "");
-  const firstPrintStep = mission.steps.find((s) => s.type === "print");
-  const intel =
-    firstPrintStep && "text" in firstPrintStep
-      ? firstPrintStep.text
-      : mission.codename;
-
-  return [
-    `MISSION:     ${missionNumber} — ${mission.codename}`,
-    `CLEARANCE:   ${clearanceLevel.toUpperCase()}`,
-    `HANDLER:     Instructor Haiku`,
-    ``,
-    `OBJECTIVES:`,
-    ...mission.objectives.map((obj) => `  [ ] ${obj}`),
-    ``,
-    `INTEL:`,
-    `  ${intel}`,
-  ].join("\n");
-}
-
-async function completeTypewriter(briefingText: string): Promise<void> {
-  await tick(TIMING.typewriterDramatic * briefingText.length);
-  await tick(0);
-}
-
-/** Render, complete the typewriter, and return the instance + briefing text. */
-async function renderAndComplete(
-  props: BriefingTestProps,
-): Promise<{ inst: RenderResult; text: string }> {
-  const inst = await renderBriefing(props);
-  const text = buildBriefingText(props.mission, props.clearanceLevel);
-  await completeTypewriter(text);
-  return { inst, text };
 }
 
 // ── Rendering ────────────────────────────────────────────────────────
 
 describe("Briefing", () => {
   it("renders MISSION BRIEFING header", async () => {
-    const props = defaultProps();
-    const inst = await renderBriefing(props);
+    const inst = renderBriefing();
+    await tick(0);
     expect(inst.lastFrame()).toContain("[ MISSION BRIEFING ]");
   });
 
   it("renders mission number and codename via TypeWriter", async () => {
-    const mission = createMission({ id: "mission-03", codename: "SHADOW NET" });
-    const props = defaultProps({ mission });
-    const { inst } = await renderAndComplete(props);
+    const inst = await renderAndComplete({
+      mission: createMission({ id: "mission-03", codename: "SHADOW NET" }),
+    });
 
     expect(inst.lastFrame()).toContain("MISSION:     03 — SHADOW NET");
   });
 
   it("renders objectives as checklist items", async () => {
-    const mission = createMission({
-      objectives: ["Learn git basics", "Create a branch"],
+    const inst = await renderAndComplete({
+      mission: createMission({
+        objectives: ["Learn git basics", "Create a branch"],
+      }),
     });
-    const props = defaultProps({ mission });
-    const { inst } = await renderAndComplete(props);
     const frame = inst.lastFrame()!;
 
     expect(frame).toContain("OBJECTIVES:");
@@ -117,23 +86,18 @@ describe("Briefing", () => {
     expect(frame).toContain("[ ] Create a branch");
   });
 
-  it("renders intel from first print step", async () => {
-    const mission = createMission({
-      steps: [createPrintStep({ text: "Top secret intel here." })],
+  it("renders intel from mission briefing field", async () => {
+    const inst = await renderAndComplete({
+      mission: createMission({ briefing: "Top secret intel here." }),
     });
-    const props = defaultProps({ mission });
-    const { inst } = await renderAndComplete(props);
 
     expect(inst.lastFrame()).toContain("Top secret intel here.");
   });
 
-  it("falls back to codename when no print step exists", async () => {
-    const mission = createMission({
-      codename: "GHOST PROTOCOL",
-      steps: [],
+  it("falls back to codename when no briefing field exists", async () => {
+    const inst = await renderAndComplete({
+      mission: createMission({ codename: "GHOST PROTOCOL" }),
     });
-    const props = defaultProps({ mission });
-    const { inst } = await renderAndComplete(props);
 
     expect(inst.lastFrame()).toContain("GHOST PROTOCOL");
   });
@@ -141,32 +105,29 @@ describe("Briefing", () => {
   // ── TypeWriter integration ──────────────────────────────────────
 
   it("TypeWriter reveals text progressively (not all at once)", async () => {
-    const props = defaultProps();
-    const inst = await renderBriefing(props);
+    const inst = renderBriefing();
+    await tick(0);
 
     // After a short time, only partial text should be visible
     await tick(TIMING.typewriterDramatic * 5);
     expect(inst.lastFrame()).not.toContain("OBJECTIVES:");
 
     // After full duration, complete text is visible
-    const text = buildBriefingText(props.mission, props.clearanceLevel);
-    await completeTypewriter(text);
+    await tick(TYPEWRITER_COMPLETE);
     expect(inst.lastFrame()).toContain("OBJECTIVES:");
   });
 
   // ── Accept prompt visibility ──────────────────────────────────
 
   it("does not show accept prompt before typing completes", async () => {
-    const props = defaultProps();
-    const inst = await renderBriefing(props);
-
+    const inst = renderBriefing();
     await tick(TIMING.typewriterDramatic * 3);
+
     expect(inst.lastFrame()).not.toContain("[ENTER] Accept mission");
   });
 
   it("shows accept prompt after typing completes", async () => {
-    const props = defaultProps();
-    const { inst } = await renderAndComplete(props);
+    const inst = await renderAndComplete();
 
     expect(inst.lastFrame()).toContain("[ENTER] Accept mission");
   });
@@ -175,8 +136,7 @@ describe("Briefing", () => {
 
   it("ENTER before typing completes does NOT call onAccept", async () => {
     const onAccept = vi.fn();
-    const props = defaultProps({ onAccept });
-    const inst = await renderBriefing(props);
+    const inst = renderBriefing({ onAccept });
 
     await tick(TIMING.typewriterDramatic * 3);
     pressKey(inst, keys.enter);
@@ -187,8 +147,7 @@ describe("Briefing", () => {
 
   it("ENTER after typing completes calls onAccept", async () => {
     const onAccept = vi.fn();
-    const props = defaultProps({ onAccept });
-    const { inst } = await renderAndComplete(props);
+    const inst = await renderAndComplete({ onAccept });
 
     pressKey(inst, keys.enter);
     await tick(0);
@@ -198,12 +157,11 @@ describe("Briefing", () => {
 
   it("non-ENTER keys do not call onAccept after typing completes", async () => {
     const onAccept = vi.fn();
-    const props = defaultProps({ onAccept });
-    const { inst } = await renderAndComplete(props);
+    const inst = await renderAndComplete({ onAccept });
 
     pressKey(inst, keys.space);
     pressKey(inst, keys.escape);
-    inst.stdin.write("a");
+    pressKey(inst, "a");
     await tick(0);
 
     expect(onAccept).not.toHaveBeenCalled();
@@ -214,8 +172,7 @@ describe("Briefing", () => {
   it.each<ClearanceLevel>(["recruit", "operative", "elite"])(
     "renders clearance level '%s' in uppercase",
     async (level) => {
-      const props = defaultProps({ clearanceLevel: level });
-      const { inst } = await renderAndComplete(props);
+      const inst = await renderAndComplete({ clearanceLevel: level });
 
       expect(inst.lastFrame()).toContain(`CLEARANCE:   ${level.toUpperCase()}`);
     },
