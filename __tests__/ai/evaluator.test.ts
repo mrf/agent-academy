@@ -15,7 +15,7 @@ vi.mock("../../src/ai/client.js", () => ({
 }));
 
 // Import after mock registration
-const { evaluateAnswer } = await import("../../src/ai/evaluator.js");
+const { evaluateAnswer, localMatch } = await import("../../src/ai/evaluator.js");
 
 const FALLBACK = {
   correct: false,
@@ -167,6 +167,65 @@ describe("local variant matching", () => {
     ]);
 
     expect(result.correct).toBe(true);
+  });
+});
+
+// ── localMatch fuzzy tolerance ──────────────────────────────────────
+
+describe("localMatch fuzzy tolerance", () => {
+  const correct = { correct: true, feedback: "Correct.", score: 100 };
+
+  it("strips backticks", () => {
+    expect(localMatch("`console.log`", ["console.log"])).toEqual(correct);
+  });
+
+  it("strips single quotes", () => {
+    expect(localMatch("'npm init'", ["npm init"])).toEqual(correct);
+  });
+
+  it("strips double quotes", () => {
+    expect(localMatch('"npm init"', ["npm init"])).toEqual(correct);
+  });
+
+  it("strips trailing periods", () => {
+    expect(localMatch("closure.", ["closure"])).toEqual(correct);
+  });
+
+  it("strips trailing multiple periods", () => {
+    expect(localMatch("closure...", ["closure"])).toEqual(correct);
+  });
+
+  it("strips leading dollar-sign prompt", () => {
+    expect(localMatch("$ npm install", ["npm install"])).toEqual(correct);
+  });
+
+  it("strips leading > prompt", () => {
+    expect(localMatch("> npm install", ["npm install"])).toEqual(correct);
+  });
+
+  it("collapses multiple spaces", () => {
+    expect(localMatch("npm   install", ["npm install"])).toEqual(correct);
+  });
+
+  it("normalizes tabs and newlines to spaces", () => {
+    expect(localMatch("npm\tinstall", ["npm install"])).toEqual(correct);
+  });
+
+  it("handles combined noise: backticks + trailing period + extra spaces", () => {
+    expect(localMatch("  `console.log`  .  ", ["console.log"])).toEqual(correct);
+  });
+
+  it("handles dollar prompt with backticks", () => {
+    expect(localMatch("$ `git status`", ["git status"])).toEqual(correct);
+  });
+
+  it("still rejects genuinely wrong answers", () => {
+    const result = localMatch("wrong answer", ["correct answer"]);
+    expect(result.correct).toBe(false);
+  });
+
+  it("matches variant from list", () => {
+    expect(localMatch("`npm`", ["npm", "yarn", "pnpm"])).toEqual(correct);
   });
 });
 

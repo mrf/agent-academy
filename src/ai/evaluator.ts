@@ -21,7 +21,15 @@ const MAX_INPUT = 200;
 const STRIP_PREFIXES = /^(the|a|use)\s+/i;
 
 function normalize(s: string): string {
-  return s.trim().toLowerCase().replace(STRIP_PREFIXES, "");
+  return s
+    .trim()
+    .replace(/^[$>]\s*/, "")       // strip leading shell prompts ($ or >)
+    .replace(/[`'"]/g, "")         // strip backticks and quotes
+    .replace(/\.+$/, "")           // strip trailing periods
+    .replace(/\s+/g, " ")          // collapse whitespace
+    .trim()
+    .toLowerCase()
+    .replace(STRIP_PREFIXES, "");
 }
 
 export function localMatch(input: string, variants: string[]): Evaluation {
