@@ -129,7 +129,12 @@ export function Mission({
   }, []);
 
   const handleAnswer = useCallback(
-    (correct: boolean) => {
+    (correct: boolean | null) => {
+      if (correct === null) {
+        // Eval failed: advance without scoring (no FXP, no cover penalty)
+        advanceStep();
+        return;
+      }
       if (correct) {
         fxpEarnedRef.current += FXP_PER_CORRECT;
         setFxpEarned(fxpEarnedRef.current);

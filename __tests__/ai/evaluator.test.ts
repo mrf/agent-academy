@@ -120,7 +120,7 @@ describe("evaluateAnswer API failure fallback", () => {
       "alt",
     ]);
 
-    expect(result).toEqual({ correct: false, feedback: "Could not evaluate. Try again.", score: 0 });
+    expect(result).toEqual({ ...FALLBACK, evalFailed: true });
   });
 });
 
