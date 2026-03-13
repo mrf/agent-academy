@@ -165,9 +165,8 @@ export function Mission({
           setPhase("step");
         }
       }
-    },
-    { isActive: phase === "waitEnter" || phase === "coverBlown" },
-  );
+    }
+  });
 
   const isFocused = phase === "step";
 
@@ -177,6 +176,7 @@ export function Mission({
       case "print":
         return (
           <TypeWriter
+            key={currentStepIndex}
             text={step.text}
             speed={step.speed}
             onComplete={handlePrintComplete}
@@ -186,6 +186,7 @@ export function Mission({
       case "quiz":
         return (
           <QuizStep
+            key={currentStepIndex}
             step={step}
             onAnswer={handleAnswer}
             isFocused={isFocused}
@@ -194,6 +195,7 @@ export function Mission({
       case "command":
         return (
           <CommandStep
+            key={currentStepIndex}
             step={step}
             onAnswer={handleAnswer}
             isFocused={isFocused}
