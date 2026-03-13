@@ -166,7 +166,7 @@ export function Mission({
         }
       }
     }
-  });
+  );
 
   const isFocused = phase === "step";
 
