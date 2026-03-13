@@ -135,7 +135,7 @@ describe("evaluateAnswer pipeline (SDK → client → evaluator → json-utils)"
 
     const result = await evaluateAnswer("Q?", "wrong", "expected", ["expected"]);
 
-    expect(result).toEqual({ correct: false, feedback: "Could not evaluate. Try again.", score: 0 });
+    expect(result).toEqual({ ...EVAL_FALLBACK, evalFailed: true });
   });
 
   it("degrades to local match on API 429 rate limit", async () => {
