@@ -17,7 +17,7 @@ const GLOBAL_BINDINGS: KeyBinding[] = [
 
 const SCREEN_BINDINGS: Partial<Record<Screen, KeyBinding[]>> = {
   mission: [
-    { key: "?", label: "Ask handler" },
+    { key: "?", label: "Ask handler (requires API key)" },
     { key: "ESC", label: "Return to menu" },
     { key: "ENTER", label: "Continue" },
     { key: "UP/DOWN", label: "Navigate" },
