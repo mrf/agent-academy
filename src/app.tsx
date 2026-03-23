@@ -13,6 +13,7 @@ import { InfiniteMode } from "./screens/InfiniteMode.js";
 import { HelpOverlay } from "./screens/HelpOverlay.js";
 import { Handler } from "./screens/Handler.js";
 import { Credits } from "./screens/Credits.js";
+import { Achievements } from "./screens/Achievements.js";
 import { Achievement } from "./components/Achievement.js";
 import {
   loadProgress,
@@ -108,6 +109,14 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   }, [state]);
 
   const handleCreditsClose = useCallback(() => {
+    state.navigateTo("missionMap");
+  }, [state]);
+
+  const handleOpenAchievements = useCallback(() => {
+    state.navigateTo("achievements");
+  }, [state]);
+
+  const handleAchievementsClose = useCallback(() => {
     state.navigateTo("missionMap");
   }, [state]);
 
@@ -207,10 +216,13 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             onSelectMission={handleSelectMission}
             onSelectInfiniteMode={handleSelectInfiniteMode}
             onOpenCredits={handleOpenCredits}
+            onOpenAchievements={handleOpenAchievements}
           />
         );
       case "credits":
         return <Credits onClose={handleCreditsClose} />;
+      case "achievements":
+        return <Achievements onClose={handleAchievementsClose} />;
       case "briefing":
         if (!currentMission) return null;
         return (

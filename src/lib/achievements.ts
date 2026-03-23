@@ -51,6 +51,10 @@ export function getAchievement(id: string): Achievement | undefined {
   return ACHIEVEMENTS.get(id);
 }
 
+export function getAllAchievements(): Achievement[] {
+  return ACHIEVEMENT_LIST;
+}
+
 export type MissionCompleteContext = {
   missionId: string;
   stars: 1 | 2 | 3;

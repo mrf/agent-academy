@@ -11,12 +11,14 @@ interface MissionMapProps {
   onSelectMission: (missionIndex: number) => void;
   onSelectInfiniteMode?: () => void;
   onOpenCredits?: () => void;
+  onOpenAchievements?: () => void;
 }
 
 export function MissionMap({
   onSelectMission,
   onSelectInfiniteMode,
   onOpenCredits,
+  onOpenAchievements,
 }: MissionMapProps) {
   const { columns } = useTerminalSize();
   const progress = loadProgress();
@@ -65,6 +67,12 @@ export function MissionMap({
     // Credits screen (only after Full Clearance)
     if (input === "c" && allComplete) {
       onOpenCredits?.();
+      return;
+    }
+
+    // Achievements screen
+    if (input === "a") {
+      onOpenAchievements?.();
       return;
     }
 
@@ -249,7 +257,7 @@ export function MissionMap({
 
         <Box marginTop={1}>
           <Text color={dim}>
-            {"[UP/DOWN] Navigate  [ENTER] Start mission"}
+            {"[UP/DOWN] Navigate  [ENTER] Start mission  [A] Achievements"}
             {allComplete ? "  [C] Credits" : ""}
           </Text>
         </Box>
