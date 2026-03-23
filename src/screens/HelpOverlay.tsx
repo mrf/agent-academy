@@ -15,6 +15,12 @@ const GLOBAL_BINDINGS: KeyBinding[] = [
   { key: "q", label: "Quit" },
 ];
 
+const SCREEN_DISPLAY_NAMES: Partial<Record<Screen, string>> = {
+  mission: "ACTIVE MISSION",
+  missionMap: "MISSION SELECT",
+  infiniteMode: "DEEP COVER OPERATIONS",
+};
+
 const SCREEN_BINDINGS: Partial<Record<Screen, KeyBinding[]>> = {
   mission: [
     { key: "?", label: "Ask handler" },
@@ -110,7 +116,7 @@ export function HelpOverlay({ screen, onClose }: HelpOverlayProps) {
 
       {contextBindings.length > 0 && (
         <Box marginTop={1}>
-          <Section title={screen.toUpperCase()} bindings={contextBindings} />
+          <Section title={SCREEN_DISPLAY_NAMES[screen] ?? screen.toUpperCase()} bindings={contextBindings} />
         </Box>
       )}
 
