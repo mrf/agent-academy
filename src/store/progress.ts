@@ -21,7 +21,7 @@ const DEFAULT_SAVE_DATA: SaveData = {
 };
 
 // In-memory fallback for environments where conf fails (FUSE/WSL2)
-let memoryStore: SaveData = { ...DEFAULT_SAVE_DATA };
+let memoryStore: SaveData = structuredClone(DEFAULT_SAVE_DATA);
 let usingMemory = false;
 
 // Partial progress: missionId -> stepIndex
@@ -49,25 +49,25 @@ function createConf(): Conf<SaveData> | null {
 const store = createConf();
 
 function safeGet(): SaveData {
-  if (usingMemory || !store) return { ...memoryStore };
+  if (usingMemory || !store) return structuredClone(memoryStore);
   try {
     return store.store;
   } catch {
     usingMemory = true;
-    return { ...memoryStore };
+    return structuredClone(memoryStore);
   }
 }
 
 function safeSet(data: SaveData): void {
   if (usingMemory || !store) {
-    memoryStore = { ...data };
+    memoryStore = structuredClone(data);
     return;
   }
   try {
     store.store = data;
   } catch {
     usingMemory = true;
-    memoryStore = { ...data };
+    memoryStore = structuredClone(data);
   }
 }
 
@@ -115,13 +115,13 @@ export function getPartialProgress(missionId: string): number | null {
 }
 
 export function resetProgress(): void {
-  memoryStore = { ...DEFAULT_SAVE_DATA };
+  memoryStore = structuredClone(DEFAULT_SAVE_DATA);
   partialProgress = {};
   if (!usingMemory && store) {
     try {
       store.clear();
       // Re-apply defaults after clear
-      store.store = { ...DEFAULT_SAVE_DATA };
+      store.store = structuredClone(DEFAULT_SAVE_DATA);
     } catch {
       usingMemory = true;
     }
