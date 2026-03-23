@@ -1050,7 +1050,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Don't want to write your CLAUDE.md from scratch? The /init command analyzes your project — tech stack, directory structure, conventions — and generates an initial CLAUDE.md automatically. It's the fastest way to onboard Claude Code to an existing codebase.\n\nAnd if something's not working right, /doctor diagnoses configuration and environment issues.",
+        text: "Don't want to write your CLAUDE.md from scratch? The /init command guides you through setting up a CLAUDE.md interactively — asking about your project's tech stack, conventions, and preferences. It's the fastest way to onboard Claude Code to an existing codebase.\n\nAnd if something's not working right, /doctor diagnoses configuration and environment issues.",
       },
       {
         type: "command",
@@ -1097,7 +1097,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "command",
         question:
-          "What command lets Claude Code analyze your project and generate an initial CLAUDE.md?",
+          "What command guides you through setting up an initial CLAUDE.md for your project?",
         expectedAnswer: "/init",
         acceptedVariants: [
           "/init",
@@ -1110,7 +1110,7 @@ export const MISSIONS: Mission[] = [
           "initialise",
         ],
         explanation:
-          "/init scans your codebase — tech stack, directory structure, conventions — and generates a CLAUDE.md as a starting point you can refine.",
+          "/init guides you through setting up a CLAUDE.md interactively — asking about your project's tech stack, conventions, and preferences — and produces a starting point you can refine.",
       },
       {
         type: "print",
