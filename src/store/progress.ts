@@ -9,6 +9,7 @@ const DEFAULT_SAVE_DATA: SaveData = {
   schemaVersion: 1,
   completedMissions: [],
   starRatings: {},
+  improvedMissions: [],
   fxp: 0,
   clearanceLevel: "recruit",
   achievements: [],
@@ -89,13 +90,19 @@ export function saveMissionComplete(
 ): { infiniteModeJustUnlocked: boolean } {
   const data = safeGet();
 
-  if (!data.completedMissions.includes(missionId)) {
+  const alreadyCompleted = data.completedMissions.includes(missionId);
+  if (!alreadyCompleted) {
     data.completedMissions.push(missionId);
   }
 
   const existing = data.starRatings[missionId];
   if (!existing || stars > existing) {
     data.starRatings[missionId] = stars;
+    if (alreadyCompleted && existing) {
+      if (!data.improvedMissions.includes(missionId)) {
+        data.improvedMissions.push(missionId);
+      }
+    }
   }
 
   data.fxp += fxpEarned;

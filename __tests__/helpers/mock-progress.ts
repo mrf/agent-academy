@@ -4,6 +4,7 @@ const DEFAULT_SAVE_DATA: SaveData = {
   schemaVersion: 1,
   completedMissions: [],
   starRatings: {},
+  improvedMissions: [],
   fxp: 0,
   clearanceLevel: "recruit",
   achievements: [],

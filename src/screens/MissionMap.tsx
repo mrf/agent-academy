@@ -214,6 +214,7 @@ export function MissionMap({
                 {isCompleted && (
                   <MissionRating
                     stars={progress.starRatings[mission.id] ?? 0}
+                    improved={progress.improvedMissions.includes(mission.id)}
                     crt={crt}
                     scanDim={scanDim}
                   />
@@ -306,15 +307,23 @@ function missionColor(
 
 interface MissionRatingProps {
   stars: number;
+  improved: boolean;
   crt?: boolean;
   scanDim?: boolean;
 }
 
-function MissionRating({ stars, crt, scanDim }: MissionRatingProps) {
+function MissionRating({ stars, improved, crt, scanDim }: MissionRatingProps) {
   return (
-    <Text color={crt ? COLORS.green : COLORS.gold} dimColor={scanDim}>
-      {renderStars(stars)}
-    </Text>
+    <>
+      <Text color={crt ? COLORS.green : COLORS.gold} dimColor={scanDim}>
+        {renderStars(stars)}
+      </Text>
+      {improved && (
+        <Text color={crt ? COLORS.green : COLORS.amber} dimColor={scanDim}>
+          {" \u25b2"}
+        </Text>
+      )}
+    </>
   );
 }
 

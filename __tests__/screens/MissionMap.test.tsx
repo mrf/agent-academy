@@ -37,6 +37,7 @@ function freshProgress(overrides?: Partial<SaveData>): SaveData {
     schemaVersion: 1,
     completedMissions: [],
     starRatings: {},
+    improvedMissions: [],
     fxp: 0,
     clearanceLevel: "recruit",
     achievements: [],
@@ -165,6 +166,37 @@ describe("MissionMap", () => {
     // 2 filled + 1 empty: ★★☆
     expect(frame).toContain("\u2605\u2605\u2606");
     expect(frame).toContain("FXP");
+  });
+
+  it("improved missions show ▲ upgrade indicator", () => {
+    mockLoadProgress.mockReturnValue(
+      freshProgress({
+        completedMissions: ["mission-01"],
+        starRatings: { "mission-01": 3 },
+        improvedMissions: ["mission-01"],
+        fxp: 340,
+      }),
+    );
+
+    const inst = renderMap();
+    const frame = inst.lastFrame()!;
+
+    expect(frame).toContain("\u25b2");
+  });
+
+  it("non-improved missions do not show ▲ indicator", () => {
+    mockLoadProgress.mockReturnValue(
+      freshProgress({
+        completedMissions: ["mission-01"],
+        starRatings: { "mission-01": 2 },
+        fxp: 240,
+      }),
+    );
+
+    const inst = renderMap();
+    const frame = inst.lastFrame()!;
+
+    expect(frame).not.toContain("\u25b2");
   });
 
   it("arrow keys navigate between missions", async () => {
