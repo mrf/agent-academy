@@ -72,7 +72,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Mission complete, recruit. You now know the fundamentals: Claude Code is an agentic AI assistant that lives in your terminal, reads your codebase, and takes action on your behalf.\n\nNext mission: we get it installed on your machine.",
+        text: "Mission complete, recruit. You now know the fundamentals: Claude Code is an agentic AI assistant that lives in your terminal, reads your codebase, and takes action on your behalf.\n\nNext mission: the installation and authentication protocol.",
       },
     ],
   },
