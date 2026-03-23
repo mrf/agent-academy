@@ -116,16 +116,17 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
 
   const handleSubmit = useCallback(
     (value: string) => {
-      const trimmed = value.trim();
-      if (!trimmed || isStreaming) return;
+      if (isStreaming) return;
 
       if (error) {
         // Retry last question on Enter after error
         setError(null);
         sendQuestion(lastQuestionRef.current);
-        setInput("");
         return;
       }
+
+      const trimmed = value.trim();
+      if (!trimmed) return;
 
       setInput("");
       sendQuestion(trimmed);
@@ -192,7 +193,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
       {error && (
         <Box flexDirection="column" marginBottom={1}>
           <Text color={COLORS.red}>{error}</Text>
-          <Text color={COLORS.gray}>Press Enter to retry</Text>
+          <Text color={COLORS.gray}>Press Enter to retry your last question</Text>
         </Box>
       )}
 
@@ -202,7 +203,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
         </Text>
         <TextInput
           value={input}
-          onChange={setInput}
+          onChange={error ? () => {} : setInput}
           onSubmit={handleSubmit}
           placeholder="Ask your handler..."
         />
