@@ -419,7 +419,8 @@ describe("CommandStep self-assessment (hasApiKey=false)", () => {
     expect(frame).toContain("Comms are down, agent");
     expect(frame).toContain("Did your answer match?");
     expect(frame).toContain("list files");
-    expect(frame).toContain("ls");
+    // Expected answer should NOT be revealed during self-assessment
+    expect(frame).not.toContain("Expected:");
   });
 
   it("treats Y as correct in self-assessment", async () => {
@@ -449,7 +450,10 @@ describe("CommandStep self-assessment (hasApiKey=false)", () => {
     instance.stdin.write("n");
     await flush();
 
-    expect(instance.lastFrame()).toContain("COMPROMISED");
+    const frame = instance.lastFrame();
+    expect(frame).toContain("COMPROMISED");
+    // Expected answer is revealed only after self-assessment result
+    expect(frame).toContain("Expected:");
 
     instance.stdin.write(keys.enter);
     await delay();

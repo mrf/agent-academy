@@ -246,12 +246,6 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
               {userAnswer}
             </Text>
           </Text>
-          <Text color={COLORS.warmWhite}>
-            Expected:{" "}
-            <Text color={COLORS.green} bold>
-              {step.expectedAnswer}
-            </Text>
-          </Text>
           <Text color={COLORS.amber} bold>
             Did your answer match? [Y/N]
           </Text>
