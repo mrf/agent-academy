@@ -152,11 +152,11 @@ Get your key from the [Anthropic Console](https://console.anthropic.com/).
 
 | Layer | Technology |
 |-------|-----------|
-| Terminal UI | [Ink v6](https://github.com/vadimdemedes/ink) — React for the terminal |
-| Components | [React 19](https://react.dev) |
-| Language | [TypeScript 5](https://www.typescriptlang.org) |
+| Terminal UI | [Ink](https://github.com/vadimdemedes/ink) — React for the terminal |
+| Components | [React](https://react.dev) |
+| Language | [TypeScript](https://www.typescriptlang.org) |
 | AI | [Anthropic SDK](https://www.npmjs.com/package/@anthropic-ai/sdk) — Claude Haiku for handler & evaluation, Sonnet for quiz generation |
-| Validation | [Zod 4](https://zod.dev) |
+| Validation | [Zod](https://zod.dev) |
 | Persistence | [conf](https://github.com/sindresorhus/conf) — saves to `~/.config/claude-code-academy/` |
 | Testing | [Vitest](https://vitest.dev) + [ink-testing-library](https://github.com/vadimdemedes/ink-testing-library) |
 | Build | [tsup](https://github.com/egoist/tsup) |
