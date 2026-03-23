@@ -250,9 +250,16 @@ export function MissionMap({
         <Box marginTop={1}>
           <Text color={dim}>
             {"[UP/DOWN] Navigate  [ENTER] Start mission"}
-            {allComplete ? "  [C] Credits" : ""}
           </Text>
         </Box>
+
+        {allComplete && (
+          <Box marginTop={1} justifyContent="center">
+            <Text color={COLORS.gold} bold dimColor={!pulseBright}>
+              {"[ C ]  VIEW CREDITS  — FULL CLEARANCE ACHIEVED"}
+            </Text>
+          </Box>
+        )}
       </Box>
     </Box>
   );
