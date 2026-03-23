@@ -19,6 +19,12 @@ const PARSE_FAILURE: Evaluation = {
   score: 0,
 };
 
+const LOCAL_WRONG_ANSWER: Evaluation = {
+  correct: false,
+  feedback: "Incorrect.",
+  score: 0,
+};
+
 const MAX_INPUT = 200;
 const STRIP_PREFIXES = /^(the|a|use)\s+/i;
 
@@ -39,7 +45,7 @@ export function localMatch(input: string, variants: string[]): EvaluationResult 
   const matched = variants.some((v) => normalize(v) === norm);
   return matched
     ? { correct: true, feedback: "Correct.", score: 100 }
-    : PARSE_FAILURE;
+    : LOCAL_WRONG_ANSWER;
 }
 
 const AI_SYSTEM_PROMPT = `You evaluate open-ended student responses to technical prompts.
