@@ -26,6 +26,11 @@ export function resetInstructorState(): void {
   sessionQuestionCount = 0;
 }
 
+/** Get current handler usage stats. */
+export function getHandlerUsage(): { used: number; cap: number } {
+  return { used: sessionQuestionCount, cap: SESSION_CAP };
+}
+
 export async function askHandler(options: {
   question: string;
   missionTitle: string;
