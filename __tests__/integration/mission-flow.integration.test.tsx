@@ -463,9 +463,12 @@ describe("Mission flow integration", () => {
       await answerStep(false); // cover blown
 
       expect(inst.lastFrame()).toContain("COVER BLOWN");
-      expect(inst.lastFrame()).toContain("FXP from this attempt has been lost");
+      expect(inst.lastFrame()).toContain("FXP lost: 5");
+      expect(inst.lastFrame()).toContain("0 FXP awarded");
+      // Status bar shows 0 FXP immediately on cover blown screen
+      expect(inst.lastFrame()).toContain("fxp=0");
 
-      // After restart, FXP is reset to 0
+      // After restart, FXP remains 0
       pressKey(inst, keys.enter);
       await tick(0);
       expect(inst.lastFrame()).toContain("fxp=0");
