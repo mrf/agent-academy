@@ -90,8 +90,8 @@ describe("HelpOverlay", () => {
     it("does not show step-type sections", () => {
       const { instance } = renderHelp("missionMap");
       const frame = instance.lastFrame();
-      expect(frame).not.toContain("QUIZ STEPS");
-      expect(frame).not.toContain("COMMAND STEPS");
+      expect(frame).not.toContain("FIELD ASSESSMENT STEPS");
+      expect(frame).not.toContain("COMMAND CHALLENGE STEPS");
     });
   });
 
@@ -125,18 +125,18 @@ describe("HelpOverlay", () => {
       expect(instance.lastFrame()).toContain("Navigate");
     });
 
-    it("shows QUIZ STEPS section", () => {
+    it("shows FIELD ASSESSMENT STEPS section", () => {
       const { instance } = renderHelp("mission");
       const frame = instance.lastFrame();
-      expect(frame).toContain("QUIZ STEPS");
+      expect(frame).toContain("FIELD ASSESSMENT STEPS");
       expect(frame).toContain("Select answer");
       expect(frame).toContain("Confirm answer");
     });
 
-    it("shows COMMAND STEPS section", () => {
+    it("shows COMMAND CHALLENGE STEPS section", () => {
       const { instance } = renderHelp("mission");
       const frame = instance.lastFrame();
-      expect(frame).toContain("COMMAND STEPS");
+      expect(frame).toContain("COMMAND CHALLENGE STEPS");
       expect(frame).toContain("Enter answer");
       expect(frame).toContain("Submit");
     });
@@ -159,8 +159,8 @@ describe("HelpOverlay", () => {
     it("does not show step-type sections", () => {
       const { instance } = renderHelp("infiniteMode");
       const frame = instance.lastFrame();
-      expect(frame).not.toContain("QUIZ STEPS");
-      expect(frame).not.toContain("COMMAND STEPS");
+      expect(frame).not.toContain("FIELD ASSESSMENT STEPS");
+      expect(frame).not.toContain("COMMAND CHALLENGE STEPS");
     });
   });
 
