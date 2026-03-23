@@ -5,6 +5,7 @@ export type Achievement = {
   id: string;
   title: string;
   description: string;
+  header?: string;
 };
 
 const ACHIEVEMENT_LIST: Achievement[] = [

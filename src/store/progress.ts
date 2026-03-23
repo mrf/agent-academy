@@ -4,6 +4,7 @@ import { join } from "node:path";
 import Conf from "conf";
 import { MISSIONS } from "../data/curriculum.js";
 import type { SaveData } from "../types.js";
+import { MISSIONS } from "../data/curriculum.js";
 
 const DEFAULT_SAVE_DATA: SaveData = {
   schemaVersion: 1,
@@ -86,7 +87,7 @@ export function saveMissionComplete(
   fxpEarned: number,
   quizCorrect: number,
   quizTotal: number,
-): void {
+): { infiniteModeJustUnlocked: boolean } {
   const data = safeGet();
 
   if (!data.completedMissions.includes(missionId)) {
@@ -109,7 +110,14 @@ export function saveMissionComplete(
   // Clear partial progress for this mission
   delete partialProgress[missionId];
 
+  let infiniteModeJustUnlocked = false;
+  if (!data.infiniteModeUnlocked && MISSIONS.every((m) => data.completedMissions.includes(m.id))) {
+    data.infiniteModeUnlocked = true;
+    infiniteModeJustUnlocked = true;
+  }
+
   safeSet(data);
+  return { infiniteModeJustUnlocked };
 }
 
 export function saveStepProgress(
