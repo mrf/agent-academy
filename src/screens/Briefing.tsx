@@ -71,7 +71,8 @@ export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
         />
 
         {typingDone && (
-          <Box justifyContent="flex-end" marginTop={1}>
+          <Box justifyContent="space-between" marginTop={1}>
+            <Text color={COLORS.gray}>[ESC] Back</Text>
             <Text color={COLORS.amber} bold>
               [ENTER] Accept mission
             </Text>
