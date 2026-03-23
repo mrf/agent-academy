@@ -2,6 +2,7 @@ import { appendFileSync, mkdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import Conf from "conf";
+import { MISSIONS } from "../data/curriculum.js";
 import type { SaveData } from "../types.js";
 
 const DEFAULT_SAVE_DATA: SaveData = {
@@ -96,6 +97,10 @@ export function saveMissionComplete(
   }
 
   data.fxp += fxpEarned;
+
+  if (data.completedMissions.length >= MISSIONS.length) {
+    data.infiniteModeUnlocked = true;
+  }
 
   // Clear partial progress for this mission
   delete partialProgress[missionId];

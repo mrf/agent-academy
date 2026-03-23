@@ -38,6 +38,11 @@ vi.mock("node:fs", () => ({
   mkdirSync: mockMkdirSync,
 }));
 
+// Mock curriculum so tests can control MISSIONS.length without needing real mission data
+vi.mock("../../src/data/curriculum.js", () => ({
+  MISSIONS: [{ id: "test-mission-1" }, { id: "test-mission-2" }],
+}));
+
 const progress = await import("../../src/store/progress.js");
 
 describe("progress store", () => {
@@ -95,6 +100,21 @@ describe("progress store", () => {
 
       progress.saveMissionComplete("m-01", 2, 100);
       expect(progress.getPartialProgress("m-01")).toBeNull();
+    });
+
+    it("sets infiniteModeUnlocked when all missions complete", () => {
+      expect(progress.loadProgress().infiniteModeUnlocked).toBe(false);
+
+      progress.saveMissionComplete("test-mission-1", 3, 100);
+      expect(progress.loadProgress().infiniteModeUnlocked).toBe(false);
+
+      progress.saveMissionComplete("test-mission-2", 3, 100);
+      expect(progress.loadProgress().infiniteModeUnlocked).toBe(true);
+    });
+
+    it("does not set infiniteModeUnlocked for partial completion", () => {
+      progress.saveMissionComplete("test-mission-1", 2, 50);
+      expect(progress.loadProgress().infiniteModeUnlocked).toBe(false);
     });
   });
 
