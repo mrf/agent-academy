@@ -42,6 +42,7 @@ export function createAIStep(overrides?: Partial<AIStep>): AIStep {
   return {
     type: "ai",
     prompt: "Explain what this code does.",
+    criteria: "Response should demonstrate understanding of code reading.",
     ...overrides,
   };
 }

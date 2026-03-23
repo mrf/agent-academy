@@ -3,6 +3,7 @@ import { Box, Text, useInput } from "ink";
 import { TypeWriter } from "../components/TypeWriter.js";
 import { QuizStep } from "../components/QuizStep.js";
 import { CommandStep } from "../components/CommandStep.js";
+import { AIStep } from "../components/AIStep.js";
 import { StatusBar } from "../components/StatusBar.js";
 import { BottomBar } from "../components/BottomBar.js";
 import { saveStepProgress } from "../store/progress.js";
@@ -43,6 +44,13 @@ function extractWrongAnswer(step: Step): WrongAnswer | null {
       explanation: step.explanation,
     };
   }
+  if (step.type === "ai") {
+    return {
+      question: step.prompt,
+      correctAnswer: "(open-ended)",
+      explanation: step.criteria ?? "This was an open-ended prompt.",
+    };
+  }
   return null;
 }
 
@@ -52,7 +60,7 @@ function getAvailableActions(
   stepType?: Step["type"],
 ): string[] {
   const actions: string[] = [];
-  if (phase === "step" && (stepType === "print" || stepType === "ai")) {
+  if (phase === "step" && stepType === "print") {
     actions.push("skip");
   }
   if (phase === "waitEnter") {
@@ -210,10 +218,12 @@ export function Mission({
         );
       case "ai":
         return (
-          <TypeWriter
-            text={step.prompt}
-            onComplete={handlePrintComplete}
-            noAnimation={skipAnim}
+          <AIStep
+            key={currentStepIndex}
+            step={step}
+            onAnswer={handleAnswer}
+            isFocused={isFocused}
+            hasApiKey={hasApiKey}
           />
         );
     }
