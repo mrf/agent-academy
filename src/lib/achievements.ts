@@ -1,10 +1,12 @@
 import { loadProgress, unlockAchievement } from "../store/progress.js";
 import { MISSIONS } from "../data/curriculum.js";
+import type { ClearanceLevel } from "../types.js";
 
 export type Achievement = {
   id: string;
   title: string;
-  description: string;
+  description?: string;
+  label?: string;
 };
 
 const ACHIEVEMENT_LIST: Achievement[] = [
@@ -110,6 +112,39 @@ export function checkHandlerOpen(
     return tryUnlock("HANDLERS_PET");
   }
   return null;
+}
+
+// Clearance level thresholds (missions completed required)
+export const CLEARANCE_THRESHOLDS = {
+  operative: 4,
+  elite: 8,
+} as const;
+
+export function computeClearanceLevel(completedCount: number): ClearanceLevel {
+  if (completedCount >= CLEARANCE_THRESHOLDS.elite) return "elite";
+  if (completedCount >= CLEARANCE_THRESHOLDS.operative) return "operative";
+  return "recruit";
+}
+
+export type RankUpResult = {
+  achievement: Achievement;
+  newLevel: ClearanceLevel;
+};
+
+export function checkClearanceRankUp(
+  previousLevel: ClearanceLevel,
+  completedCount: number,
+): RankUpResult | null {
+  const newLevel = computeClearanceLevel(completedCount);
+  if (newLevel === previousLevel) return null;
+  return {
+    achievement: {
+      id: `RANKUP_${newLevel.toUpperCase()}`,
+      title: newLevel.toUpperCase(),
+      label: "CLEARANCE UPGRADED",
+    },
+    newLevel,
+  };
 }
 
 /**

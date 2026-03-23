@@ -2,7 +2,7 @@ import { appendFileSync, mkdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import Conf from "conf";
-import type { SaveData } from "../types.js";
+import type { ClearanceLevel, SaveData } from "../types.js";
 
 const DEFAULT_SAVE_DATA: SaveData = {
   schemaVersion: 1,
@@ -136,6 +136,12 @@ export function unlockAchievement(name: string): boolean {
   data.achievements.push(name);
   safeSet(data);
   return true;
+}
+
+export function updateClearanceLevel(level: ClearanceLevel): void {
+  const data = safeGet();
+  data.clearanceLevel = level;
+  safeSet(data);
 }
 
 export function markHandlerUsed(): void {
