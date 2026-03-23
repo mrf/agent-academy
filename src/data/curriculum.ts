@@ -65,7 +65,6 @@ export const MISSIONS: Mission[] = [
           "run claude",
           "type claude",
           "claude code",
-          "npx claude",
         ],
         explanation:
           "Just type 'claude' in your terminal to start an interactive session. Simple as that.",
