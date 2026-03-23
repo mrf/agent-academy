@@ -1,12 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { Text, useInput } from "ink";
-import { TIMING } from "../constants.js";
+import { TIMING, COLORS } from "../constants.js";
 
 const SPEED_MAP = {
   fast: TIMING.typewriterFast,
   normal: TIMING.typewriterNormal,
   dramatic: TIMING.typewriterDramatic,
 } as const;
+
+type Segment = { text: string; isCode: boolean };
+
+/** Split text on backticks: odd-indexed parts are code spans. */
+function parseSegments(text: string): Segment[] {
+  return text
+    .split("`")
+    .map((part, i) => ({ text: part, isCode: i % 2 === 1 }))
+    .filter((s) => s.text.length > 0);
+}
+
+function displayLength(segments: Segment[]): number {
+  return segments.reduce((sum, s) => sum + s.text.length, 0);
+}
 
 interface TypeWriterProps {
   text: string;
@@ -27,35 +41,38 @@ export function TypeWriter({
   bold,
   dimColor,
 }: TypeWriterProps) {
+  const segments = parseSegments(text);
+  const fullLength = displayLength(segments);
+
   const [charIndex, setCharIndex] = useState(0);
   const completedRef = useRef(false);
-  const animating = !noAnimation && charIndex < text.length;
+  const animating = !noAnimation && charIndex < fullLength;
 
   // Skip to end on any keypress during animation
-  useInput(() => setCharIndex(text.length), { isActive: animating });
+  useInput(() => setCharIndex(fullLength), { isActive: animating });
 
   // Reset completion tracking when text shrinks (new text entirely)
   useEffect(() => {
-    if (text.length < charIndex) {
+    if (fullLength < charIndex) {
       setCharIndex(0);
       completedRef.current = false;
     }
-  }, [text, charIndex]);
+  }, [fullLength, charIndex]);
 
   // Handle noAnimation: render full text and fire onComplete
   useEffect(() => {
     if (!noAnimation) return;
-    setCharIndex(text.length);
+    setCharIndex(fullLength);
     if (!completedRef.current) {
       completedRef.current = true;
       onComplete?.();
     }
-  }, [noAnimation, text, onComplete]);
+  }, [noAnimation, fullLength, onComplete]);
 
   // Typewriter interval
   useEffect(() => {
     if (noAnimation) return;
-    if (charIndex >= text.length) {
+    if (charIndex >= fullLength) {
       if (!completedRef.current) {
         completedRef.current = true;
         onComplete?.();
@@ -65,7 +82,7 @@ export function TypeWriter({
 
     const interval = setInterval(() => {
       setCharIndex((prev) => {
-        if (prev >= text.length) {
+        if (prev >= fullLength) {
           clearInterval(interval);
           return prev;
         }
@@ -74,11 +91,24 @@ export function TypeWriter({
     }, SPEED_MAP[speed]);
 
     return () => clearInterval(interval);
-  }, [text, speed, noAnimation, charIndex, onComplete]);
+  }, [fullLength, speed, noAnimation, charIndex, onComplete]);
+
+  // Render segments up to charIndex, code spans in amber
+  let remaining = charIndex;
+  const rendered = segments.map((seg, i) => {
+    if (remaining <= 0) return null;
+    const visible = seg.text.slice(0, remaining);
+    remaining -= seg.text.length;
+    return (
+      <Text key={i} color={seg.isCode ? COLORS.amber : color} bold={bold} dimColor={dimColor}>
+        {visible}
+      </Text>
+    );
+  });
 
   return (
     <Text color={color} bold={bold} dimColor={dimColor}>
-      {text.slice(0, charIndex)}
+      {rendered}
     </Text>
   );
 }
