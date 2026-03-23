@@ -179,7 +179,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "The Edit tool is Claude Code's precision instrument — the scalpel in your field kit. It uses str_replace to swap specific text in a file. There's one critical rule: the old_str you're replacing must appear exactly once in the file.\n\nIf old_str matches zero times or more than once, the edit fails. This is a safety feature — it forces precision and prevents accidental changes to the wrong location.",
+        text: "The Edit tool is Claude Code's precision instrument — the scalpel in your field kit. It uses str_replace to swap specific text in a file. There's one critical rule: the old_str you're replacing must appear exactly once in the file.\n\nIf old_str matches zero times or more than once, the edit fails. This is a safety feature — it forces precision and prevents accidental changes to the wrong location.\n\nNeed to replace every occurrence? Set replace_all to update all matches at once.",
       },
       {
         type: "quiz",
@@ -192,7 +192,7 @@ export const MISSIONS: Mission[] = [
         ],
         correct: 1,
         explanation:
-          "The uniqueness requirement is a deliberate safety constraint. It ensures Claude Code modifies exactly the intended location and prevents ambiguous edits.",
+          "The uniqueness requirement is a deliberate safety constraint. It ensures Claude Code modifies exactly the intended location and prevents ambiguous edits. To update every occurrence at once, set replace_all.",
       },
       {
         type: "command",
