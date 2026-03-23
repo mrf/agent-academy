@@ -275,14 +275,9 @@ interface MissionRatingProps {
 
 function MissionRating({ stars, crt, scanDim }: MissionRatingProps) {
   return (
-    <>
-      <Text color={crt ? COLORS.green : COLORS.gold} dimColor={scanDim}>
-        {renderStars(stars)}
-      </Text>
-      <Text color={crt ? COLORS.green : COLORS.warmWhite} dimColor={scanDim}>
-        {"  "}{missionFxp(stars)} FXP
-      </Text>
-    </>
+    <Text color={crt ? COLORS.green : COLORS.gold} dimColor={scanDim}>
+      {renderStars(stars)}
+    </Text>
   );
 }
 
@@ -294,8 +289,4 @@ function isMissionUnlocked(
   if (index === 0) return true;
   const prevMission = MISSIONS[index - 1];
   return prevMission ? completedMissions.includes(prevMission.id) : false;
-}
-
-function missionFxp(stars: number): number {
-  return stars * 100 + 40;
 }
