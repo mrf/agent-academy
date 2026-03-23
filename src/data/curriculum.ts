@@ -318,7 +318,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Protocol established, operative. CLAUDE.md is your most powerful configuration tool — persistent instructions that survive across every session.\n\nKeep it concise, keep it current, and never put secrets in it. Standing orders received.",
+        text: "Protocol established, recruit. CLAUDE.md is your most powerful configuration tool — persistent instructions that survive across every session.\n\nKeep it concise, keep it current, and never put secrets in it. Standing orders received.",
       },
     ],
   },
@@ -603,7 +603,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "quiz",
         question:
-          "Trust check, operative. What do you think Claude Code's default permission behavior is?",
+          "Trust check, agent. What do you think Claude Code's default permission behavior is?",
         options: [
           "It runs all tools automatically",
           "It asks for approval before each tool use",
@@ -694,7 +694,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "The iron curtain stands, operative. You control what Claude Code can and cannot do. Default to safety — ask-first permissions. Use permissions.allow for trusted tools, permissions.deny for hard blocks, and permissions.ask for tools that should always prompt. Reserve the nuclear option for machines, not humans.\n\nSecurity isn't a feature. It's a discipline.",
+        text: "The iron curtain stands, agent. You control what Claude Code can and cannot do. Default to safety — ask-first permissions. Use permissions.allow for trusted tools, permissions.deny for hard blocks, and permissions.ask for tools that should always prompt. Reserve the nuclear option for machines, not humans.\n\nSecurity isn't a feature. It's a discipline.",
       },
     ],
   },
@@ -1098,7 +1098,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Legend built, operative. You've gone beyond the basics — instruction ordering, layering strategies, external doc references, and conditional rules.\n\nA well-crafted CLAUDE.md turns Claude Code from a general-purpose assistant into a domain expert for your specific project.\n\nNext: the threats most developers don't see coming — security in agentic AI.",
+        text: "Legend built, agent. You've gone beyond the basics — instruction ordering, layering strategies, external doc references, and conditional rules.\n\nA well-crafted CLAUDE.md turns Claude Code from a general-purpose assistant into a domain expert for your specific project.\n\nNext: the threats most developers don't see coming — security in agentic AI.",
       },
     ],
   },
