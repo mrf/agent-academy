@@ -125,12 +125,12 @@ export function Mission({
     const nextIndex = currentStepIndex + 1;
     setSeenUpTo((prev) => Math.max(prev, currentStepIndex));
     if (nextIndex >= mission.steps.length) {
-      onComplete(computeStars(hitsRef.current), fxpEarnedRef.current, coverIntegrity, wrongAnswersRef.current);
+      onComplete(computeStars(hitsRef.current), fxpEarnedRef.current, MAX_COVER - hitsRef.current, wrongAnswersRef.current);
     } else {
       setCurrentStepIndex(nextIndex);
       setPhase("step");
     }
-  }, [currentStepIndex, mission.steps.length, coverIntegrity, onComplete]);
+  }, [currentStepIndex, mission.steps.length, onComplete]);
 
   const handlePrintComplete = useCallback(() => {
     fxpEarnedRef.current += FXP_PER_PRINT;
