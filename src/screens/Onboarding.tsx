@@ -7,7 +7,7 @@ import { COLORS } from "../constants.js";
 const INTRO_LINES = [
   "You have been recruited by the Claude Code Terminal Training Division.",
   "Your mission: master the Claude Code CLI through field training.",
-  "Learn Claude Code by doing.",
+  "Your field training begins now, recruit. Prove yourself worthy of full clearance.",
 ] as const;
 
 interface OnboardingProps {
