@@ -40,6 +40,7 @@ export function StatusBar({
 
   function getCoverColor(): string {
     if (flashRed || coverIntegrity <= 1) return COLORS.red;
+    if (coverIntegrity <= 2) return COLORS.amber;
     return COLORS.green;
   }
 
