@@ -235,7 +235,7 @@ export function Mission({
     <Box flexDirection="column" width="100%" height="100%">
       <StatusBar
         coverIntegrity={coverIntegrity}
-        fxp={fxpEarned}
+        fxp={phase === "coverBlown" ? 0 : fxpEarned}
         missionNumber={missionNumber}
         codename={mission.codename}
         currentStep={currentStepIndex + 1}
@@ -259,8 +259,11 @@ export function Mission({
             <Text color={COLORS.red}>
               Your identity has been compromised. Mission failed.
             </Text>
+            <Text color={COLORS.amber}>
+              FXP lost: {fxpEarned} — 0 FXP awarded for this attempt.
+            </Text>
             <Text color={COLORS.gray}>
-              FXP from this attempt has been lost. Try again, operative.
+              Try again, operative.
             </Text>
           </Box>
         ) : (
