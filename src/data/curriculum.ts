@@ -535,20 +535,18 @@ export const MISSIONS: Mission[] = [
         speed: "fast",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
-          "What slash command clears your conversation entirely to start fresh?",
-        expectedAnswer: "/clear",
-        acceptedVariants: [
-          "/clear",
-          "clear",
-          "slash clear",
-          "the /clear command",
-          "the clear command",
-          "/reset",
+          "Which approach uses the fewest context tokens when searching for relevant code?",
+        options: [
+          "Read the entire file and scan it manually",
+          "Use Grep to search for specific patterns",
+          "Use Bash to cat the whole file",
+          "Read the file in 100-line chunks",
         ],
+        correct: 1,
         explanation:
-          "/clear wipes the entire conversation history and starts fresh. Use it when switching to a completely different task or project.",
+          "Grep returns only matching lines without loading entire files into context. Reading entire files is the most expensive operation — Grep is the surgical alternative.",
       },
       {
         type: "quiz",
