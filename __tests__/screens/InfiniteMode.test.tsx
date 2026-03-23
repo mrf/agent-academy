@@ -284,6 +284,41 @@ describe("InfiniteMode", () => {
       expect(inst.lastFrame()).toContain("Generating field assessment");
     });
 
+    it("shows [ESC] Cancel hint during generating phase", async () => {
+      mockGenerateFieldAssessments.mockReturnValue(new Promise(() => {}));
+
+      const inst = renderInfiniteMode();
+      await press(inst, keys.enter); // topic
+      await press(inst, keys.enter); // difficulty
+      await press(inst, keys.enter); // confirm
+
+      expect(inst.lastFrame()).toContain("[ESC] Cancel");
+    });
+
+    it("ESC during generating aborts and returns to confirm", async () => {
+      let rejectFn!: (err: Error) => void;
+      mockGenerateFieldAssessments.mockReturnValue(
+        new Promise<never>((_, reject) => {
+          rejectFn = reject;
+        }),
+      );
+
+      const inst = renderInfiniteMode();
+      await press(inst, keys.enter); // topic
+      await press(inst, keys.enter); // difficulty
+      await press(inst, keys.enter); // confirm → generating
+
+      expect(inst.lastFrame()).toContain("Generating field assessment");
+
+      await press(inst, keys.escape);
+      const abortError = new Error("aborted");
+      abortError.name = "AbortError";
+      rejectFn(abortError);
+      await tick(0);
+
+      expect(inst.lastFrame()).toContain("Begin assessment");
+    });
+
     it("renders quiz questions after generation", async () => {
       const inst = renderInfiniteMode();
       await navigateToQuiz(inst);
@@ -562,6 +597,7 @@ describe("InfiniteMode", () => {
         "operative",
         5,
         1,
+        expect.any(AbortSignal),
       );
     });
 
@@ -574,6 +610,7 @@ describe("InfiniteMode", () => {
         "elite",
         5,
         1,
+        expect.any(AbortSignal),
       );
     });
 
