@@ -355,18 +355,22 @@ describe("App integration — keyboard routing", () => {
     expect(inst.lastFrame()).toContain("SCREEN:MISSIONMAP");
   });
 
-  it("ESC from mission returns to missionMap (app handler disabled on mission)", async () => {
-    // The app-level useInput is disabled on mission screen when no overlay
-    // is open. ESC is only handled by the app when an overlay is open —
-    // in which case it closes the overlay rather than navigating. Without
-    // an overlay, the key is not received by the app handler.
+  it("ESC from mission returns to missionMap", async () => {
     const inst = await navigateToMission();
     expect(inst.lastFrame()).toContain("SCREEN:MISSION");
 
-    // ESC does not navigate away because app handler is inactive
     pressKey(inst, keys.escape);
     await tick(0);
+    expect(inst.lastFrame()).toContain("SCREEN:MISSIONMAP");
+  });
+
+  it("'?' opens handler overlay during mission", async () => {
+    const inst = await navigateToMission(true);
     expect(inst.lastFrame()).toContain("SCREEN:MISSION");
+
+    inst.stdin.write("?");
+    await tick(0);
+    expect(inst.lastFrame()).toContain("OVERLAY:HANDLER");
   });
 });
 

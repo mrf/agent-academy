@@ -15,6 +15,7 @@ interface MissionProps {
   onComplete: (stars: 1 | 2 | 3, fxp: number, coverRemaining: number, wrongAnswers: WrongAnswer[]) => void;
   hasApiKey: boolean;
   noAnimation: boolean;
+  overlayOpen?: boolean;
 }
 
 type Phase = "step" | "waitEnter" | "coverBlown";
@@ -81,6 +82,7 @@ export function Mission({
   onComplete,
   hasApiKey,
   noAnimation,
+  overlayOpen = false,
 }: MissionProps) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [coverIntegrity, setCoverIntegrity] = useState(MAX_COVER);
@@ -179,10 +181,10 @@ export function Mission({
         }
       }
     },
-    { isActive: phase === "waitEnter" || phase === "coverBlown" },
+    { isActive: (phase === "waitEnter" || phase === "coverBlown") && !overlayOpen },
   );
 
-  const isFocused = phase === "step";
+  const isFocused = phase === "step" && !overlayOpen;
 
   function renderStep(step: Step) {
     const skipAnim = noAnimation || currentStepIndex <= seenUpTo;
