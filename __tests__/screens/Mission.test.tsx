@@ -14,6 +14,7 @@ import {
   createPrintStep,
   createQuizStep,
   createCommandStep,
+  createAIStep,
 } from "../helpers/mock-missions.js";
 import type { Mission as MissionType } from "../../src/types.js";
 
@@ -42,6 +43,13 @@ vi.mock("../../src/components/CommandStep.js", () => ({
   CommandStep: (props: { onAnswer: (c: boolean) => void }) => {
     capturedOnAnswer = props.onAnswer;
     return <Text>COMMAND_STEP</Text>;
+  },
+}));
+
+vi.mock("../../src/components/AIStep.js", () => ({
+  AIStep: (props: { onAnswer: (c: boolean | null) => void }) => {
+    capturedOnAnswer = props.onAnswer;
+    return <Text>AI_STEP</Text>;
   },
 }));
 
@@ -392,6 +400,74 @@ describe("Mission", () => {
 
       await answerStep(true);
       expect(inst.lastFrame()).toContain("step=3/3");
+    });
+  });
+
+  // ── AI step integration ────────────────────────────────────────────
+
+  describe("AI step integration", () => {
+    const aiMission = createMission({
+      steps: [createPrintStep(), createAIStep(), createCommandStep()],
+    });
+
+    it("renders AI_STEP for ai step type", async () => {
+      const inst = renderMission({ mission: aiMission });
+      await tick(0);
+
+      await completePrintStep(inst);
+      expect(inst.lastFrame()).toContain("AI_STEP");
+    });
+
+    it("progresses from print → ai → command", async () => {
+      const inst = renderMission({ mission: aiMission });
+      await tick(0);
+
+      expect(inst.lastFrame()).toContain("PRINT:");
+      await completePrintStep(inst);
+
+      expect(inst.lastFrame()).toContain("AI_STEP");
+      await answerStep(true);
+
+      expect(inst.lastFrame()).toContain("COMMAND_STEP");
+    });
+
+    it("earns 10 FXP for a correct AI step answer", async () => {
+      const inst = renderMission({ mission: aiMission });
+      await tick(0);
+
+      await completePrintStep(inst); // +5 FXP
+      await answerStep(true); // +10 FXP = 15
+
+      expect(inst.lastFrame()).toContain("fxp=15");
+    });
+
+    it("decrements cover on wrong AI step answer", async () => {
+      const mission = createMission({
+        steps: [createPrintStep(), createAIStep(), createAIStep(), createCommandStep()],
+      });
+      const inst = renderMission({ mission });
+      await tick(0);
+
+      await completePrintStep(inst);
+      await answerStep(false);
+
+      expect(inst.lastFrame()).toContain("cover=2");
+    });
+
+    it("skips scoring when AI eval fails (null)", async () => {
+      const onComplete = vi.fn();
+      const mission = createMission({
+        steps: [createPrintStep(), createAIStep()],
+      });
+      const inst = renderMission({ mission, onComplete });
+      await tick(0);
+
+      await completePrintStep(inst); // +5 FXP
+      capturedOnAnswer!(null as unknown as boolean); // eval failed
+      await tick(0);
+
+      // Mission completes: 3 stars (0 hits), 5 FXP (only print step), cover 3
+      expect(onComplete).toHaveBeenCalledWith(3, 5, 3, []);
     });
   });
 });

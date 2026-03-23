@@ -25,6 +25,7 @@ export type CommandStep = {
 export type AIStep = {
   type: "ai";
   prompt: string;
+  criteria?: string;
 };
 
 export type Step = PrintStep | QuizStep | CommandStep | AIStep;
