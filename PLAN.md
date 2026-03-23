@@ -64,6 +64,10 @@ Every mission gets a codename alongside its number:
 | 06 | GLASS HIGHWAY | Context Window Management |
 | 07 | IRON CURTAIN | Permissions & Safety |
 | 08 | DEEP COVER | Advanced Workflows |
+| 09 | DOUBLE AGENT | Multi-File Operations & Git |
+| 10 | LEGEND BUILDER | Custom Instructions & Project Context |
+| 11 | BURNED NOTICE | Security & Safety |
+| 12 | CONTROL TOWER | Production Patterns & Team Workflows |
 
 ---
 
