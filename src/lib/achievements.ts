@@ -11,7 +11,7 @@ const ACHIEVEMENT_LIST: Achievement[] = [
   {
     id: "SPEEDRUNNER",
     title: "Speed of Light",
-    description: "Complete a mission in under 2 minutes",
+    description: "Complete a mission in under 60 seconds",
   },
   {
     id: "PERFECTIONIST",
@@ -62,7 +62,7 @@ export function checkMissionComplete(
 ): Achievement[] {
   const unlocked: Achievement[] = [];
 
-  if (ctx.durationMs < 2 * 60 * 1000) {
+  if (ctx.durationMs < 60 * 1000) {
     tryUnlock("SPEEDRUNNER", unlocked);
   }
 
