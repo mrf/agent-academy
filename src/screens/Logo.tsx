@@ -3,12 +3,12 @@ import { Box, Text, useInput } from "ink";
 import { TypeWriter } from "../components/TypeWriter.js";
 import { COLORS, VERSION } from "../constants.js";
 
-const ASCII_LOGO = ` ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗
-██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝
-██║     ██║     ███████║██║   ██║██║  ██║█████╗
-██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝
-╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
- ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝`;
+const ASCII_LOGO = ` ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗     ██████╗ ██████╗ ██████╗ ███████╗
+██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+██║     ██║     ███████║██║   ██║██║  ██║█████╗      ██║     ██║   ██║██║  ██║█████╗
+██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝      ██║     ██║   ██║██║  ██║██╔══╝
+╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗    ╚██████╗╚██████╔╝██████╔╝███████╗
+ ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝`;
 
 const PHASES = ["logo", "subtitle", "division", "prompt", "ready"] as const;
 type Phase = (typeof PHASES)[number];
@@ -62,7 +62,7 @@ export function Logo({ onContinue }: LogoProps) {
         {phaseIdx >= 1 && (
           <Box marginTop={1}>
             <TypeWriter
-              text="[ C O D E   A C A D E M Y ]"
+              text="[ A C A D E M Y ]"
               speed="dramatic"
               onComplete={advancePhase}
               color={COLORS.cyan}
