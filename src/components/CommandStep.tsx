@@ -80,14 +80,16 @@ function ResultBanner({ evalFailed, correct, expectedAnswer }: ResultBannerProps
 
 function getHelpHint(step: CommandStepType): string {
   const answer = step.expectedAnswer;
-  if (answer.length <= 6) {
-    if (answer.startsWith("/")) {
-      return `Intel: it's a slash command, ${answer.length} characters long.`;
-    }
-    return `Intel: the answer is ${answer.length} characters long.`;
+  if (answer.startsWith("/")) {
+    return "Intel: it's a slash command.";
   }
-  const revealed = answer.slice(0, Math.ceil(answer.length / 3));
-  return `Intel: the answer starts with "${revealed}..."`;
+  if (answer.startsWith("--")) {
+    return "Intel: it's a double-dash flag.";
+  }
+  if (answer.startsWith("-")) {
+    return "Intel: it's a flag or option.";
+  }
+  return "Intel: it's a command or tool name.";
 }
 
 export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: CommandStepProps) {
