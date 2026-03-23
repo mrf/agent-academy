@@ -32,6 +32,7 @@ export function MissionMap({
   const [selectedIndex, setSelectedIndex] = useState(initialIndex);
   const [pulseBright, setPulseBright] = useState(true);
   const [legacyMode, setLegacyMode] = useState(progress.legacyModeUnlocked);
+  const [lockedMessage, setLockedMessage] = useState<string | null>(null);
   const [konamiFlash, setKonamiFlash] = useState(false);
   const konamiCheck = useRef(createKonamiTracker()).current;
   const konamiTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -77,8 +78,10 @@ export function MissionMap({
 
     if (key.upArrow) {
       setSelectedIndex((i) => Math.max(0, i - 1));
+      setLockedMessage(null);
     } else if (key.downArrow) {
       setSelectedIndex((i) => Math.min(maxIndex, i + 1));
+      setLockedMessage(null);
     } else if (key.return) {
       if (isInfiniteSelected && onSelectInfiniteMode) {
         onSelectInfiniteMode();
@@ -86,6 +89,14 @@ export function MissionMap({
         const mission = MISSIONS[selectedIndex];
         if (mission && isMissionUnlocked(mission.id, progress.completedMissions)) {
           onSelectMission(selectedIndex);
+        } else if (mission) {
+          const prevMission = MISSIONS[selectedIndex - 1];
+          const prevNum = String(selectedIndex).padStart(2, "0");
+          setLockedMessage(
+            prevMission
+              ? `Complete Mission ${prevNum} ${prevMission.codename} to unlock this one.`
+              : "Complete the previous mission to unlock this one.",
+          );
         }
       }
     }
@@ -264,6 +275,12 @@ export function MissionMap({
             <Text color={dim}>
               {crtSeparator}
             </Text>
+          </Box>
+        )}
+
+        {lockedMessage && (
+          <Box marginTop={1}>
+            <Text color={accent}>⚠ {lockedMessage}</Text>
           </Box>
         )}
 
