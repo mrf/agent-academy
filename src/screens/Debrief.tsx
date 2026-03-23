@@ -10,6 +10,7 @@ interface DebriefProps {
   fxpEarned: number;
   coverRemaining: number;
   wrongAnswers: WrongAnswer[];
+  isLastMission?: boolean;
   onContinue: () => void;
 }
 
@@ -25,6 +26,7 @@ export function Debrief({
   fxpEarned,
   coverRemaining,
   wrongAnswers,
+  isLastMission = false,
   onContinue,
 }: DebriefProps) {
   const [starsRevealed, setStarsRevealed] = useState(0);
@@ -146,7 +148,9 @@ export function Debrief({
         {animDone && (
           <Box justifyContent="center" marginTop={1}>
             <Text color={COLORS.amber} bold>
-              [ENTER] Return to mission map
+              {isLastMission
+                ? "[ENTER] View final debrief"
+                : "[ENTER] Return to mission map"}
             </Text>
           </Box>
         )}
