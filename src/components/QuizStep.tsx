@@ -170,7 +170,7 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
           </Box>
           <Box marginTop={1}>
             <Text color={COLORS.gray} dimColor>
-              [Enter] to continue
+              [ENTER] Continue
             </Text>
           </Box>
         </Box>

@@ -191,7 +191,7 @@ export function AIStep({ step, onAnswer, isFocused, hasApiKey = true }: AIStepPr
           />
           <Box marginTop={1}>
             <Text color={COLORS.gray} dimColor>
-              [Enter] to continue
+              [ENTER] Continue
             </Text>
           </Box>
         </Box>
