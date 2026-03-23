@@ -759,7 +759,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Piping works naturally with Claude Code. Pipe content in:\n\necho 'explain this function' | claude\ncat complex.ts | claude -p 'review this code'\n\nOr pipe output out:\n\nclaude -p 'generate a tsconfig' > tsconfig.json\n\nClaude Code plays well with Unix philosophy — small tools, composed together.",
+        text: "Piping works naturally with Claude Code. Pipe content in:\n\n`echo 'explain this function' | claude`\n`cat complex.ts | claude -p 'review this code'`\n\nOr pipe output out:\n\n`claude -p 'generate a tsconfig' > tsconfig.json`\n\nClaude Code plays well with Unix philosophy — small tools, composed together.",
         speed: "fast",
       },
       {
@@ -797,7 +797,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Power move: combine print mode with output formatting. The --output-format flag controls how results come back. Use 'json' for structured output that other tools and scripts can parse reliably.",
+        text: "Power move: combine print mode with output formatting. The `--output-format` flag controls how results come back. Use `json` for structured output that other tools and scripts can parse reliably.",
       },
       {
         type: "print",
@@ -834,7 +834,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Hooks are your tripwires — shell commands that trigger in response to Claude Code events. You can configure hooks that run before or after specific tool calls — like running a linter after every Edit, or logging Bash commands for audit trails.\n\nHooks are configured in your settings file under the 'hooks' key.",
+        text: "Hooks are your tripwires — shell commands that trigger in response to Claude Code events. You can configure hooks that run before or after specific tool calls — like running a linter after every Edit, or logging Bash commands for audit trails.\n\nHooks are configured in your settings file under the `hooks` key.",
       },
       {
         type: "command",
