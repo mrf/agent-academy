@@ -448,7 +448,7 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "Before we talk tools, you need to understand the single most important concept in working with any AI assistant: the context window.\n\nThe context window is Claude's working memory — the total information it can see and reason about during your conversation. Think of it like a desk: everything Claude needs to work with has to fit on that desk at the same time.",
+        text: "You know the tools. Now learn the single most important constraint that governs how they work: the context window.\n\nThe context window is Claude's working memory — the total information it can see and reason about during your conversation. Think of it like a desk: everything Claude needs to work with has to fit on that desk at the same time.",
         speed: "normal",
       },
       {
