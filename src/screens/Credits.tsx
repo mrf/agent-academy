@@ -33,12 +33,28 @@ export function Credits({ onClose }: CreditsProps) {
   );
 
   useInput((_input, key) => {
-    if (phase === "summary" && (key.return || key.escape)) {
-      setPhase("credits");
-    } else if (phase === "credits" && (key.return || key.escape)) {
-      setPhase("destruct");
-    } else if (phase === "destruct" && key.escape) {
-      onClose();
+    switch (phase) {
+      case "summary":
+        if (key.return) setPhase("credits");
+        if (key.escape) onClose();
+        break;
+      case "credits":
+        if (key.return) setPhase("destruct");
+        if (key.escape) setPhase("summary");
+        break;
+      case "destruct":
+        if (key.escape) {
+          setCountdown(3);
+          setPhase("credits");
+        }
+        break;
+      case "wipe":
+        if (key.escape) {
+          setCountdown(3);
+          setWipeProgress(0);
+          setPhase("credits");
+        }
+        break;
     }
   });
 
@@ -169,7 +185,7 @@ export function Credits({ onClose }: CreditsProps) {
 
           <Box marginTop={1} justifyContent="center">
             <Text color={COLORS.gray} dimColor>
-              [ENTER] Continue to credits
+              [ENTER] Continue to credits  [ESC] Exit
             </Text>
           </Box>
         </Box>
@@ -247,15 +263,16 @@ export function Credits({ onClose }: CreditsProps) {
 
         {phase === "credits" && (
           <Box marginTop={1} justifyContent="center">
-            <Text color={COLORS.gray} dimColor>[ENTER/ESC] Dismiss</Text>
+            <Text color={COLORS.gray} dimColor>[ENTER] Self-destruct  [ESC] Back</Text>
           </Box>
         )}
 
         {phase === "destruct" && (
-          <Box marginTop={1} justifyContent="center">
+          <Box marginTop={1} flexDirection="column" alignItems="center">
             <Text color={COLORS.red} bold>
               This document will self-destruct in {countdown}...
             </Text>
+            <Text color={COLORS.gray} dimColor>[ESC] Abort</Text>
           </Box>
         )}
       </Box>
