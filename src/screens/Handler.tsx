@@ -9,6 +9,8 @@ import { useTerminalSize } from "../lib/terminal.js";
 
 type Message = { role: "user" | "assistant"; content: string };
 
+const VISIBLE_MESSAGES = 8;
+
 interface HandlerProps {
   missionTitle: string;
   topicContext: string;
@@ -143,8 +145,8 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
     }
   });
 
-  // Show last few messages of history for context
-  const visibleHistory = history.slice(-4);
+  const hiddenCount = Math.max(0, history.length - VISIBLE_MESSAGES);
+  const visibleHistory = history.slice(-VISIBLE_MESSAGES);
 
   return (
     <Box
@@ -160,6 +162,14 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
           [ HANDLER ]
         </Text>
       </Box>
+
+      {hiddenCount > 0 && (
+        <Box marginBottom={1}>
+          <Text color={COLORS.gray} dimColor>
+            ({hiddenCount} earlier {hiddenCount === 1 ? "message" : "messages"})
+          </Text>
+        </Box>
+      )}
 
       {visibleHistory.map((msg, i) => (
         <Box key={i} marginBottom={i % 2 === 1 ? 1 : 0}>
