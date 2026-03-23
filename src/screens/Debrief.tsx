@@ -129,7 +129,7 @@ export function Debrief({
             {wrongAnswers.map((wa, i) => (
               <Box key={i} flexDirection="column" marginLeft={2} marginTop={1}>
                 <Text color={COLORS.warmWhite}>
-                  {`${i + 1}. ${wa.question}`}
+                  {`Step ${wa.stepIndex + 1}: ${wa.question}`}
                 </Text>
                 <Text color={COLORS.green}>
                   {`   Correct: ${wa.correctAnswer}`}
