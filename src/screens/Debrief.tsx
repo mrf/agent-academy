@@ -60,6 +60,9 @@ export function Debrief({
   });
 
   const starString = renderStars(starsRevealed);
+  const objectivesMetCount = Math.ceil(
+    (mission.objectives.length * stars) / 3
+  );
 
   return (
     <Box
@@ -113,11 +116,14 @@ export function Debrief({
           <Text color={COLORS.cyan} bold>
             OBJECTIVES:
           </Text>
-          {mission.objectives.map((obj, i) => (
-            <Text key={i} color={COLORS.warmWhite}>
-              {`  \u2022 ${obj}`}
-            </Text>
-          ))}
+          {mission.objectives.map((obj, i) => {
+            const met = i < objectivesMetCount;
+            return (
+              <Text key={i} color={met ? COLORS.green : COLORS.warmWhite}>
+                {`  ${met ? "[x]" : "[ ]"} ${obj}`}
+              </Text>
+            );
+          })}
         </Box>
 
         {/* Wrong answers review */}
