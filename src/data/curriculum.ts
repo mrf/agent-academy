@@ -715,7 +715,7 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "You've completed basic training. Now we go deep cover — advanced workflows that separate field operatives from headquarters analysts.\n\nHeadless mode, piping, hooks, subagents, and multi-session orchestration. This is the final exam.",
+        text: "You've completed basic training. Now we go deep cover — advanced workflows that separate field operatives from headquarters analysts.\n\nHeadless mode, piping, hooks, subagents, and multi-session orchestration. This is your advanced certification exam.",
         speed: "normal",
       },
       {
