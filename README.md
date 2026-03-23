@@ -116,7 +116,7 @@ Finished the curriculum? Infinite Mode generates fresh AI-powered questions acro
 **Progress that persists**
 Your clearance level, star ratings, FXP (Field Experience Points), and achievements save between sessions. Come back tomorrow and pick up where you left off.
 
-**7 spy-themed achievements**
+**Spy-themed achievements**
 From *Ghost Protocol* (complete all missions without contacting your handler) to *Dark Hours Operative* (play between 0100-0500). Some are hard. All are satisfying.
 
 **A terminal aesthetic you'll actually enjoy**
