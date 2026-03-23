@@ -1225,7 +1225,7 @@ export const MISSIONS: Mission[] = [
   // ─── MISSION 12 ─────────────────────────────────────────────────────
   {
     id: "mission-12",
-    codename: "CONTROL TOWER",
+    codename: "NETWORK",
     title: "Production Patterns & Team Workflows",
     briefing:
       "From solo operative to team commander. Scale Claude Code across pipelines, teams, and production.",
@@ -1238,7 +1238,7 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "You've trained as a solo operative. Now you command the control tower — coordinating Claude Code across teams, pipelines, and production systems.\n\nThis final mission covers the patterns that scale Claude Code from personal tool to organizational capability.",
+        text: "You've trained as a solo operative. Now you run the network — coordinating Claude Code across teams, pipelines, and production systems.\n\nThis final mission covers the patterns that scale Claude Code from personal tool to organizational capability.",
         speed: "normal",
       },
       {
@@ -1343,7 +1343,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Final debrief, operative. You've completed the full Claude Code training program — from first contact to control tower operations.\n\nYou know the tools, the workflows, the security model, and the team patterns. You understand context management, cost optimization, and multi-agent orchestration.\n\nThe control tower is yours. Command it well.",
+        text: "Final debrief, operative. You've completed the full Claude Code training program — from first contact to running the network.\n\nYou know the tools, the workflows, the security model, and the team patterns. You understand context management, cost optimization, and multi-agent orchestration.\n\nThe network is yours. Run it well.",
         speed: "normal",
       },
     ],
