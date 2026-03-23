@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Credits } from "../../src/screens/Credits.js";
+import { MISSIONS } from "../../src/data/curriculum.js";
 import {
   renderInk,
   cleanup,
@@ -8,9 +9,47 @@ import {
   tick,
   type RenderResult,
 } from "../helpers/render-ink.js";
+import type { SaveData } from "../../src/types.js";
+
+// ── Mocks ─────────────────────────────────────────────────────────────
+
+const mockLoadProgress = vi.fn<() => SaveData>();
+
+vi.mock("../../src/store/progress.js", () => ({
+  loadProgress: () => mockLoadProgress(),
+}));
+
+function freshProgress(overrides?: Partial<SaveData>): SaveData {
+  return {
+    schemaVersion: 1,
+    completedMissions: [],
+    starRatings: {},
+    fxp: 0,
+    clearanceLevel: "recruit",
+    achievements: [],
+    quizStats: { correct: 0, total: 0 },
+    infiniteModeStats: { correct: 0, total: 0, sessionsPlayed: 0, fxpEarned: 0 },
+    infiniteModeUnlocked: false,
+    firstRunComplete: false,
+    lastPlayedAt: 0,
+    handlerEverUsed: false,
+    legacyModeUnlocked: false,
+    ...overrides,
+  };
+}
+
+function allCompleteProgress(): SaveData {
+  const starRatings: Record<string, 1 | 2 | 3> = {};
+  const completedMissions = MISSIONS.map((m) => {
+    starRatings[m.id] = 3;
+    return m.id;
+  });
+  return freshProgress({ completedMissions, starRatings, clearanceLevel: "elite" });
+}
 
 beforeEach(() => {
   vi.useFakeTimers();
+  mockLoadProgress.mockReturnValue(freshProgress());
 });
 
 afterEach(() => {
@@ -217,5 +256,29 @@ describe("Credits", () => {
     await tick(400);
 
     expect(() => inst.unmount()).not.toThrow();
+  });
+
+  // ── Konami hint (full clearance only) ───────────────────────────────
+
+  it("shows konami hint in credits phase when all missions complete", async () => {
+    mockLoadProgress.mockReturnValue(allCompleteProgress());
+    const inst = renderCredits();
+    await advanceToCredits(inst);
+    const frame = inst.lastFrame();
+    expect(frame).toContain("INTEL FRAGMENT");
+    expect(frame).toContain("classic code");
+    expect(frame).toContain("retro terminal");
+  });
+
+  it("does not show konami hint when missions are incomplete", async () => {
+    const inst = renderCredits();
+    await advanceToCredits(inst);
+    expect(inst.lastFrame()).not.toContain("INTEL FRAGMENT");
+  });
+
+  it("does not show konami hint in summary phase even when all complete", () => {
+    mockLoadProgress.mockReturnValue(allCompleteProgress());
+    const { lastFrame } = renderCredits();
+    expect(lastFrame()).not.toContain("INTEL FRAGMENT");
   });
 });

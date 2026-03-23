@@ -31,6 +31,7 @@ export function Credits({ onClose }: CreditsProps) {
   const improvable = MISSIONS.filter(
     (m) => (progress.starRatings[m.id] ?? 0) < 3,
   );
+  const allComplete = progress.completedMissions.length >= MISSIONS.length;
 
   useInput((_input, key) => {
     if (phase === "summary" && (key.return || key.escape)) {
@@ -238,6 +239,24 @@ export function Credits({ onClose }: CreditsProps) {
             <Text color={COLORS.warmWhite}>Commendation: Distinguished Service</Text>
           </Box>
         </Box>
+
+        {allComplete && (
+          <Box marginTop={1} flexDirection="column">
+            <Text color={COLORS.gray}>
+              {"─".repeat(contentWidth)}
+            </Text>
+            <Box marginTop={1} flexDirection="column">
+              <Text color={COLORS.gray} bold>
+                INTEL FRAGMENT
+              </Text>
+              <Box marginLeft={2}>
+                <Text color={COLORS.gray} dimColor>
+                  Rumor: a classic code unlocks a retro terminal...
+                </Text>
+              </Box>
+            </Box>
+          </Box>
+        )}
 
         <Box marginTop={1}>
           <Text color={COLORS.gray}>
