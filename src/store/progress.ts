@@ -199,7 +199,7 @@ export function reportBadQuestion(
   question: string,
   topic: string,
   difficulty: string,
-): void {
+): boolean {
   const dir = join(homedir(), ".claude-code-academy");
   try {
     mkdirSync(dir, { recursive: true });
@@ -210,8 +210,9 @@ export function reportBadQuestion(
       ts: new Date().toISOString(),
     });
     appendFileSync(join(dir, "reported-questions.jsonl"), entry + "\n");
+    return true;
   } catch {
-    // best-effort logging
+    return false;
   }
 }
 

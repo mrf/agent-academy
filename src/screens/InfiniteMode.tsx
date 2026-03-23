@@ -56,6 +56,12 @@ function accuracyColor(correct: number, total: number): string {
   return COLORS.red;
 }
 
+function reportLabel(status: false | "success" | "failed"): { color: string; text: string } {
+  if (status === "success") return { color: COLORS.green, text: "[R] Reported" };
+  if (status === "failed") return { color: COLORS.red, text: "[R] Report failed" };
+  return { color: COLORS.gray, text: "[R] Report bad question" };
+}
+
 export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
   const { columns } = useTerminalSize();
   const contentWidth = Math.max(20, columns - 8);
@@ -70,7 +76,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
   const [total, setTotal] = useState(0);
   const [fxpEarned, setFxpEarned] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [reported, setReported] = useState(false);
+  const [reported, setReported] = useState<false | "success" | "failed">(false);
   const [dots, setDots] = useState(".");
   const mountedRef = useRef(true);
   const abortRef = useRef<AbortController | null>(null);
@@ -214,12 +220,12 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
     if ((input === "r" || input === "R") && phase === "quiz" && !reported) {
       const q = questions[currentIndex];
       if (q) {
-        reportBadQuestion(
+        const ok = reportBadQuestion(
           q.question,
           selectedTopic ?? "",
           selectedDifficulty ?? "",
         );
-        setReported(true);
+        setReported(ok ? "success" : "failed");
       }
     }
   });
@@ -379,8 +385,8 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
               isFocused
             />
             <Box marginTop={1}>
-              <Text color={reported ? COLORS.green : COLORS.gray}>
-                {reported ? "[R] Reported" : "[R] Report bad question"}
+              <Text color={reportLabel(reported).color}>
+                {reportLabel(reported).text}
               </Text>
             </Box>
           </Box>
