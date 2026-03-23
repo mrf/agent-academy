@@ -64,7 +64,7 @@ export function NoApiKey({ onContinue }: NoApiKeyProps) {
 
         <Box marginTop={1} flexDirection="column">
           <Text color={COLORS.gray}>
-            Estimated cost: ~$0.05-0.15 per mission (Haiku-class models)
+            Estimated total cost: ~$0.15 for the full curriculum
           </Text>
         </Box>
 
