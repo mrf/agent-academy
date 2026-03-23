@@ -111,6 +111,27 @@ describe("MissionMap", () => {
     }
   });
 
+  it("shows title subtitle for selected mission", () => {
+    const inst = renderMap();
+    const frame = inst.lastFrame()!;
+
+    // Initially mission 0 is selected; its title should be visible
+    expect(frame).toContain(MISSIONS[0].title);
+    // Non-selected missions should not show their titles
+    expect(frame).not.toContain(MISSIONS[1].title);
+  });
+
+  it("title subtitle updates when selection changes", async () => {
+    const inst = renderMap();
+
+    pressKey(inst, keys.arrowDown);
+    await tick(0);
+
+    const frame = inst.lastFrame()!;
+    expect(frame).toContain(MISSIONS[1].title);
+    expect(frame).not.toContain(MISSIONS[0].title);
+  });
+
   it("locked missions show LOCKED label", () => {
     const inst = renderMap();
     const frame = inst.lastFrame()!;

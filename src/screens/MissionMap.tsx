@@ -201,6 +201,12 @@ export function MissionMap({
                 {isLocked && <Text dimColor>LOCKED</Text>}
               </Box>
 
+              {isSelected && (
+                <Box marginLeft={6}>
+                  <Text color={dim}>{mission.title}</Text>
+                </Box>
+              )}
+
               {i < MISSIONS.length - 1 && (
                 <Box>
                   <Text dimColor>
