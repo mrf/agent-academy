@@ -44,6 +44,7 @@ vi.mock("../../src/store/progress.js", () => ({
       state.save.starRatings[id] = stars;
     }
     state.save.fxp += fxp;
+    return { infiniteModeJustUnlocked: false };
   }),
   saveProgress: vi.fn((data: SaveData) => {
     state.save = { ...data };

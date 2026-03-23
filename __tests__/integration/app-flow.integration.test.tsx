@@ -18,7 +18,7 @@ let currentSaveData: SaveData;
 
 vi.mock("../../src/store/progress.js", () => ({
   loadProgress: () => currentSaveData,
-  saveMissionComplete: vi.fn(),
+  saveMissionComplete: vi.fn(() => ({ infiniteModeJustUnlocked: false })),
   resetProgress: vi.fn(),
   markHandlerUsed: vi.fn(),
   updateLastPlayed: vi.fn(),

@@ -119,8 +119,9 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   const handleMissionComplete = useCallback(
     (stars: 1 | 2 | 3, fxpEarned: number, coverRemaining: number, wrongAnswers: WrongAnswer[]) => {
       const mission = MISSIONS[state.missionContext.currentMissionIndex];
+      let infiniteModeJustUnlocked = false;
       if (mission) {
-        saveMissionComplete(mission.id, stars, fxpEarned);
+        ({ infiniteModeJustUnlocked } = saveMissionComplete(mission.id, stars, fxpEarned));
       }
 
       const durationMs = Date.now() - missionStartRef.current;
@@ -130,6 +131,15 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
         durationMs,
       });
       enqueueAchievements(...unlocked);
+
+      if (infiniteModeJustUnlocked) {
+        enqueueAchievements({
+          id: "INFINITE_MODE_UNLOCKED",
+          header: "ACCESS GRANTED",
+          title: "DEEP COVER OPERATIONS UNLOCKED",
+          description: "Infinite mode is now available on the mission map",
+        });
+      }
 
       state.setMissionContext({ stars, fxpEarned, coverRemaining, wrongAnswers });
       state.navigateTo("debrief");
@@ -280,6 +290,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
           <Achievement
             name={achievementQueue[0].title}
             description={achievementQueue[0].description}
+            header={achievementQueue[0].header}
             onDismiss={handleAchievementDismiss}
             noAnimation={noAnimation}
           />

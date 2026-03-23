@@ -5,6 +5,7 @@ export type Achievement = {
   id: string;
   title: string;
   description: string;
+  header?: string;
 };
 
 const ACHIEVEMENT_LIST: Achievement[] = [
@@ -41,7 +42,7 @@ const ACHIEVEMENT_LIST: Achievement[] = [
   {
     id: "FULL_CLEARANCE",
     title: "Full Clearance",
-    description: "Complete all 8 missions",
+    description: `Complete all ${MISSIONS.length} missions`,
   },
 ];
 

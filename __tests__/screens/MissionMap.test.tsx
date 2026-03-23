@@ -66,6 +66,7 @@ function allCompleteProgress(): SaveData {
     starRatings,
     fxp: 9999,
     clearanceLevel: "elite",
+    infiniteModeUnlocked: true,
   });
 }
 
