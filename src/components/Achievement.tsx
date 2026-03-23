@@ -5,7 +5,7 @@ import { COLORS, TIMING } from "../constants.js";
 interface AchievementProps {
   name: string;
   description?: string;
-  header?: string;
+  label?: string;
   /** Called when the notification finishes dismissing */
   onDismiss?: () => void;
   /** Whether animations are disabled (--no-animation) */
@@ -20,7 +20,7 @@ const SLIDE_INTERVAL = 40;
 export function Achievement({
   name,
   description,
-  header = "ACHIEVEMENT UNLOCKED",
+  label = "ACHIEVEMENT UNLOCKED",
   onDismiss,
   noAnimation = false,
 }: AchievementProps) {
@@ -116,7 +116,7 @@ export function Achievement({
         alignItems="center"
       >
         <Text color={COLORS.gold} bold>
-          {header}
+          {label}
         </Text>
         <Text color={COLORS.gold} bold>
           {name}

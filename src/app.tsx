@@ -21,11 +21,13 @@ import {
   resetProgress,
   markHandlerUsed,
   updateLastPlayed,
+  updateClearanceLevel,
 } from "./store/progress.js";
 import {
   checkMissionComplete,
   checkPersistence,
   checkHandlerOpen,
+  checkClearanceRankUp,
 } from "./lib/achievements.js";
 import type { Achievement as AchievementDef } from "./lib/achievements.js";
 import type { WrongAnswer } from "./types.js";
@@ -131,10 +133,19 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
     (stars: 1 | 2 | 3, fxpEarned: number, coverRemaining: number, wrongAnswers: WrongAnswer[]) => {
       const mission = MISSIONS[state.missionContext.currentMissionIndex];
       let infiniteModeJustUnlocked = false;
+      const prevLevel = loadProgress().clearanceLevel;
+
       if (mission) {
         const quizTotal = mission.steps.filter((s) => s.type !== "print").length;
         const quizCorrect = Math.max(0, quizTotal - wrongAnswers.length);
         ({ infiniteModeJustUnlocked } = saveMissionComplete(mission.id, stars, fxpEarned, quizCorrect, quizTotal));
+      }
+
+      const newProgress = loadProgress();
+      const rankUp = checkClearanceRankUp(prevLevel, newProgress.completedMissions.length);
+      if (rankUp) {
+        updateClearanceLevel(rankUp.newLevel);
+        enqueueAchievements(rankUp.achievement);
       }
 
       const durationMs = Date.now() - missionStartRef.current;
@@ -312,7 +323,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
           <Achievement
             name={achievementQueue[0].title}
             description={achievementQueue[0].description}
-            header={achievementQueue[0].header}
+            label={achievementQueue[0].label}
             onDismiss={handleAchievementDismiss}
             noAnimation={noAnimation}
           />

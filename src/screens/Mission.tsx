@@ -241,6 +241,7 @@ export function Mission({
         currentStep={currentStepIndex + 1}
         totalSteps={mission.steps.length}
         hasApiKey={hasApiKey}
+        noAnimation={noAnimation}
       />
 
       <Box flexDirection="column" flexGrow={1} paddingX={2} paddingY={1}>
