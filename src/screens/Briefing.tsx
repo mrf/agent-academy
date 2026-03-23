@@ -31,7 +31,7 @@ export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
 
   const intel = mission.briefing ?? mission.codename;
 
-  const briefingText = [
+  const headerText = [
     `MISSION:     ${missionNumber} — ${mission.codename}`,
     `CLEARANCE:   ${clearanceLevel.toUpperCase()}`,
     `HANDLER:     Instructor Haiku`,
@@ -40,7 +40,6 @@ export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
     ...mission.objectives.map((obj) => `  [ ] ${obj}`),
     ``,
     `INTEL:`,
-    `  ${intel}`,
   ].join("\n");
 
   return (
@@ -63,8 +62,10 @@ export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
           </Text>
         </Box>
 
+        <Text color={COLORS.warmWhite}>{headerText}</Text>
+
         <TypeWriter
-          text={briefingText}
+          text={`  ${intel}`}
           speed="dramatic"
           onComplete={handleComplete}
           color={COLORS.warmWhite}
