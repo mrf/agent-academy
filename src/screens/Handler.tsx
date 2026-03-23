@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
-import { askHandler } from "../ai/instructor.js";
+import { askHandler, getHandlerUsage } from "../ai/instructor.js";
 import { safeApiError } from "../ai/client.js";
 import { COLORS, TIMING } from "../constants.js";
 import { getLoadingMessage } from "../lib/easter-eggs.js";
@@ -10,6 +10,7 @@ import { useTerminalSize } from "../lib/terminal.js";
 type Message = { role: "user" | "assistant"; content: string };
 
 const VISIBLE_MESSAGES = 8;
+const LOW_CREDITS_THRESHOLD = 5;
 
 interface HandlerProps {
   missionTitle: string;
@@ -26,6 +27,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
   const [error, setError] = useState<string | null>(null);
   const [dots, setDots] = useState("");
   const [loadingMsg, setLoadingMsg] = useState("");
+  const [usage, setUsage] = useState(getHandlerUsage);
   const abortRef = useRef<AbortController | null>(null);
   const chunkBufferRef = useRef("");
   const flushTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -111,6 +113,7 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
         clearFlushTimer();
         flushBuffer();
         setIsStreaming(false);
+        setUsage(getHandlerUsage());
       }
     },
     [missionTitle, topicContext, history, handleChunk, flushBuffer],
@@ -147,6 +150,8 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
 
   const hiddenCount = Math.max(0, history.length - VISIBLE_MESSAGES);
   const visibleHistory = history.slice(-VISIBLE_MESSAGES);
+  const remaining = usage.cap - usage.used;
+  const isLowCredits = remaining > 0 && remaining <= LOW_CREDITS_THRESHOLD;
 
   return (
     <Box
@@ -158,10 +163,17 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
       width={Math.min(60, columns - 4)}
     >
       <Box justifyContent="center" marginBottom={1}>
-        <Text color={COLORS.cyan} bold>
-          [ HANDLER ]
+        <Text color={COLORS.cyan} bold>{"[ HANDLER "}</Text>
+        <Text color={isLowCredits ? COLORS.red : COLORS.gray}>
+          [{remaining}/{usage.cap} remaining]
         </Text>
+        <Text color={COLORS.cyan} bold>{" ]"}</Text>
       </Box>
+      {isLowCredits && (
+        <Box justifyContent="center" marginBottom={1}>
+          <Text color={COLORS.red}>low handler credits</Text>
+        </Box>
+      )}
 
       {hiddenCount > 0 && (
         <Box marginBottom={1}>
