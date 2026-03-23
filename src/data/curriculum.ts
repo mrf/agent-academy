@@ -361,7 +361,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Slash commands give you direct control over the session:\n\n- /context — display token usage and context window status\n- /compact — manually compress conversation history\n- /clear — reset conversation, start fresh\n- /config — view or modify settings\n- /doctor — diagnose common issues\n\nTip: type /help at any time to see all available commands.",
+        text: "Slash commands give you direct control over the session:\n\n- /context — display token usage and context window status\n- /compact — manually compress conversation history\n- /clear — reset conversation, start fresh\n- /config — view or modify settings\n- /help — list all available commands\n\nTip: type /help at any time to see all available commands.",
         speed: "fast",
       },
       {
