@@ -83,6 +83,8 @@ export function saveMissionComplete(
   missionId: string,
   stars: 1 | 2 | 3,
   fxpEarned: number,
+  quizCorrect: number,
+  quizTotal: number,
 ): void {
   const data = safeGet();
 
@@ -96,6 +98,8 @@ export function saveMissionComplete(
   }
 
   data.fxp += fxpEarned;
+  data.quizStats.correct += quizCorrect;
+  data.quizStats.total += quizTotal;
 
   // Clear partial progress for this mission
   delete partialProgress[missionId];
