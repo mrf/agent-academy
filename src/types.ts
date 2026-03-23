@@ -73,6 +73,7 @@ export type Answer = {
 };
 
 export type WrongAnswer = {
+  stepIndex: number;
   question: string;
   correctAnswer: string;
   explanation: string;

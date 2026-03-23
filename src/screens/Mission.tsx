@@ -30,9 +30,10 @@ function computeStars(hits: number): 1 | 2 | 3 {
   return 1;
 }
 
-function extractWrongAnswer(step: Step): WrongAnswer | null {
+function extractWrongAnswer(step: Step, stepIndex: number): WrongAnswer | null {
   if (step.type === "quiz") {
     return {
+      stepIndex,
       question: step.question,
       correctAnswer: step.options[step.correct],
       explanation: step.explanation,
@@ -40,6 +41,7 @@ function extractWrongAnswer(step: Step): WrongAnswer | null {
   }
   if (step.type === "command") {
     return {
+      stepIndex,
       question: step.question,
       correctAnswer: step.expectedAnswer,
       explanation: step.explanation,
@@ -47,6 +49,7 @@ function extractWrongAnswer(step: Step): WrongAnswer | null {
   }
   if (step.type === "ai") {
     return {
+      stepIndex,
       question: step.prompt,
       correctAnswer: "(open-ended)",
       explanation: step.criteria ?? "This was an open-ended prompt.",
@@ -149,7 +152,7 @@ export function Mission({
         fxpEarnedRef.current += FXP_PER_CORRECT;
         setFxpEarned(fxpEarnedRef.current);
       } else {
-        const wrong = extractWrongAnswer(currentStep);
+        const wrong = extractWrongAnswer(currentStep, currentStepIndex);
         if (wrong) wrongAnswersRef.current.push(wrong);
         const newCover = coverIntegrity - 1;
         setCoverIntegrity(newCover);
