@@ -705,9 +705,9 @@ export const MISSIONS: Mission[] = [
     codename: "DEEP COVER",
     title: "Advanced Workflows",
     briefing:
-      "Basic training is over. Headless mode, piping, hooks, and subagents await.",
+      "Basic training is over. Print mode, piping, hooks, and subagents await.",
     objectives: [
-      "Use Claude Code in non-interactive headless mode",
+      "Use Claude Code in non-interactive print mode",
       "Understand piping and scripting patterns",
       "Configure hooks for automated workflows",
       "Master subagents and multi-session orchestration",
@@ -715,16 +715,16 @@ export const MISSIONS: Mission[] = [
     steps: [
       {
         type: "print",
-        text: "You've completed basic training. Now we go deep cover — advanced workflows that separate field operatives from headquarters analysts.\n\nHeadless mode, piping, hooks, subagents, and multi-session orchestration. This is the final exam.",
+        text: "You've completed basic training. Now we go deep cover — advanced workflows that separate field operatives from headquarters analysts.\n\nPrint mode, piping, hooks, subagents, and multi-session orchestration. This is the final exam.",
         speed: "normal",
       },
       {
         type: "print",
-        text: "Headless mode is your sleeper agent. It runs Claude Code non-interactively — pass a prompt, get a result, no conversation needed.\n\nThis is the foundation for scripting, automation, and CI/CD integration.",
+        text: "Print mode is your sleeper agent. It runs Claude Code non-interactively — pass a prompt, get a result, no conversation needed. (Sometimes called headless mode.)\n\nThis is the foundation for scripting, automation, and CI/CD integration.",
       },
       {
         type: "quiz",
-        question: "What is headless mode in Claude Code?",
+        question: "What is print mode in Claude Code?",
         options: [
           "A mode that hides the terminal window",
           "Non-interactive mode where you pass a prompt and get a result",
@@ -733,7 +733,7 @@ export const MISSIONS: Mission[] = [
         ],
         correct: 1,
         explanation:
-          "Headless mode runs Claude Code non-interactively with a one-shot prompt. It's designed for scripting, automation, and CI/CD pipelines.",
+          "Print mode (sometimes called headless mode) runs Claude Code non-interactively with a one-shot prompt. It's designed for scripting, automation, and CI/CD pipelines.",
       },
       {
         type: "print",
@@ -756,7 +756,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "command",
         question:
-          "What is the short flag (single dash, single letter) for headless mode?",
+          "What is the short flag (single dash, single letter) for print mode?",
         expectedAnswer: "-p",
         acceptedVariants: [
           "-p",
@@ -771,11 +771,11 @@ export const MISSIONS: Mission[] = [
           "the -p option",
         ],
         explanation:
-          "The -p (or --print) flag runs Claude Code in headless mode. Usage: claude -p 'your prompt here'",
+          "The -p (or --print) flag runs Claude Code in print mode (sometimes called headless mode). Usage: claude -p 'your prompt here'",
       },
       {
         type: "print",
-        text: "Power move: combine headless mode with output formatting. The --output-format flag controls how results come back. Use 'json' for structured output that other tools and scripts can parse reliably.",
+        text: "Power move: combine print mode with output formatting. The --output-format flag controls how results come back. Use 'json' for structured output that other tools and scripts can parse reliably.",
       },
       {
         type: "print",
@@ -817,7 +817,7 @@ export const MISSIONS: Mission[] = [
       {
         type: "quiz",
         question:
-          "When would you combine --max-turns with headless mode?",
+          "When would you combine --max-turns with print mode?",
         options: [
           "To make Claude respond faster",
           "To limit how many agentic actions Claude takes before stopping",
@@ -826,12 +826,12 @@ export const MISSIONS: Mission[] = [
         ],
         correct: 1,
         explanation:
-          "--max-turns limits the number of agentic turns in headless mode. This prevents runaway automation and keeps scripted Claude Code usage predictable and bounded.",
+          "--max-turns limits the number of agentic turns in print mode. This prevents runaway automation and keeps scripted Claude Code usage predictable and bounded.",
       },
       {
         type: "quiz",
         question:
-          "What flag controls the output format in headless mode?",
+          "What flag controls the output format in print mode?",
         options: [
           "--response-type",
           "--output-format",
@@ -844,7 +844,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Deep cover training complete. Headless mode for automation. Subagents for parallel ops. Hooks for custom workflows. Permissions for security. CLAUDE.md for persistence.\n\nYou've mastered the advanced arsenal. Next: applying these skills to real-world multi-file operations and git workflows.",
+        text: "Deep cover training complete. Print mode for automation. Subagents for parallel ops. Hooks for custom workflows. Permissions for security. CLAUDE.md for persistence.\n\nYou've mastered the advanced arsenal. Next: applying these skills to real-world multi-file operations and git workflows.",
         speed: "normal",
       },
     ],
