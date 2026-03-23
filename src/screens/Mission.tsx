@@ -21,7 +21,7 @@ interface MissionProps {
 type Phase = "step" | "waitEnter" | "coverBlown";
 
 const FXP_PER_CORRECT = 10;
-const FXP_PER_PRINT = 5;
+const FXP_PER_PRINT = 2;
 const MAX_COVER = 3;
 
 function computeStars(hits: number): 1 | 2 | 3 {
