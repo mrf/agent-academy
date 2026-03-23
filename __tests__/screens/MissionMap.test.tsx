@@ -242,6 +242,29 @@ describe("MissionMap", () => {
     expect(onOpenCredits).not.toHaveBeenCalled();
   });
 
+  it("shows progress indicator with completed/total missions", () => {
+    mockLoadProgress.mockReturnValue(
+      freshProgress({
+        completedMissions: ["mission-01", "mission-02"],
+        fxp: 480,
+      }),
+    );
+
+    const inst = renderMap();
+    const frame = inst.lastFrame()!;
+
+    expect(frame).toContain(`2/${MISSIONS.length}`);
+    expect(frame).toContain("MISSIONS");
+  });
+
+  it("shows 0/total missions when no missions completed", () => {
+    const inst = renderMap();
+    const frame = inst.lastFrame()!;
+
+    expect(frame).toContain(`0/${MISSIONS.length}`);
+    expect(frame).toContain("MISSIONS");
+  });
+
   it("'q' does not trigger any callbacks", () => {
     const onSelectMission = vi.fn();
     const onSelectInfiniteMode = vi.fn();
