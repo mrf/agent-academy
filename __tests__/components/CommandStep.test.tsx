@@ -46,15 +46,17 @@ function delay(ms = 30): Promise<void> {
   return new Promise(function (resolve) { realSetTimeout(resolve, ms); });
 }
 
-// Write each character with a real event-loop yield between them so
-// React re-renders and TextInput sees the updated value prop.
+// Write each character with a fake-timer advance + real event-loop yield
+// between them so React re-renders and TextInput sees the updated value prop.
+// Using flush() instead of delay() ensures faked setTimeout callbacks
+// (React batched state updates) are drained before the next character arrives.
 async function submitAnswer(instance: RenderResult, answer: string): Promise<void> {
   for (const char of answer) {
     instance.stdin.write(char);
-    await delay();
+    await flush();
   }
   instance.stdin.write(keys.enter);
-  await delay();
+  await flush();
 }
 
 // Flush fake timers AND let the real event loop process React renders.
