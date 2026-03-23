@@ -76,6 +76,8 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
 
   // Derived state
   const currentMission = MISSIONS[state.missionContext.currentMissionIndex];
+  const isLastMission =
+    state.missionContext.currentMissionIndex === MISSIONS.length - 1;
   const overlayOpen = state.overlay.handler || state.overlay.help;
 
   const handleLogoComplete = useCallback(() => {
@@ -138,8 +140,8 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   );
 
   const handleDebriefContinue = useCallback(() => {
-    state.navigateTo("missionMap");
-  }, [state]);
+    state.navigateTo(isLastMission ? "credits" : "missionMap");
+  }, [state, isLastMission]);
 
   const handleAchievementDismiss = useCallback(() => {
     setAchievementQueue((prev) => prev.slice(1));
@@ -240,6 +242,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             fxpEarned={state.missionContext.fxpEarned}
             coverRemaining={state.missionContext.coverRemaining}
             wrongAnswers={state.missionContext.wrongAnswers}
+            isLastMission={isLastMission}
             onContinue={handleDebriefContinue}
           />
         );
