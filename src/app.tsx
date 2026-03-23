@@ -198,7 +198,12 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   function renderScreen() {
     switch (state.screen) {
       case "logo":
-        return <Logo onContinue={handleLogoComplete} />;
+        return (
+          <Logo
+            onContinue={handleLogoComplete}
+            clearanceLevel={progress.firstRunComplete ? progress.clearanceLevel : undefined}
+          />
+        );
       case "onboarding":
         return <Onboarding onContinue={handleOnboardingComplete} />;
       case "missionMap":
@@ -216,7 +221,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
         return (
           <Briefing
             mission={currentMission}
-            clearanceLevel={loadProgress().clearanceLevel}
+            clearanceLevel={progress.clearanceLevel}
             onAccept={handleAcceptBriefing}
           />
         );

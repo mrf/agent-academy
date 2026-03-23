@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Box, Text, useInput } from "ink";
 import { TypeWriter } from "../components/TypeWriter.js";
 import { COLORS, VERSION } from "../constants.js";
+import type { ClearanceLevel } from "../types.js";
 
 const ASCII_LOGO = ` ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗
 ██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝
@@ -15,9 +16,10 @@ type Phase = (typeof PHASES)[number];
 
 interface LogoProps {
   onContinue: () => void;
+  clearanceLevel?: ClearanceLevel;
 }
 
-export function Logo({ onContinue }: LogoProps) {
+export function Logo({ onContinue, clearanceLevel }: LogoProps) {
   const [phase, setPhase] = useState<Phase>("logo");
 
   const advancePhase = useCallback(
@@ -74,7 +76,7 @@ export function Logo({ onContinue }: LogoProps) {
         {phaseIdx >= 2 && (
           <Box marginTop={1} alignItems="center">
             <TypeWriter
-              text={"TERMINAL TRAINING DIVISION\nCLEARANCE LEVEL: PENDING"}
+              text={`TERMINAL TRAINING DIVISION\nCLEARANCE LEVEL: ${(clearanceLevel ?? "pending").toUpperCase()}`}
               speed="normal"
               onComplete={advancePhase}
               dimColor
