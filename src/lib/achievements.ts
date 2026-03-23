@@ -41,7 +41,7 @@ const ACHIEVEMENT_LIST: Achievement[] = [
   {
     id: "FULL_CLEARANCE",
     title: "Full Clearance",
-    description: "Complete all 8 missions",
+    description: `Complete all ${MISSIONS.length} missions`,
   },
 ];
 
