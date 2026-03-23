@@ -188,8 +188,6 @@ npm run test:watch   # vitest watch mode
 
 Contributions are welcome! Whether it's new missions, bug fixes, accessibility improvements, or translations — we'd love your help.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
 ## License
 
 MIT
