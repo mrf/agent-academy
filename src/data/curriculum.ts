@@ -83,7 +83,7 @@ export const MISSIONS: Mission[] = [
     codename: "DEAD DROP",
     title: "Installation & Setup",
     briefing:
-      "Time to pick up your equipment. One command, two auth methods, zero excuses.",
+      "Time to pick up your equipment. Two install methods, two auth options, zero excuses.",
     objectives: [
       "Know the system requirements for running Claude Code",
       "Install Claude Code correctly",
@@ -93,25 +93,25 @@ export const MISSIONS: Mission[] = [
       {
         type: "quiz",
         question:
-          "Quick field check before we gear up — what external runtime does the native Claude Code installer require?",
+          "Quick field check before we gear up — what does the native Claude Code installer (curl) require?",
         options: [
           "Node.js 18 or higher",
           "Python 3.10 or higher",
-          "None — it installs with zero dependencies",
+          "None — the native installer is self-contained",
           "Docker",
         ],
         correct: 2,
         explanation:
-          "The native Claude Code installer requires no external runtime. It downloads a self-contained binary — no Node.js, Python, or other dependencies needed.",
+          "The native Claude Code installer (curl) requires no external runtime — it downloads a self-contained binary. There's also an npm method ('npm install -g @anthropic-ai/claude-code') if you already have Node.js.",
       },
       {
         type: "print",
-        text: "Good instincts. Before you can operate in the field, you need your equipment. Claude Code runs natively on macOS, Linux, and Windows via WSL2 with zero dependencies.",
+        text: "Good instincts. Before you can operate in the field, you need your equipment. Claude Code offers two installation methods:\n\n1. Native installer (no Node.js required):\n   curl -fsSL https://claude.ai/install.sh | bash\n\n2. npm (requires Node.js 20+):\n   npm install -g @anthropic-ai/claude-code\n\nNote: this training app requires Node.js, so it's already on your system — either method works for you.",
         speed: "normal",
       },
       {
         type: "print",
-        text: "Installation is a single curl command:\n\ncurl -fsSL https://claude.ai/install.sh | bash\n\nOnce installed, you authenticate with 'claude login' which opens a secure browser-based flow. Alternatively, set the ANTHROPIC_API_KEY environment variable directly. Either method works — choose what fits your workflow.",
+        text: "Once installed, you authenticate with 'claude login' which opens a secure browser-based flow. Alternatively, set the ANTHROPIC_API_KEY environment variable directly. Either method works — choose what fits your workflow.",
       },
       {
         type: "quiz",
@@ -128,7 +128,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "quiz",
-        question: "Which command installs Claude Code?",
+        question: "Which of these is a valid way to install Claude Code?",
         options: [
           "brew install claude-code",
           "curl -fsSL https://claude.ai/install.sh | bash",
@@ -137,11 +137,11 @@ export const MISSIONS: Mission[] = [
         ],
         correct: 1,
         explanation:
-          "The official installation method is: curl -fsSL https://claude.ai/install.sh | bash. This downloads and installs Claude Code with no additional dependencies required.",
+          "The native installer 'curl -fsSL https://claude.ai/install.sh | bash' is one valid method — no Node.js needed. You can also use 'npm install -g @anthropic-ai/claude-code' if Node.js is available.",
       },
       {
         type: "print",
-        text: "Equipment secured, recruit. You've got the install command and two authentication methods in your toolkit.\n\nYour terminal is now a command center. Time to learn what it can do.",
+        text: "Equipment secured, recruit. You've got two install methods and two authentication options in your toolkit.\n\nYour terminal is now a command center. Time to learn what it can do.",
       },
     ],
   },
