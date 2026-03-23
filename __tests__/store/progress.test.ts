@@ -96,6 +96,31 @@ describe("progress store", () => {
       progress.saveMissionComplete("m-01", 2, 100);
       expect(progress.getPartialProgress("m-01")).toBeNull();
     });
+
+    it("records improved mission when replay yields higher stars", () => {
+      progress.saveMissionComplete("m-01", 2, 100);
+      progress.saveMissionComplete("m-01", 3, 50);
+      expect(progress.loadProgress().improvedMissions).toContain("m-01");
+    });
+
+    it("does not record improved mission on first completion", () => {
+      progress.saveMissionComplete("m-01", 3, 100);
+      expect(progress.loadProgress().improvedMissions).not.toContain("m-01");
+    });
+
+    it("does not record improved mission when replay yields same or lower stars", () => {
+      progress.saveMissionComplete("m-01", 3, 100);
+      progress.saveMissionComplete("m-01", 2, 50);
+      expect(progress.loadProgress().improvedMissions).not.toContain("m-01");
+    });
+
+    it("does not duplicate improved mission in list", () => {
+      progress.saveMissionComplete("m-01", 1, 100);
+      progress.saveMissionComplete("m-01", 2, 50);
+      progress.saveMissionComplete("m-01", 3, 50);
+      const improved = progress.loadProgress().improvedMissions;
+      expect(improved.filter((m) => m === "m-01")).toHaveLength(1);
+    });
   });
 
   describe("saveStepProgress / getPartialProgress", () => {

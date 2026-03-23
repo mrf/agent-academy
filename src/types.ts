@@ -105,6 +105,7 @@ export type SaveData = {
   schemaVersion: number;
   completedMissions: string[];
   starRatings: Record<string, 1 | 2 | 3>;
+  improvedMissions: string[];
   fxp: number;
   clearanceLevel: ClearanceLevel;
   achievements: string[];
