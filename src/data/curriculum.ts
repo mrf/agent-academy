@@ -795,6 +795,22 @@ export const MISSIONS: Mission[] = [
           "Subagents handle subtasks independently with their own context windows. This keeps the main conversation focused while parallelizing complex work.",
       },
       {
+        type: "command",
+        question:
+          "What is the name of the Claude Code tool that deploys subagents?",
+        expectedAnswer: "Agent",
+        acceptedVariants: [
+          "Agent",
+          "the Agent tool",
+          "agent tool",
+          "the agent command",
+          "subagent",
+          "SubAgent tool",
+        ],
+        explanation:
+          "The Agent tool is Claude Code's subagent dispatcher. Pass it a prompt and it spawns an independent operative with its own context window — ideal for parallelizing complex, multi-step tasks.",
+      },
+      {
         type: "print",
         text: "Hooks are your tripwires — shell commands that trigger in response to Claude Code events. You can configure hooks that run before or after specific tool calls — like running a linter after every Edit, or logging Bash commands for audit trails.\n\nHooks are configured in your settings file under the 'hooks' key.",
       },
