@@ -120,7 +120,9 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
     (stars: 1 | 2 | 3, fxpEarned: number, coverRemaining: number, wrongAnswers: WrongAnswer[]) => {
       const mission = MISSIONS[state.missionContext.currentMissionIndex];
       if (mission) {
-        saveMissionComplete(mission.id, stars, fxpEarned);
+        const quizTotal = mission.steps.filter((s) => s.type !== "print").length;
+        const quizCorrect = Math.max(0, quizTotal - wrongAnswers.length);
+        saveMissionComplete(mission.id, stars, fxpEarned, quizCorrect, quizTotal);
       }
 
       const durationMs = Date.now() - missionStartRef.current;
