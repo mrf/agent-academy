@@ -77,8 +77,6 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   // Derived state
   const currentMission = MISSIONS[state.missionContext.currentMissionIndex];
   const overlayOpen = state.overlay.handler || state.overlay.help;
-  const isInputActive =
-    state.screen === "mission" && !overlayOpen;
 
   const handleLogoComplete = useCallback(() => {
     const prog = loadProgress();
@@ -147,58 +145,55 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
     setAchievementQueue((prev) => prev.slice(1));
   }, []);
 
-  // App-level keyboard routing
-  useInput(
-    (input, key) => {
-      // Quit confirmation on mission map
-      if (confirmQuit) {
-        if (input === "y" || input === "Y") {
-          app.exit();
-        }
-        setConfirmQuit(false);
+  // App-level keyboard routing — always active so ESC/? work during missions
+  useInput((input, key) => {
+    // Quit confirmation on mission map
+    if (confirmQuit) {
+      if (input === "y" || input === "Y") {
+        app.exit();
+      }
+      setConfirmQuit(false);
+      return;
+    }
+
+    // Close overlay with ESC
+    if (key.escape) {
+      if (overlayOpen) {
+        state.closeOverlay();
         return;
       }
-
-      // Close overlay with ESC
-      if (key.escape) {
-        if (overlayOpen) {
-          state.closeOverlay();
-          return;
-        }
-        // ESC navigates to missionMap from mission/briefing
-        if (state.screen === "mission" || state.screen === "briefing") {
-          state.navigateTo("missionMap");
-          return;
-        }
-      }
-
-      // '?' opens handler overlay (only in mission with API key)
-      if (input === "?" && state.screen === "mission" && hasApiKey) {
-        handlerOpensRef.current += 1;
-        markHandlerUsed();
-        state.openOverlay("handler");
-
-        const pet = checkHandlerOpen(handlerOpensRef.current);
-        if (pet) {
-          enqueueAchievements(pet);
-        }
+      // ESC navigates to missionMap from mission/briefing
+      if (state.screen === "mission" || state.screen === "briefing") {
+        state.navigateTo("missionMap");
         return;
       }
+    }
 
-      // 'h' opens help overlay
-      if (input === "h" && !isInputActive) {
-        state.openOverlay("help");
-        return;
-      }
+    // '?' opens handler overlay (only in mission with API key, no overlay already open)
+    if (input === "?" && state.screen === "mission" && hasApiKey && !overlayOpen) {
+      handlerOpensRef.current += 1;
+      markHandlerUsed();
+      state.openOverlay("handler");
 
-      // 'q' on mission map prompts exit
-      if (input === "q" && state.screen === "missionMap" && !overlayOpen) {
-        setConfirmQuit(true);
-        return;
+      const pet = checkHandlerOpen(handlerOpensRef.current);
+      if (pet) {
+        enqueueAchievements(pet);
       }
-    },
-    { isActive: !isInputActive || overlayOpen },
-  );
+      return;
+    }
+
+    // 'h' opens help overlay (not during mission to avoid text input conflicts)
+    if (input === "h" && state.screen !== "mission" && !overlayOpen) {
+      state.openOverlay("help");
+      return;
+    }
+
+    // 'q' on mission map prompts exit
+    if (input === "q" && state.screen === "missionMap" && !overlayOpen) {
+      setConfirmQuit(true);
+      return;
+    }
+  });
 
   function renderScreen() {
     switch (state.screen) {
@@ -233,6 +228,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             onComplete={handleMissionComplete}
             hasApiKey={hasApiKey}
             noAnimation={noAnimation}
+            overlayOpen={overlayOpen}
           />
         );
       case "debrief":

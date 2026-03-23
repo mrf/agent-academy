@@ -494,9 +494,7 @@ describe("E2E: Keyboard routing", () => {
     expect(inst.lastFrame()).toContain("SCREEN:MISSIONMAP");
   });
 
-  it("'?' on mission does NOT open handler (app handler disabled during active step)", async () => {
-    // The app-level useInput is disabled on the mission screen when no overlay
-    // is open, so '?' never reaches the app handler.
+  it("'?' on mission opens handler overlay", async () => {
     setSave({ firstRunComplete: true });
     const inst = renderApp({ hasApiKey: true });
     await tick(0);
@@ -505,7 +503,7 @@ describe("E2E: Keyboard routing", () => {
 
     inst.stdin.write("?");
     await tick(0);
-    expect(inst.lastFrame()).not.toContain("OVERLAY:HANDLER");
+    expect(inst.lastFrame()).toContain("OVERLAY:HANDLER");
   });
 
   it("'?' does NOT open handler without API key", async () => {
@@ -520,7 +518,7 @@ describe("E2E: Keyboard routing", () => {
     expect(inst.lastFrame()).not.toContain("OVERLAY:HANDLER");
   });
 
-  it("ESC on mission does not navigate away (app handler inactive)", async () => {
+  it("ESC on mission navigates back to MissionMap", async () => {
     setSave({ firstRunComplete: true });
     const inst = renderApp({ hasApiKey: true });
     await tick(0);
@@ -529,7 +527,7 @@ describe("E2E: Keyboard routing", () => {
 
     pressKey(inst, keys.escape);
     await tick(0);
-    expect(inst.lastFrame()).toContain("SCREEN:MISSION");
+    expect(inst.lastFrame()).toContain("SCREEN:MISSIONMAP");
   });
 });
 
