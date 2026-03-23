@@ -661,7 +661,17 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Here's what the permissions block looks like in settings.json:\n\n{ \"permissions\": { \"allow\": [\"Read\", \"Glob\", \"Grep\", \"Bash(npm test)\"], \"deny\": [\"Bash(rm:*)\"], \"ask\": [\"Write\"] } }\n\nBash commands can be granular — allow 'Bash(npm test)' so Claude can run tests freely, while keeping other Bash commands gated behind approval.\n\nThe legacy allowedTools key still works but permissions.allow/ask/deny are more expressive and preferred.",
+        text: "Here's what the permissions block looks like in settings.json:",
+        speed: "fast",
+      },
+      {
+        type: "print",
+        text: '{\n  "permissions": {\n    "allow": ["Read", "Glob", "Grep", "Bash(npm test)"],\n    "deny": ["Bash(rm:*)"],\n    "ask": ["Write"]\n  }\n}',
+        speed: "fast",
+      },
+      {
+        type: "print",
+        text: "Bash commands can be granular — allow 'Bash(npm test)' so Claude can run tests freely, while keeping other Bash commands gated behind approval.\n\nThe legacy allowedTools key still works but permissions.allow/ask/deny are more expressive and preferred.",
         speed: "fast",
       },
       {
