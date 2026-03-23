@@ -47,9 +47,23 @@ export function TerminalGuard({ children }: TerminalGuardProps): ReactNode {
 
   if (columns < MIN_WIDTH) {
     return (
-      <Box padding={1}>
+      <Box
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        borderStyle="double"
+        borderColor={COLORS.amber}
+        padding={1}
+        marginTop={1}
+      >
+        <Text color={COLORS.amber} bold>
+          [ SIGNAL DEGRADED ]
+        </Text>
         <Text color={COLORS.amber}>
-          Terminal too narrow (need {MIN_WIDTH}+ cols, currently {columns})
+          Terminal width insufficient for secure communications.
+        </Text>
+        <Text color={COLORS.amber}>
+          Expand to {MIN_WIDTH}+ columns to proceed. (Currently {columns})
         </Text>
       </Box>
     );
