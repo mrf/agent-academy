@@ -51,7 +51,8 @@ export type Screen =
   | "mission"
   | "debrief"
   | "infiniteMode"
-  | "credits";
+  | "credits"
+  | "achievements";
 
 export type Overlay = {
   handler: boolean;
