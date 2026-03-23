@@ -679,6 +679,20 @@ export const MISSIONS: Mission[] = [
       {
         type: "quiz",
         question:
+          "You see allowedTools in a project's settings.json. What is the modern equivalent?",
+        options: [
+          "permissions.allow",
+          "permissions.trust",
+          "tools.allowed",
+          "allowTools",
+        ],
+        correct: 0,
+        explanation:
+          "allowedTools is the legacy key that still works, but permissions.allow is the modern equivalent. The full permissions block (allow/ask/deny) is more expressive and preferred for new configs.",
+      },
+      {
+        type: "quiz",
+        question:
           "In the permissions block, which sub-key blocks specific tools from being used entirely?",
         options: [
           "permissions.block",
