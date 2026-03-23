@@ -26,7 +26,26 @@ if (args.includes("--version") || args.includes("-v")) {
 
 const hasApiKey = Boolean(process.env.ANTHROPIC_API_KEY);
 const noAnimation = args.includes("--no-animation");
-const reset = args.includes("--reset");
+const wantsReset = args.includes("--reset");
+
+if (wantsReset) {
+  const { createInterface } = await import("node:readline");
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  const answer = await new Promise<string>((resolve) => {
+    rl.question(
+      "\x1B[33mWARNING: This will permanently erase ALL progress, stars, FXP, and achievements.\x1B[0m\n" +
+        "Type CONFIRM to proceed (or anything else to cancel): ",
+      resolve,
+    );
+  });
+  rl.close();
+  if (answer !== "CONFIRM") {
+    console.log("Reset cancelled. Your progress is safe.");
+    process.exit(0);
+  }
+}
+
+const reset = wantsReset;
 
 // Restore terminal state: show cursor, exit alt screen, reset attributes, clear title
 function restoreTerminal(): boolean {
