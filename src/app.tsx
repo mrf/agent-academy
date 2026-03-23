@@ -151,8 +151,9 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
     if (confirmQuit) {
       if (input === "y" || input === "Y") {
         app.exit();
+      } else if (input === "n" || input === "N" || key.escape || key.return) {
+        setConfirmQuit(false);
       }
-      setConfirmQuit(false);
       return;
     }
 
