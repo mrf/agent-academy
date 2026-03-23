@@ -243,14 +243,14 @@ export function MissionMap({
                 {"[>] "}
               </Text>
               <Text color={COLORS.cyan} bold={isInfiniteSelected}>
-                ?? DEEP COVER OPERATIONS
+                {">>"} DEEP COVER OPERATIONS
               </Text>
               <Text color={primary}>{"  UNLOCKED"}</Text>
             </>
           ) : (
             <>
               <Text dimColor>{"[ ] "}</Text>
-              <Text dimColor>{"?? "}</Text>
+              <Text dimColor>{">> "}</Text>
               <Text dimColor>
                 {"\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"}
               </Text>
