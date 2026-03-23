@@ -37,9 +37,6 @@ That's it. No install. No signup. No config files. Just run it.
 
 ---
 
-<!-- TODO: Replace with actual GIF recording of gameplay -->
-<!-- ![Claude Code Academy gameplay](./docs/demo.gif) -->
-
 ## The Problem
 
 Claude Code is the most powerful coding tool most developers have never learned to use properly. The docs are thorough but dense. The features are deep but undiscoverable. You *know* you should learn it. You haven't yet.
@@ -49,9 +46,6 @@ Claude Code is the most powerful coding tool most developers have never learned 
 Claude Code Academy drops you into a spy-themed terminal training program. You're a new recruit. Your handler briefs you on each mission. You answer field assessments to prove you've internalized the material. Get it wrong and your cover takes damage. Get it right and you climb from **RECRUIT** to **OPERATIVE** to **ELITE**.
 
 It's the difference between reading a manual and running a simulation.
-
-<!-- TODO: Replace with screenshot of mission map -->
-<!-- ![Mission Map](./docs/mission-map.png) -->
 
 ## What You'll Learn
 
@@ -107,9 +101,6 @@ Every concept is tested with field assessments — multiple choice, command reca
 **AI handler on standby**
 Stuck? Press `?` to ask your handler anything. It's powered by Claude and answers in the context of your current mission — not generic docs, not hallucinated examples.
 
-<!-- TODO: Replace with screenshot of handler interaction -->
-<!-- ![Handler](./docs/handler.png) -->
-
 **Infinite practice mode**
 Finished the curriculum? Infinite Mode generates fresh AI-powered questions across three difficulty tiers. The training never ends.
 
@@ -121,9 +112,6 @@ From *Ghost Protocol* (complete all missions without contacting your handler) to
 
 **A terminal aesthetic you'll actually enjoy**
 WarGames-meets-Hacknet visual design. Typewriter text. Pulsing animations. Double-bordered classified briefings. A Konami code easter egg. It looks like the terminal *should* look.
-
-<!-- TODO: Replace with screenshot of debrief screen -->
-<!-- ![Debrief](./docs/debrief.png) -->
 
 ## The 12 Missions
 
