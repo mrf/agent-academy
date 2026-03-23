@@ -205,7 +205,7 @@ export function MissionMap({
                 <Box>
                   <Text dimColor>
                     {"   "}
-                    {isCompleted ? "|" : ":"}
+                    {"|"}
                   </Text>
                 </Box>
               )}
