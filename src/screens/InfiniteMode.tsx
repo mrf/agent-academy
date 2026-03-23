@@ -90,13 +90,11 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
     return () => clearInterval(timer);
   }, [phase]);
 
-  const topicItems = MISSIONS.filter((m) =>
-    progress.completedMissions.includes(m.id),
-  ).map((m, idx) => ({
-    label: `${String(idx + 1).padStart(2, "0")} ${m.title}`,
-    value: m.title,
-    key: m.id,
-  }));
+  const topicItems = MISSIONS.flatMap((m, idx) => {
+    if (!progress.completedMissions.includes(m.id)) return [];
+    const num = String(idx + 1).padStart(2, "0");
+    return [{ label: `${num} ${m.title}`, value: m.title, key: m.id }];
+  });
 
   const stats = progress.infiniteModeStats;
 
