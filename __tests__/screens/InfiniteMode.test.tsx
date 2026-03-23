@@ -284,6 +284,48 @@ describe("InfiniteMode", () => {
       expect(inst.lastFrame()).toContain("Generating field assessment");
     });
 
+    it("shows ESC cancel hint during generating phase", async () => {
+      mockGenerateFieldAssessments.mockReturnValue(new Promise(() => {}));
+
+      const inst = renderInfiniteMode();
+      await press(inst, keys.enter); // topic
+      await press(inst, keys.enter); // difficulty
+      await press(inst, keys.enter); // confirm
+
+      expect(inst.lastFrame()).toContain("[ESC] Cancel");
+    });
+
+    it("ESC during generating returns to confirm phase", async () => {
+      mockGenerateFieldAssessments.mockReturnValue(new Promise(() => {}));
+
+      const inst = renderInfiniteMode();
+      await press(inst, keys.enter); // topic
+      await press(inst, keys.enter); // difficulty
+      await press(inst, keys.enter); // confirm
+
+      expect(inst.lastFrame()).toContain("Generating field assessment");
+
+      await press(inst, keys.escape);
+
+      const frame = inst.lastFrame()!;
+      expect(frame).toContain("Begin assessment");
+      expect(frame).not.toContain("Generating field assessment");
+    });
+
+    it("ESC during generating does not show error", async () => {
+      mockGenerateFieldAssessments.mockReturnValue(new Promise(() => {}));
+
+      const inst = renderInfiniteMode();
+      await press(inst, keys.enter); // topic
+      await press(inst, keys.enter); // difficulty
+      await press(inst, keys.enter); // confirm
+      await press(inst, keys.escape); // cancel generation
+
+      const frame = inst.lastFrame()!;
+      expect(frame).not.toContain("Generation failed");
+      expect(frame).not.toContain("Error");
+    });
+
     it("renders quiz questions after generation", async () => {
       const inst = renderInfiniteMode();
       await navigateToQuiz(inst);
@@ -562,6 +604,7 @@ describe("InfiniteMode", () => {
         "operative",
         5,
         1,
+        expect.any(AbortSignal),
       );
     });
 
@@ -574,6 +617,7 @@ describe("InfiniteMode", () => {
         "elite",
         5,
         1,
+        expect.any(AbortSignal),
       );
     });
 

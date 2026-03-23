@@ -74,10 +74,12 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
   const [reported, setReported] = useState(false);
   const [dots, setDots] = useState(".");
   const mountedRef = useRef(true);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     return () => {
       mountedRef.current = false;
+      abortRef.current?.abort();
     };
   }, []);
 
@@ -118,6 +120,9 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
 
   const startGeneration = useCallback(async () => {
     if (!selectedTopic || !selectedDifficulty) return;
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
     setPhase("generating");
     setError(null);
     try {
@@ -126,6 +131,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
         selectedDifficulty,
         QUESTIONS_PER_BATCH,
         1,
+        controller.signal,
       );
       if (!mountedRef.current) return;
       if (result.length === 0) {
@@ -148,6 +154,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
       setPhase("quiz");
     } catch (err) {
       if (!mountedRef.current) return;
+      if (controller.signal.aborted) return;
       setError(err instanceof Error ? err.message : "Generation failed");
       setPhase("confirm");
     }
@@ -217,6 +224,17 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
       }
     },
     { isActive: phase !== "generating" },
+  );
+
+  // Allow ESC during generation to abort and return to confirm
+  useInput(
+    (_input, key) => {
+      if (key.escape && !overlayOpen) {
+        abortRef.current?.abort();
+        setPhase("confirm");
+      }
+    },
+    { isActive: phase === "generating" },
   );
 
   const currentQuestion = questions[currentIndex];
@@ -347,6 +365,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
               Contacting HQ for {selectedDifficulty}-level intel on{" "}
               {selectedTopic}...
             </Text>
+            <Text color={COLORS.gray}>[ESC] Cancel</Text>
           </Box>
         )}
 

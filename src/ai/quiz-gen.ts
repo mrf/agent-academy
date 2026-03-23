@@ -46,22 +46,26 @@ async function callApi(
   topic: string,
   difficulty: ClearanceLevel,
   count: number,
+  signal?: AbortSignal,
 ): Promise<GeneratedQuiz> {
-  const response = await client.messages.create({
-    model: MODELS.GENERATOR,
-    max_tokens: 1500,
-    system: [
-      {
-        type: "text",
-        text: SYSTEM_PROMPT,
-        cache_control: { type: "ephemeral" },
-      },
-    ],
-    messages: [
-      { role: "user", content: buildUserPrompt(topic, difficulty, count) },
-      { role: "assistant", content: "[" },
-    ],
-  });
+  const response = await client.messages.create(
+    {
+      model: MODELS.GENERATOR,
+      max_tokens: 1500,
+      system: [
+        {
+          type: "text",
+          text: SYSTEM_PROMPT,
+          cache_control: { type: "ephemeral" },
+        },
+      ],
+      messages: [
+        { role: "user", content: buildUserPrompt(topic, difficulty, count) },
+        { role: "assistant", content: "[" },
+      ],
+    },
+    { signal },
+  );
 
   const block = response.content[0];
   const text = block.type === "text" ? block.text : "";
@@ -76,16 +80,17 @@ export async function generateFieldAssessments(
   difficulty: ClearanceLevel,
   count: number = 5,
   batches: number = 1,
+  signal?: AbortSignal,
 ): Promise<GeneratedQuiz> {
   const batchCount = Math.min(Math.max(batches, 1), MAX_BATCHES);
   const results: GeneratedQuiz = [];
 
   for (let i = 0; i < batchCount; i++) {
-    let questions = await callApi(topic, difficulty, count);
+    let questions = await callApi(topic, difficulty, count, signal);
 
     // Retry once on empty result
     if (questions.length === 0) {
-      questions = await callApi(topic, difficulty, count);
+      questions = await callApi(topic, difficulty, count, signal);
     }
 
     results.push(...questions);
