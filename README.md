@@ -139,7 +139,7 @@ WarGames-meets-Hacknet visual design. Typewriter text. Pulsing animations. Doubl
 | 8 | DEEP COVER | Advanced Workflows | Headless mode, hooks, subagents, piping |
 | 9 | DOUBLE AGENT | Multi-File & Git | Coordinated edits, TDD, Grep navigation |
 | 10 | LEGEND BUILDER | Custom Instructions | CLAUDE.md mastery, /init, /doctor |
-| 11 | BURNED NOTICE | Security | Prompt injection, .claudeignore, trust boundaries |
+| 11 | BURNED NOTICE | Security | Prompt injection, .gitignore, permissions.deny, trust boundaries |
 | 12 | CONTROL TOWER | Production & Teams | CI/CD, token optimization, team conventions |
 
 ## Optional: AI-Powered Features

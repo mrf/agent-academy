@@ -1200,20 +1200,18 @@ export const MISSIONS: Mission[] = [
           "Trust flows from you outward. Your direct prompts are most trusted, followed by your CLAUDE.md, your own repo files, and finally external or untrusted data sources.",
       },
       {
-        type: "command",
+        type: "quiz",
         question:
-          "What file can you create to prevent Claude Code from reading sensitive files like .env?",
-        expectedAnswer: ".claudeignore",
-        acceptedVariants: [
-          ".claudeignore",
-          "claudeignore",
-          ".claudeignore file",
-          "claude ignore",
-          ".claude-ignore",
-          "claudeignore file",
+          "What is the correct way to prevent Claude Code from accessing sensitive files like .env?",
+        options: [
+          "Create a .claudeignore file — it works like .gitignore but for Claude Code",
+          "Add sensitive files to .gitignore — Claude Code respects these exclusions",
+          "Claude Code automatically ignores all dotfiles",
+          "Use the /ignore slash command to block specific files",
         ],
+        correct: 1,
         explanation:
-          "A .claudeignore file works like .gitignore but for Claude Code — it prevents Claude from reading matched files. Add patterns like .env, *.pem, and secrets/ to keep sensitive data out of your AI sessions entirely.",
+          ".claudeignore does not exist in Claude Code — there is no such file. Claude Code respects your .gitignore patterns, so sensitive files like .env, *.pem, and secrets/ that are already gitignored stay out of Claude's context. For finer-grained control over what Claude Code can do, use the permissions system in .claude/settings.json (the permissions.deny list).",
       },
       {
         type: "print",
