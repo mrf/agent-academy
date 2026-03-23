@@ -1279,7 +1279,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "One powerful lever in your arsenal: the --model flag. Not every task needs the most capable (and expensive) model. Use --model to select a lighter model for simpler tasks like formatting, documentation, or boilerplate generation.\n\nFor example: claude --model claude-haiku-4-5-20251001 'format this file' uses a faster, cheaper model for a straightforward task.",
+        text: "One powerful lever in your arsenal: the --model flag. Not every task needs the most capable (and expensive) model. Use --model to select a lighter model for simpler tasks like formatting, documentation, or boilerplate generation.\n\nFor example: claude --model haiku 'format this file' uses a faster, cheaper model for a straightforward task. Use short aliases like 'haiku', 'sonnet', or 'opus' rather than versioned IDs — aliases always resolve to the latest version, so your commands never go stale.",
       },
       {
         type: "command",
