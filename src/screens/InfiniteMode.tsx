@@ -46,7 +46,6 @@ const DIFFICULTY_TIERS = [
 ];
 
 const QUESTIONS_PER_BATCH = 5;
-const EST_COST_PER_BATCH = 0.02;
 const FXP_PER_CORRECT = 15;
 
 function accuracyColor(correct: number, total: number): string {
@@ -326,11 +325,8 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
             <Text color={COLORS.gray}>
               {"─".repeat(contentWidth)}
             </Text>
-            <Text color={COLORS.cyan}>
-              Est. API cost:{" "}
-              <Text color={COLORS.amber} bold>
-                ~${EST_COST_PER_BATCH.toFixed(2)}
-              </Text>
+            <Text color={COLORS.gray} dimColor>
+              resource allocation: minimal
             </Text>
             {error && (
               <Text color={COLORS.red} bold>
