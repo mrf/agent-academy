@@ -139,6 +139,13 @@ export function MissionMap({
           <Text color={primary}>
             FXP: <Text bold>{fxpFormatted}</Text>
           </Text>
+          <Text color={primary}>
+            PROGRESS:{" "}
+            <Text bold color={allComplete ? COLORS.green : primary}>
+              {completedCount}/{MISSIONS.length}
+            </Text>
+            {" MISSIONS"}
+          </Text>
         </Box>
 
         <Text color={dim}>
