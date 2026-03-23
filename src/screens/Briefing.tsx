@@ -34,7 +34,7 @@ export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
   const headerText = [
     `MISSION:     ${missionNumber} — ${mission.codename}`,
     `CLEARANCE:   ${clearanceLevel.toUpperCase()}`,
-    `HANDLER:     Instructor Haiku`,
+    `HANDLER:     Agent Whisper`,
     ``,
     `OBJECTIVES:`,
     ...mission.objectives.map((obj) => `  [ ] ${obj}`),
