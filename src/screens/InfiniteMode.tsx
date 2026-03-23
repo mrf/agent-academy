@@ -74,10 +74,12 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
   const [reported, setReported] = useState(false);
   const [dots, setDots] = useState(".");
   const mountedRef = useRef(true);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     return () => {
       mountedRef.current = false;
+      abortRef.current?.abort();
     };
   }, []);
 
@@ -118,6 +120,8 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
 
   const startGeneration = useCallback(async () => {
     if (!selectedTopic || !selectedDifficulty) return;
+    const controller = new AbortController();
+    abortRef.current = controller;
     setPhase("generating");
     setError(null);
     try {
@@ -126,6 +130,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
         selectedDifficulty,
         QUESTIONS_PER_BATCH,
         1,
+        controller.signal,
       );
       if (!mountedRef.current) return;
       if (result.length === 0) {
@@ -148,8 +153,14 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
       setPhase("quiz");
     } catch (err) {
       if (!mountedRef.current) return;
+      if (err instanceof Error && err.name === "AbortError") {
+        setPhase("confirm");
+        return;
+      }
       setError(err instanceof Error ? err.message : "Generation failed");
       setPhase("confirm");
+    } finally {
+      abortRef.current = null;
     }
   }, [selectedTopic, selectedDifficulty]);
 
@@ -174,50 +185,47 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
     [total, correct, currentIndex, questions.length, fxpEarned],
   );
 
-  useInput(
-    (input, key) => {
-      if (key.escape && !overlayOpen) {
-        if (phase === "topic-select") {
-          onBack();
-        } else if (phase === "difficulty-select") {
-          setPhase("topic-select");
-        } else if (phase === "confirm") {
-          setPhase("difficulty-select");
-        } else if (phase === "summary") {
-          onBack();
-        }
+  useInput((input, key) => {
+    if (key.escape && !overlayOpen) {
+      if (phase === "generating") {
+        abortRef.current?.abort();
         return;
       }
-
-      if (key.return && phase === "confirm") {
-        startGeneration();
-        return;
-      }
-
-      if (key.return && phase === "summary") {
+      if (phase === "topic-select") {
+        onBack();
+      } else if (phase === "difficulty-select") {
         setPhase("topic-select");
-        return;
+      } else if (phase === "confirm") {
+        setPhase("difficulty-select");
+      } else if (phase === "summary") {
+        onBack();
       }
+      return;
+    }
 
-      // Report bad question
-      if (
-        (input === "r" || input === "R") &&
-        phase === "quiz" &&
-        !reported
-      ) {
-        const q = questions[currentIndex];
-        if (q) {
-          reportBadQuestion(
-            q.question,
-            selectedTopic ?? "",
-            selectedDifficulty ?? "",
-          );
-          setReported(true);
-        }
+    if (key.return && phase === "confirm") {
+      startGeneration();
+      return;
+    }
+
+    if (key.return && phase === "summary") {
+      setPhase("topic-select");
+      return;
+    }
+
+    // Report bad question
+    if ((input === "r" || input === "R") && phase === "quiz" && !reported) {
+      const q = questions[currentIndex];
+      if (q) {
+        reportBadQuestion(
+          q.question,
+          selectedTopic ?? "",
+          selectedDifficulty ?? "",
+        );
+        setReported(true);
       }
-    },
-    { isActive: phase !== "generating" },
-  );
+    }
+  });
 
   const currentQuestion = questions[currentIndex];
 
@@ -347,6 +355,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
               Contacting HQ for {selectedDifficulty}-level intel on{" "}
               {selectedTopic}...
             </Text>
+            <Text color={COLORS.gray}>[ESC] Cancel</Text>
           </Box>
         )}
 
