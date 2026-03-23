@@ -270,7 +270,7 @@ export function CommandStep({ step, onAnswer, isFocused, hasApiKey = true }: Com
           </Box>
           <Box marginTop={1}>
             <Text color={COLORS.gray} dimColor>
-              [Enter] to continue
+              [ENTER] Continue
             </Text>
           </Box>
         </Box>
