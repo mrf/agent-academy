@@ -35,13 +35,13 @@ const SCREEN_BINDINGS: Partial<Record<Screen, KeyBinding[]>> = {
   ],
 };
 
-// Quiz and command bindings shown when inside a mission
+// Field assessment and command challenge bindings shown when inside a mission
 const STEP_BINDINGS: Record<string, KeyBinding[]> = {
-  quiz: [
+  "FIELD ASSESSMENT": [
     { key: "UP/DOWN", label: "Select answer" },
     { key: "ENTER", label: "Confirm answer" },
   ],
-  command: [
+  "COMMAND CHALLENGE": [
     { key: "(type)", label: "Enter answer" },
     { key: "ENTER", label: "Submit" },
   ],
@@ -86,7 +86,7 @@ export function HelpOverlay({ screen, onClose }: HelpOverlayProps) {
   const stepSections =
     screen === "mission"
       ? Object.entries(STEP_BINDINGS).map(([type, bindings]) => (
-          <Section key={type} title={`${type.toUpperCase()} STEPS`} bindings={bindings} />
+          <Section key={type} title={`${type} STEPS`} bindings={bindings} />
         ))
       : [];
 
