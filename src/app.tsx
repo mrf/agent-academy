@@ -207,6 +207,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             onSelectMission={handleSelectMission}
             onSelectInfiniteMode={handleSelectInfiniteMode}
             onOpenCredits={handleOpenCredits}
+            overlayOpen={overlayOpen}
           />
         );
       case "credits":

@@ -11,12 +11,14 @@ interface MissionMapProps {
   onSelectMission: (missionIndex: number) => void;
   onSelectInfiniteMode?: () => void;
   onOpenCredits?: () => void;
+  overlayOpen?: boolean;
 }
 
 export function MissionMap({
   onSelectMission,
   onSelectInfiniteMode,
   onOpenCredits,
+  overlayOpen,
 }: MissionMapProps) {
   const { columns } = useTerminalSize();
   const progress = loadProgress();
@@ -46,9 +48,10 @@ export function MissionMap({
   }, [allComplete]);
 
   useEffect(() => {
+    if (overlayOpen) return;
     const timer = setInterval(() => setPulseBright((v) => !v), 500);
     return () => clearInterval(timer);
-  }, []);
+  }, [overlayOpen]);
 
   const maxIndex = allComplete ? MISSIONS.length : MISSIONS.length - 1;
 
