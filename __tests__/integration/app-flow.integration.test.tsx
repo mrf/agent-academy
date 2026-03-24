@@ -303,7 +303,7 @@ describe("App integration — keyboard routing", () => {
 
     inst.stdin.write("q");
     await tick(0);
-    expect(inst.lastFrame()).toContain("Quit Claude Code Academy?");
+    expect(inst.lastFrame()).toContain("Quit Agent Academy?");
   });
 
   it("'y' after quit prompt exits the app", async () => {
@@ -314,7 +314,7 @@ describe("App integration — keyboard routing", () => {
     inst.stdin.write("q");
     await tick(0);
     await flushEffects();
-    expect(inst.lastFrame()).toContain("Quit Claude Code Academy?");
+    expect(inst.lastFrame()).toContain("Quit Agent Academy?");
 
     // 'y' triggers app.exit()
     inst.stdin.write("y");
@@ -332,12 +332,12 @@ describe("App integration — keyboard routing", () => {
     inst.stdin.write("q");
     await tick(0);
     await flushEffects(); // flush useInput re-registration with confirmQuit=true
-    expect(inst.lastFrame()).toContain("Quit Claude Code Academy?");
+    expect(inst.lastFrame()).toContain("Quit Agent Academy?");
 
     inst.stdin.write("n");
     await tick(0);
     await flushEffects();
-    expect(inst.lastFrame()).not.toContain("Quit Claude Code Academy?");
+    expect(inst.lastFrame()).not.toContain("Quit Agent Academy?");
     expect(inst.lastFrame()).toContain("SCREEN:MISSIONMAP");
   });
 

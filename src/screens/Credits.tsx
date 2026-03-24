@@ -227,7 +227,7 @@ export function Credits({ onClose }: CreditsProps) {
             PROJECT
           </Text>
           <Box marginLeft={2} flexDirection="column">
-            <Text color={COLORS.warmWhite}>Claude Code Academy</Text>
+            <Text color={COLORS.warmWhite}>Agent Academy</Text>
             <Text color={COLORS.warmWhite}>Terminal Training Division</Text>
             <Text color={COLORS.warmWhite} dimColor>
               "Learn by doing. Survive by knowing."

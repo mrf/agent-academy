@@ -7,9 +7,9 @@ import { VERSION } from "./constants.js";
 const args = process.argv.slice(2);
 
 if (args.includes("--help") || args.includes("-h")) {
-  console.log(`Claude Code Academy — Terminal Training Division
+  console.log(`Agent Academy — Terminal Training Division
 
-Usage: claude-code-academy [options]
+Usage: agent-academy [options]
 
 Options:
   --no-animation  Disable screen transitions and typewriter effects

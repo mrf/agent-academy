@@ -153,14 +153,14 @@ export const MISSIONS: Mission[] = [
     briefing:
       "Core file and search tools — each one purpose-built for a specific operation. Know when to deploy which.",
     objectives: [
-      "Identify Claude Code's core built-in tools",
+      "Identify your agent's core built-in tools",
       "Understand how the Edit tool works with str_replace",
       "Know when to use each tool",
     ],
     steps: [
       {
         type: "print",
-        text: "Every operative needs to know their tools. Claude Code's core toolkit includes Read, Edit, Write, Bash, Glob, and Grep — each built for a specific operation. There are additional tools like Agent (for spawning subagents) and others you'll encounter later, but these six handle most of your day-to-day work.",
+        text: "Every operative needs to know their tools. Your agent's core toolkit includes Read, Edit, Write, Bash, Glob, and Grep — each built for a specific operation. There are additional tools like Agent (for spawning subagents) and others you'll encounter later, but these six handle most of your day-to-day work.",
         speed: "normal",
       },
       {
@@ -211,7 +211,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Standard operating procedure: Claude Code prefers dedicated tools over Bash equivalents. Use Read instead of cat, Glob instead of find, and Grep instead of grep. Save Bash for commands with no dedicated equivalent.",
+        text: "Standard operating procedure: Your agent prefers dedicated tools over Bash equivalents. Use Read instead of cat, Glob instead of find, and Grep instead of grep. Save Bash for commands with no dedicated equivalent.",
       },
       {
         type: "quiz",
@@ -229,7 +229,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Debrief: you've mapped Claude Code's core toolkit. Read, Edit, Write, Bash, Glob, and Grep cover most operations, and you'll meet additional tools like Agent in later missions. The Edit tool's uniqueness constraint isn't a limitation — it's your safety net.\n\nRight tool, right job. That principle will serve you well in the field.",
+        text: "Debrief: you've mapped your agent's core toolkit. Read, Edit, Write, Bash, Glob, and Grep cover most operations, and you'll meet additional tools like Agent in later missions. The Edit tool's uniqueness constraint isn't a limitation — it's your safety net.\n\nRight tool, right job. That principle will serve you well in the field.",
       },
     ],
   },
@@ -330,19 +330,19 @@ export const MISSIONS: Mission[] = [
     briefing:
       "How you talk to the agent — and how it talks back. Master the communication protocol.",
     objectives: [
-      "Understand how conversations with Claude Code work",
+      "Understand how conversations with your agent work",
       "Use slash commands effectively",
       "Write effective prompts",
     ],
     steps: [
       {
         type: "print",
-        text: "Communication is everything in the field. This mission covers how you talk to Claude Code — and how it talks back.\n\nMaster the signal chain and you control the operation.",
+        text: "Communication is everything in the field. This mission covers how you talk to your agent — and how it talks back.\n\nMaster the signal chain and you control the operation.",
         speed: "normal",
       },
       {
         type: "print",
-        text: "A Claude Code conversation is multi-turn — think of it as an ongoing radio exchange. You transmit a prompt, Claude reads files, runs commands, and responds. Each exchange builds on the previous context.\n\nClaude Code doesn't just answer questions — it takes action. A single prompt might trigger multiple tool calls: reading files, searching code, editing files, and running tests.",
+        text: "An agent conversation is multi-turn — think of it as an ongoing radio exchange. You transmit a prompt, Claude reads files, runs commands, and responds. Each exchange builds on the previous context.\n\nYour agent doesn't just answer questions — it takes action. A single prompt might trigger multiple tool calls: reading files, searching code, editing files, and running tests.",
       },
       {
         type: "quiz",
@@ -456,7 +456,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "This is why context management matters. Without it, long sessions silently lose critical information. Claude might forget instructions you gave earlier, re-read files it already processed, or lose track of the task.\n\nThe good news: Claude Code gives you tools to manage this. That's what this mission is about.",
+        text: "This is why context management matters. Without it, long sessions silently lose critical information. Claude might forget instructions you gave earlier, re-read files it already processed, or lose track of the task.\n\nThe good news: your agent gives you tools to manage this. That's what this mission is about.",
       },
       {
         type: "print",
@@ -477,7 +477,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "What burns through your context fastest? Large file reads are the biggest consumer. Reading a 1000-line file dumps all those lines into context. Long command outputs from Bash are another common culprit.\n\nClaude Code tries to read only what's needed — but awareness of context consumption is your responsibility too.",
+        text: "What burns through your context fastest? Large file reads are the biggest consumer. Reading a 1000-line file dumps all those lines into context. Long command outputs from Bash are another common culprit.\n\nYour agent tries to read only what's needed — but awareness of context consumption is your responsibility too.",
       },
       {
         type: "quiz",
@@ -512,7 +512,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Context compaction isn't just manual. Claude Code automatically compacts when the conversation approaches the context limit. But a good operative manages proactively — don't wait for the alarm to go off.",
+        text: "Context compaction isn't just manual. Your agent automatically compacts when the conversation approaches the context limit. But a good operative manages proactively — don't wait for the alarm to go off.",
       },
       {
         type: "quiz",
@@ -591,7 +591,7 @@ export const MISSIONS: Mission[] = [
     briefing:
       "Power without safeguards is a liability. Learn the permission system that keeps you in control.",
     objectives: [
-      "Understand Claude Code's permission system",
+      "Understand your agent's permission system",
       "Know the different permission modes",
       "Configure tool permissions in settings",
       "Understand when to use dangerous overrides",
@@ -613,16 +613,16 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Security is non-negotiable. Claude Code can read your files, run commands, and modify your codebase. That power requires safeguards.\n\nThis mission covers the iron curtain — the permission system that keeps you in control.",
+        text: "Security is non-negotiable. Your agent can read your files, run commands, and modify your codebase. That power requires safeguards.\n\nThis mission covers the iron curtain — the permission system that keeps you in control.",
         speed: "normal",
       },
       {
         type: "print",
-        text: "As you just identified, Claude Code operates on an ask-first basis by default. Before running a tool — reading a file, executing a command, editing code — it requests your approval.\n\nYou can approve or deny each action individually. This is the safest mode and the default for good reason.",
+        text: "As you just identified, your agent operates on an ask-first basis by default. Before running a tool — reading a file, executing a command, editing code — it requests your approval.\n\nYou can approve or deny each action individually. This is the safest mode and the default for good reason.",
       },
       {
         type: "print",
-        text: "For experienced operatives, Claude Code offers ways to streamline permissions. In your settings, the permissions key gives you three-way control:\n\n- permissions.allow — tools that run without prompting\n- permissions.deny — tools that are blocked entirely (deny always wins)\n- permissions.ask — tools that always prompt, even if another rule would allow them\n\nRules are evaluated in order: deny → ask → allow. First match wins.\n\nThere's also a nuclear option: --dangerously-skip-permissions. This flag disables ALL permission checks. It exists for CI pipelines and automated scripts — never for interactive use.",
+        text: "For experienced operatives, your agent offers ways to streamline permissions. In your settings, the permissions key gives you three-way control:\n\n- permissions.allow — tools that run without prompting\n- permissions.deny — tools that are blocked entirely (deny always wins)\n- permissions.ask — tools that always prompt, even if another rule would allow them\n\nRules are evaluated in order: deny → ask → allow. First match wins.\n\nThere's also a nuclear option: --dangerously-skip-permissions. This flag disables ALL permission checks. It exists for CI pipelines and automated scripts — never for interactive use.",
       },
       {
         type: "quiz",
@@ -715,7 +715,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "The iron curtain stands, agent. You control what Claude Code can and cannot do. Default to safety — ask-first permissions. Use permissions.allow for trusted tools, permissions.deny for hard blocks, and permissions.ask for tools that should always prompt. Reserve the nuclear option for machines, not humans.\n\nSecurity isn't a feature. It's a discipline.",
+        text: "The iron curtain stands, agent. You control what your agent can and cannot do. Default to safety — ask-first permissions. Use permissions.allow for trusted tools, permissions.deny for hard blocks, and permissions.ask for tools that should always prompt. Reserve the nuclear option for machines, not humans.\n\nSecurity isn't a feature. It's a discipline.",
       },
     ],
   },
@@ -728,7 +728,7 @@ export const MISSIONS: Mission[] = [
     briefing:
       "Basic training is over. Print mode, piping, hooks, and subagents await.",
     objectives: [
-      "Use Claude Code in non-interactive print mode",
+      "Use your agent in non-interactive print mode",
       "Understand piping and scripting patterns",
       "Configure hooks for automated workflows",
       "Master subagents and multi-session orchestration",
@@ -741,7 +741,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Print mode is your sleeper agent. It runs Claude Code non-interactively — pass a prompt, get a result, no conversation needed. (Sometimes called headless mode.)\n\nThis is the foundation for scripting, automation, and CI/CD integration.",
+        text: "Print mode is your sleeper agent. It runs your agent non-interactively — pass a prompt, get a result, no conversation needed. (Sometimes called headless mode.)\n\nThis is the foundation for scripting, automation, and CI/CD integration.",
       },
       {
         type: "quiz",
@@ -758,7 +758,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Piping works naturally with Claude Code. Pipe content in:\n\n`echo 'explain this function' | claude`\n`cat complex.ts | claude -p 'review this code'`\n\nOr pipe output out:\n\n`claude -p 'generate a tsconfig' > tsconfig.json`\n\nClaude Code plays well with Unix philosophy — small tools, composed together.",
+        text: "Piping works naturally with your agent. Pipe content in:\n\n`echo 'explain this function' | claude`\n`cat complex.ts | claude -p 'review this code'`\n\nOr pipe output out:\n\n`claude -p 'generate a tsconfig' > tsconfig.json`\n\nYour agent plays well with Unix philosophy — small tools, composed together.",
         speed: "fast",
       },
       {
@@ -833,7 +833,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Hooks are your tripwires — shell commands that trigger in response to Claude Code events. You can configure hooks that run before or after specific tool calls — like running a linter after every Edit, or logging Bash commands for audit trails.\n\nHooks are configured in your settings file under the `hooks` key.",
+        text: "Hooks are your tripwires — shell commands that trigger in response to agent events. You can configure hooks that run before or after specific tool calls — like running a linter after every Edit, or logging Bash commands for audit trails.\n\nHooks are configured in your settings file under the `hooks` key.",
       },
       {
         type: "command",
@@ -896,14 +896,14 @@ export const MISSIONS: Mission[] = [
       "Real codebases span hundreds of files. Learn to coordinate changes that ripple across all of them.",
     objectives: [
       "Coordinate edits across multiple files in a single session",
-      "Use Claude Code for git operations and commit workflows",
-      "Apply test-driven development with Claude Code",
-      "Understand how Claude Code navigates large codebases",
+      "Use your agent for git operations and commit workflows",
+      "Apply test-driven development with your agent",
+      "Understand how your agent navigates large codebases",
     ],
     steps: [
       {
         type: "print",
-        text: "Field operations rarely involve a single target. Real codebases span hundreds of files — a change in one ripples through many others.\n\nThis mission trains you to coordinate multi-file operations, integrate with git, and let Claude Code drive test-driven development.",
+        text: "Field operations rarely involve a single target. Real codebases span hundreds of files — a change in one ripples through many others.\n\nThis mission trains you to coordinate multi-file operations, integrate with git, and let your agent drive test-driven development.",
         speed: "normal",
       },
       {
@@ -922,7 +922,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Claude Code excels at coordinated multi-file ops. When you ask it to rename a function, add a new feature, or refactor a module, it traces dependencies across your project. It reads imports, follows type definitions, and updates every file that needs to change.\n\nThe key: describe the outcome you want, not every individual edit. Claude Code plans the operation, then executes it file by file.",
+        text: "Your agent excels at coordinated multi-file ops. When you ask it to rename a function, add a new feature, or refactor a module, it traces dependencies across your project. It reads imports, follows type definitions, and updates every file that needs to change.\n\nThe key: describe the outcome you want, not every individual edit. Your agent plans the operation, then executes it file by file.",
       },
       {
         type: "quiz",
@@ -940,7 +940,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Git integration is part of the operative's core training. Claude Code can stage files, create commits with meaningful messages, check diffs, view logs, and manage branches — all through the Bash tool.\n\nBut there's a discipline here: Claude Code should create commits, not push them. Pushing to remotes is your call, not the agent's.",
+        text: "Git integration is part of the operative's core training. Your agent can stage files, create commits with meaningful messages, check diffs, view logs, and manage branches — all through the Bash tool.\n\nBut there's a discipline here: your agent should create commits, not push them. Pushing to remotes is your call, not the agent's.",
       },
       {
         type: "quiz",
@@ -972,7 +972,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Test-driven development with Claude Code follows a disciplined protocol:\n\n1. Describe the behavior you want\n2. Ask Claude to write the tests first\n3. Run the tests — watch them fail\n4. Ask Claude to write the implementation\n5. Run the tests again — watch them pass\n\nClaude Code handles the full red-green-refactor cycle. It writes tests, implements code, runs the suite, and iterates until everything passes.",
+        text: "Test-driven development with your agent follows a disciplined protocol:\n\n1. Describe the behavior you want\n2. Ask Claude to write the tests first\n3. Run the tests — watch them fail\n4. Ask Claude to write the implementation\n5. Run the tests again — watch them pass\n\nYour agent handles the full red-green-refactor cycle. It writes tests, implements code, runs the suite, and iterates until everything passes.",
       },
       {
         type: "quiz",
@@ -1004,7 +1004,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "For large codebases, Claude Code uses a recon-then-read strategy. It doesn't read every file upfront. Instead, it uses Glob and Grep to scout for relevant files, reads only what it needs, and builds a mental map of the architecture.\n\nThis is why well-organized codebases with clear naming conventions work best with Claude Code — they're easier to search.",
+        text: "For large codebases, your agent uses a recon-then-read strategy. It doesn't read every file upfront. Instead, it uses Glob and Grep to scout for relevant files, reads only what it needs, and builds a mental map of the architecture.\n\nThis is why well-organized codebases with clear naming conventions work best with your agent — they're easier to search.",
       },
       {
         type: "command",
@@ -1023,7 +1023,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Mission complete. You've learned to think in terms of operations, not individual edits. Multi-file coordination, git discipline, and TDD workflows — these are the skills that make Claude Code a force multiplier.\n\nNext: customizing Claude Code to match your exact working style.",
+        text: "Mission complete. You've learned to think in terms of operations, not individual edits. Multi-file coordination, git discipline, and TDD workflows — these are the skills that make your agent a force multiplier.\n\nNext: customizing your agent to match your exact working style.",
       },
     ],
   },
@@ -1039,17 +1039,17 @@ export const MISSIONS: Mission[] = [
       "Write effective CLAUDE.md files for different project types",
       "Layer user-level and project-level instructions",
       "Use init and doctor commands for project onboarding",
-      "Customize Claude Code's persona and behavior",
+      "Customize your agent's persona and behavior",
     ],
     steps: [
       {
         type: "print",
-        text: "Every deep cover operative builds a legend — a crafted identity tailored to the mission. CLAUDE.md is how you build Claude Code's legend for each project.\n\nThis mission goes beyond the basics. You'll learn to craft instructions that make Claude Code an expert in your specific codebase.",
+        text: "Every deep cover operative builds a legend — a crafted identity tailored to the mission. CLAUDE.md is how you build your agent's legend for each project.\n\nThis mission goes beyond the basics. You'll learn to craft instructions that make your agent an expert in your specific codebase.",
         speed: "normal",
       },
       {
         type: "print",
-        text: "You already know the basics of CLAUDE.md from earlier missions. Now let's go deeper — structure, layering, and advanced techniques.\n\nOrder matters. Claude Code reads top-down, so put the most critical instructions first. A well-structured CLAUDE.md follows a priority order:\n\n1. Critical constraints ('Never import from X into Y')\n2. Build/test/lint commands\n3. Architecture patterns and boundaries\n4. Workflow rules (commit style, branch naming)\n5. Communication preferences",
+        text: "You already know the basics of CLAUDE.md from earlier missions. Now let's go deeper — structure, layering, and advanced techniques.\n\nOrder matters. Your agent reads top-down, so put the most critical instructions first. A well-structured CLAUDE.md follows a priority order:\n\n1. Critical constraints ('Never import from X into Y')\n2. Build/test/lint commands\n3. Architecture patterns and boundaries\n4. Workflow rules (commit style, branch naming)\n5. Communication preferences",
         speed: "fast",
       },
       {
@@ -1085,7 +1085,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Don't want to write your CLAUDE.md from scratch? The /init command guides you through setting up a CLAUDE.md interactively — asking about your project's tech stack, conventions, and preferences. It's the fastest way to onboard Claude Code to an existing codebase.\n\nAnd if something's not working right, /doctor diagnoses configuration and environment issues.",
+        text: "Don't want to write your CLAUDE.md from scratch? The /init command guides you through setting up a CLAUDE.md interactively — asking about your project's tech stack, conventions, and preferences. It's the fastest way to onboard your agent to an existing codebase.\n\nAnd if something's not working right, /doctor diagnoses configuration and environment issues.",
       },
       {
         type: "command",
@@ -1149,7 +1149,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Legend built, agent. You've gone beyond the basics — instruction ordering, layering strategies, external doc references, and conditional rules.\n\nA well-crafted CLAUDE.md turns Claude Code from a general-purpose assistant into a domain expert for your specific project.\n\nNext: the threats most developers don't see coming — security in agentic AI.",
+        text: "Legend built, agent. You've gone beyond the basics — instruction ordering, layering strategies, external doc references, and conditional rules.\n\nA well-crafted CLAUDE.md turns your agent from a general-purpose assistant into a domain expert for your specific project.\n\nNext: the threats most developers don't see coming — security in agentic AI.",
       },
     ],
   },
@@ -1163,8 +1163,8 @@ export const MISSIONS: Mission[] = [
       "Threats come from unexpected directions. Prompt injection, trust boundaries, and credential hygiene.",
     objectives: [
       "Recognize and defend against prompt injection attacks",
-      "Use Claude Code for security-focused code review",
-      "Handle sensitive data safely in Claude Code sessions",
+      "Use your agent for security-focused code review",
+      "Handle sensitive data safely in agent sessions",
       "Understand trust boundaries in agentic workflows",
     ],
     steps: [
@@ -1192,7 +1192,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Claude Code has built-in defenses against prompt injection. It flags suspicious content in tool results, maintains awareness of trust boundaries, and distinguishes between user instructions and data content.\n\nBut defense in depth requires your vigilance too. Be skeptical of unfamiliar files in cloned repos. Review Claude Code's actions when working with untrusted codebases.",
+        text: "Your agent has built-in defenses against prompt injection. It flags suspicious content in tool results, maintains awareness of trust boundaries, and distinguishes between user instructions and data content.\n\nBut defense in depth requires your vigilance too. Be skeptical of unfamiliar files in cloned repos. Review your agent's actions when working with untrusted codebases.",
       },
       {
         type: "quiz",
@@ -1224,7 +1224,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Claude Code is an excellent security reviewer. Ask it to audit code for OWASP Top 10 vulnerabilities — SQL injection, XSS, CSRF, insecure deserialization, and more.\n\nIt can trace data flow from user input through your application, identifying where untrusted data might reach dangerous sinks without proper sanitization.",
+        text: "Your agent is an excellent security reviewer. Ask it to audit code for OWASP Top 10 vulnerabilities — SQL injection, XSS, CSRF, insecure deserialization, and more.\n\nIt can trace data flow from user input through your application, identifying where untrusted data might reach dangerous sinks without proper sanitization.",
       },
       {
         type: "ai",
@@ -1233,7 +1233,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Trust boundaries in agentic workflows:\n\n- Your prompts: fully trusted\n- CLAUDE.md: trusted (you wrote it)\n- File contents from your repo: mostly trusted\n- Files from cloned/forked repos: verify first\n- Command output from external APIs: untrusted\n- User-generated content in your app: untrusted\n\nClaude Code's permission system is your first line of defense. Keep it engaged.",
+        text: "Trust boundaries in agentic workflows:\n\n- Your prompts: fully trusted\n- CLAUDE.md: trusted (you wrote it)\n- File contents from your repo: mostly trusted\n- Files from cloned/forked repos: verify first\n- Command output from external APIs: untrusted\n- User-generated content in your app: untrusted\n\nYour agent's permission system is your first line of defense. Keep it engaged.",
         speed: "fast",
       },
       {
@@ -1266,7 +1266,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Debrief: security in agentic AI isn't optional — it's the foundation everything else rests on. Prompt injection awareness, trust boundaries, permission discipline, and never committing secrets.\n\nA burned notice means your cover is blown. Follow this training, and yours stays intact.\n\nNext: scaling Claude Code across teams and production systems.",
+        text: "Debrief: security in agentic AI isn't optional — it's the foundation everything else rests on. Prompt injection awareness, trust boundaries, permission discipline, and never committing secrets.\n\nA burned notice means your cover is blown. Follow this training, and yours stays intact.\n\nNext: scaling your agent across teams and production systems.",
       },
     ],
   },
@@ -1277,17 +1277,17 @@ export const MISSIONS: Mission[] = [
     codename: "NETWORK",
     title: "Production Patterns & Team Workflows",
     briefing:
-      "From solo operative to team commander. Scale Claude Code across pipelines, teams, and production.",
+      "From solo operative to team commander. Scale your agent across pipelines, teams, and production.",
     objectives: [
-      "Integrate Claude Code into CI/CD pipelines",
+      "Integrate your agent into CI/CD pipelines",
       "Optimize token usage and control costs",
-      "Establish team-wide Claude Code conventions",
+      "Establish team-wide agent conventions",
       "Design effective multi-agent workflows",
     ],
     steps: [
       {
         type: "print",
-        text: "You've trained as a solo operative. Now you run the network — coordinating Claude Code across teams, pipelines, and production systems.\n\nThis final mission covers the patterns that scale Claude Code from personal tool to organizational capability.",
+        text: "You've trained as a solo operative. Now you run the network — coordinating your agent across teams, pipelines, and production systems.\n\nThis final mission covers the patterns that scale your agent from personal tool to organizational capability.",
         speed: "normal",
       },
       {
@@ -1350,7 +1350,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Team deployments require shared conventions — everyone reading from the same playbook. Establish these in your project-level CLAUDE.md:\n\n- Commit message format and conventions\n- Test requirements (what must pass before committing)\n- Code review standards (what Claude should check)\n- File organization rules\n- Naming conventions for branches, variables, files\n\nWhen every developer's Claude Code reads the same CLAUDE.md, the whole team produces consistent output.",
+        text: "Team deployments require shared conventions — everyone reading from the same playbook. Establish these in your project-level CLAUDE.md:\n\n- Commit message format and conventions\n- Test requirements (what must pass before committing)\n- Code review standards (what Claude should check)\n- File organization rules\n- Naming conventions for branches, variables, files\n\nWhen every developer's agent reads the same CLAUDE.md, the whole team produces consistent output.",
       },
       {
         type: "quiz",
@@ -1373,7 +1373,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Multi-agent patterns are the pinnacle of field operations. Use git worktrees to deploy parallel Claude Code sessions — each in its own branch, working on independent objectives simultaneously.\n\nThe pattern: one 'coordinator' session that creates tasks, and multiple 'worker' sessions that execute them. Merge results back to main when each worker completes.",
+        text: "Multi-agent patterns are the pinnacle of field operations. Use git worktrees to deploy parallel agent sessions — each in its own branch, working on independent objectives simultaneously.\n\nThe pattern: one 'coordinator' session that creates tasks, and multiple 'worker' sessions that execute them. Merge results back to main when each worker completes.",
         speed: "fast",
       },
       {
@@ -1392,7 +1392,7 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Final debrief, operative. You've completed the full Claude Code training program — from first contact to running the network.\n\nYou know the tools, the workflows, the security model, and the team patterns. You understand context management, cost optimization, and multi-agent orchestration.\n\nThe network is yours. Run it well.",
+        text: "Final debrief, operative. You've completed the full agent training program — from first contact to running the network.\n\nYou know the tools, the workflows, the security model, and the team patterns. You understand context management, cost optimization, and multi-agent orchestration.\n\nThe network is yours. Run it well.",
         speed: "normal",
       },
     ],

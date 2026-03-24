@@ -33,9 +33,9 @@ vi.mock("../../src/store/progress.js", () => ({
 import { loadProgress, saveProgress } from "../../src/store/progress.js";
 
 const INTRO_LINES = [
-  "You have been recruited by the Claude Code Terminal Training Division.",
-  "Your mission: master the Claude Code CLI through field training.",
-  "Learn Claude Code by doing.",
+  "You have been recruited by the Agent Terminal Training Division.",
+  "Your mission: master AI coding agents through field training.",
+  "Your field training begins now, recruit. Prove yourself worthy of full clearance.",
 ];
 
 beforeEach(() => {
@@ -82,7 +82,7 @@ describe("Onboarding", () => {
 
     const frame = instance.lastFrame();
     expect(frame).toContain("recruited");
-    expect(frame).toContain("Claude Code Terminal Training Division");
+    expect(frame).toContain("Agent Terminal Training Division");
   });
 
   it("renders all three intro lines with spy theme", async () => {
@@ -93,8 +93,8 @@ describe("Onboarding", () => {
 
     const frame = instance.lastFrame();
     expect(frame).toContain("recruited");
-    expect(frame).toContain("master the Claude Code CLI");
-    expect(frame).toContain("Learn Claude Code by doing");
+    expect(frame).toContain("master AI coding agents");
+    expect(frame).toContain("field training begins now");
   });
 
   // ── TypeWriter line progression ──────────────────────────────────
@@ -134,7 +134,7 @@ describe("Onboarding", () => {
 
     expect(frame).toContain(INTRO_LINES[0]);
     expect(frame).toContain(INTRO_LINES[1]);
-    expect(frame).toContain("Lea");
+    expect(frame).toContain("You");
   });
 
   // ── ENTER key behavior ───────────────────────────────────────────

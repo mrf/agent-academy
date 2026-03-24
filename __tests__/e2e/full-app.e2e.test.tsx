@@ -455,12 +455,12 @@ describe("E2E: Keyboard routing", () => {
     inst.stdin.write("q");
     await tick(0);
     await flushEffects();
-    expect(inst.lastFrame()).toContain("Quit Claude Code Academy?");
+    expect(inst.lastFrame()).toContain("Quit Agent Academy?");
 
     inst.stdin.write("n");
     await tick(0);
     await flushEffects();
-    expect(inst.lastFrame()).not.toContain("Quit Claude Code Academy?");
+    expect(inst.lastFrame()).not.toContain("Quit Agent Academy?");
     expect(inst.lastFrame()).toContain("SCREEN:MISSIONMAP");
   });
 
@@ -472,7 +472,7 @@ describe("E2E: Keyboard routing", () => {
     inst.stdin.write("q");
     await tick(0);
     await flushEffects();
-    expect(inst.lastFrame()).toContain("Quit Claude Code Academy?");
+    expect(inst.lastFrame()).toContain("Quit Agent Academy?");
 
     inst.stdin.write("y");
     await tick(0);

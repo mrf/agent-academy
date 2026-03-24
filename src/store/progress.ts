@@ -32,7 +32,7 @@ let partialProgress: Record<string, number> = {};
 function createConf(): Conf<SaveData> | null {
   try {
     return new Conf<SaveData>({
-      projectName: "claude-code-academy",
+      projectName: "agent-academy",
       defaults: DEFAULT_SAVE_DATA,
       migrations: {
         ">=1.0.0": (store) => {
@@ -207,7 +207,7 @@ export function reportBadQuestion(
   topic: string,
   difficulty: string,
 ): boolean {
-  const dir = join(homedir(), ".claude-code-academy");
+  const dir = join(homedir(), ".agent-academy");
   try {
     mkdirSync(dir, { recursive: true });
     const entry = JSON.stringify({

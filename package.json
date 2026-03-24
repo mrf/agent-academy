@@ -1,10 +1,10 @@
 {
-  "name": "claude-code-academy",
+  "name": "agent-academy",
   "version": "0.1.0",
-  "description": "Terminal training division — learn Claude Code patterns through interactive spy-themed missions",
+  "description": "Terminal training division — learn AI coding agent patterns through interactive spy-themed missions",
   "type": "module",
   "bin": {
-    "claude-code-academy": "dist/index.js"
+    "agent-academy": "dist/index.js"
   },
   "scripts": {
     "build": "tsup",
@@ -24,6 +24,8 @@
     "dist/"
   ],
   "keywords": [
+    "agent",
+    "ai-agent",
     "claude",
     "claude-code",
     "tutorial",
