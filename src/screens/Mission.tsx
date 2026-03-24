@@ -100,6 +100,14 @@ export function Mission({
   // skip animation on cover-blown restart.
   const [seenUpTo, setSeenUpTo] = useState(-1);
 
+  // Brief flash when cover takes a hit
+  const [coverHit, setCoverHit] = useState(false);
+  useEffect(() => {
+    if (!coverHit) return;
+    const timer = setTimeout(() => setCoverHit(false), 800);
+    return () => clearTimeout(timer);
+  }, [coverHit]);
+
   // Track mission ID to reset state if mission changes
   const missionIdRef = useRef(mission.id);
   if (missionIdRef.current !== mission.id) {
@@ -154,6 +162,10 @@ export function Mission({
         const newCover = coverIntegrity - 1;
         setCoverIntegrity(newCover);
         hitsRef.current += 1;
+        if (!noAnimation) {
+          process.stdout.write("\x07");
+        }
+        setCoverHit(true);
         if (newCover <= 0) {
           setPhase("coverBlown");
           return;
@@ -161,7 +173,7 @@ export function Mission({
       }
       advanceStep();
     },
-    [currentStep, coverIntegrity, advanceStep],
+    [currentStep, coverIntegrity, advanceStep, noAnimation],
   );
 
   useInput(
@@ -242,6 +254,14 @@ export function Mission({
         totalSteps={mission.steps.length}
         hasApiKey={hasApiKey}
       />
+
+      {coverHit && (
+        <Box justifyContent="center" width="100%">
+          <Text color={COLORS.red} bold>
+            ▓▓ COVER COMPROMISED ▓▓
+          </Text>
+        </Box>
+      )}
 
       <Box flexDirection="column" flexGrow={1} paddingX={2} paddingY={1}>
         {phase === "coverBlown" ? (
