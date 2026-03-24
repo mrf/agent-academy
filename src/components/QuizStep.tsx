@@ -13,11 +13,6 @@ interface QuizStepProps {
 
 type Phase = "selecting" | "pausing" | "result";
 
-type ShakeFrame = 0 | 1;
-
-const SHAKE_SEQUENCE: ShakeFrame[] = [1, 0, 1, 0];
-const SHAKE_FRAME_MS = 50;
-
 function reviewColor(
   itemIndex: number,
   correctIndex: number,
@@ -31,7 +26,6 @@ function reviewColor(
 export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
   const [phase, setPhase] = useState<Phase>("selecting");
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
-  const [shakeOffset, setShakeOffset] = useState(0);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const correct = selectedIndex !== -1 && selectedIndex === step.correct;
@@ -69,16 +63,6 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
     timers.current.push(id);
   }, []);
 
-  const runShake = useCallback(() => {
-    SHAKE_SEQUENCE.forEach((frame, i) => {
-      trackTimer(() => setShakeOffset(frame), i * SHAKE_FRAME_MS);
-    });
-    trackTimer(
-      () => setShakeOffset(0),
-      SHAKE_SEQUENCE.length * SHAKE_FRAME_MS,
-    );
-  }, [trackTimer]);
-
   const handleSelect = useCallback(
     (item: { value: number }) => {
       if (phase !== "selecting") return;
@@ -90,19 +74,15 @@ export function QuizStep({ step, onAnswer, isFocused }: QuizStepProps) {
 
       trackTimer(() => {
         setPhase("result");
-        if (!isCorrect) {
-          runShake();
-        }
       }, TIMING.pauseBeforeResult);
     },
-    [phase, step.correct, runShake, trackTimer],
+    [phase, step.correct, trackTimer],
   );
 
   return (
     <Box
       flexDirection="column"
       gap={1}
-      marginLeft={shakeOffset}
     >
       <Text color={COLORS.cyan} bold>
         {step.question}

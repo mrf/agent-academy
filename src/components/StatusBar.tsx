@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Text } from "ink";
 import { COLORS } from "../constants.js";
 
@@ -25,16 +25,17 @@ export function StatusBar({
 }: StatusBarProps) {
   const [flashRed, setFlashRed] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
-  const [prevCover, setPrevCover] = useState(coverIntegrity);
+  const prevCoverRef = useRef(coverIntegrity);
 
   // Flash red, show warning, and ring terminal bell when cover integrity drops
   useEffect(() => {
-    if (coverIntegrity < prevCover) {
+    if (coverIntegrity < prevCoverRef.current) {
       setFlashRed(true);
       setShowWarning(true);
       if (!noAnimation) {
         process.stdout.write("\x07");
       }
+      prevCoverRef.current = coverIntegrity;
       const flashTimer = setTimeout(() => setFlashRed(false), 400);
       const warnTimer = setTimeout(() => setShowWarning(false), 1500);
       return () => {
@@ -42,8 +43,8 @@ export function StatusBar({
         clearTimeout(warnTimer);
       };
     }
-    setPrevCover(coverIntegrity);
-  }, [coverIntegrity, prevCover, noAnimation]);
+    prevCoverRef.current = coverIntegrity;
+  }, [coverIntegrity, noAnimation]);
 
   const coverBlocks = Array.from({ length: 3 }, (_, i) =>
     i < coverIntegrity ? "\u25A0" : "\u25A1"

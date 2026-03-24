@@ -123,7 +123,7 @@ export const MISSIONS: Mission[] = [
         ],
         correct: 1,
         explanation:
-          "'claude login' opens a browser-based authentication flow. You can also set the ANTHROPIC_API_KEY environment variable for headless environments.",
+          "'claude login' opens a browser-based authentication flow. Inside a session, you can also use the /login slash command. For headless environments, set the ANTHROPIC_API_KEY environment variable directly.",
       },
       {
         type: "quiz",
@@ -940,21 +940,21 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Git integration is part of the operative's core training. Claude Code can stage files, create commits with meaningful messages, check diffs, view logs, and manage branches — all through the Bash tool.\n\nBut there's a discipline here: Claude Code should create commits, not push them. Pushing to remotes is your call, not the agent's.",
+        text: "Git integration is part of the operative's core training. Claude Code can stage files, create commits with meaningful messages, check diffs, view logs, and manage branches — all through the Bash tool.\n\nClaude Code can push to remotes too, but many teams prefer to keep that as a human decision. Pushing affects shared state — other developers, CI pipelines, deployments. A best practice: let Claude handle local git ops freely, but review before pushing.",
       },
       {
         type: "quiz",
         question:
-          "What git operations should Claude Code handle vs. what should you do manually?",
+          "What's the recommended approach for Claude Code and git pushes?",
         options: [
-          "Claude handles everything including force pushes",
-          "Claude commits locally; you handle pushes to remotes",
+          "Claude should handle everything including force pushes",
+          "Claude can push, but it's best practice to review before pushing to shared remotes",
           "Claude only reads git status, never writes",
           "Claude should never touch git at all",
         ],
         correct: 1,
         explanation:
-          "Claude Code handles local git operations — staging, committing, branching, diffing. Remote operations like push and pull should remain under your direct control.",
+          "Claude Code can do any git operation, but pushes affect shared state — other developers, CI, deployments. Best practice: let Claude handle local operations freely (staging, committing, branching, diffing) and review before pushing to remotes.",
       },
       {
         type: "quiz",
