@@ -51,6 +51,7 @@ export type Screen =
   | "mission"
   | "debrief"
   | "infiniteMode"
+  | "apiKeyEntry"
   | "credits"
   | "achievements";
 
