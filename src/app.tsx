@@ -284,6 +284,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             onOpenCredits={handleOpenCredits}
             onOpenAchievements={handleOpenAchievements}
             overlayOpen={overlayOpen}
+            showWelcomeBack={skipToMap}
           />
         );
       case "credits":

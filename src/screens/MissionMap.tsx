@@ -13,6 +13,7 @@ interface MissionMapProps {
   onOpenCredits?: () => void;
   onOpenAchievements?: () => void;
   overlayOpen?: boolean;
+  showWelcomeBack?: boolean;
 }
 
 export function MissionMap({
@@ -21,6 +22,7 @@ export function MissionMap({
   onOpenCredits,
   onOpenAchievements,
   overlayOpen,
+  showWelcomeBack,
 }: MissionMapProps) {
   const { columns } = useTerminalSize();
   const progress = loadProgress();
@@ -36,12 +38,19 @@ export function MissionMap({
   const [legacyMode, setLegacyMode] = useState(progress.legacyModeUnlocked);
   const [lockedMessage, setLockedMessage] = useState<string | null>(null);
   const [konamiFlash, setKonamiFlash] = useState(false);
+  const [welcomeToast, setWelcomeToast] = useState(showWelcomeBack ?? false);
   const konamiCheck = useRef(createKonamiTracker()).current;
   const konamiTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(konamiTimerRef.current);
   }, []);
+
+  useEffect(() => {
+    if (!welcomeToast) return;
+    const timer = setTimeout(() => setWelcomeToast(false), 3000);
+    return () => clearTimeout(timer);
+  }, [welcomeToast]);
 
   useEffect(() => {
     if (overlayOpen) return;
@@ -123,6 +132,14 @@ export function MissionMap({
         paddingX={2}
         paddingY={1}
       >
+        {welcomeToast && (
+          <Box justifyContent="center" marginBottom={1}>
+            <Text color={COLORS.amber} bold>
+              {`Welcome back, operative. Current clearance: ${clearanceLabel}.`}
+            </Text>
+          </Box>
+        )}
+
         {konamiFlash && (
           <Box justifyContent="center" marginBottom={1}>
             <Text color={COLORS.green} bold>
