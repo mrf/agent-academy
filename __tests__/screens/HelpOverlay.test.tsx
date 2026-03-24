@@ -70,9 +70,9 @@ describe("HelpOverlay", () => {
   // ── missionMap screen bindings ──────────────────────────────────────
 
   describe("missionMap screen", () => {
-    it("shows MISSIONMAP section header", () => {
+    it("shows MISSION SELECT section header", () => {
       const { instance } = renderHelp("missionMap");
-      expect(instance.lastFrame()).toContain("MISSIONMAP");
+      expect(instance.lastFrame()).toContain("MISSION SELECT");
     });
 
     it("shows Start mission binding", () => {
@@ -145,9 +145,9 @@ describe("HelpOverlay", () => {
   // ── infiniteMode screen bindings ────────────────────────────────────
 
   describe("infiniteMode screen", () => {
-    it("shows INFINITEMODE section header", () => {
+    it("shows DEEP COVER OPERATIONS section header", () => {
       const { instance } = renderHelp("infiniteMode");
-      expect(instance.lastFrame()).toContain("INFINITEMODE");
+      expect(instance.lastFrame()).toContain("DEEP COVER OPERATIONS");
     });
 
     it("shows Report bad question binding", () => {

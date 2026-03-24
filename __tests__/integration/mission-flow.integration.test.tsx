@@ -196,7 +196,7 @@ describe("Mission flow integration", () => {
 
       expect(onComplete).toHaveBeenCalledOnce();
       // Refs ensure onComplete receives the correct accumulated FXP
-      expect(onComplete).toHaveBeenCalledWith(3, 25, 3, []);
+      expect(onComplete).toHaveBeenCalledWith(3, 22, 3, []);
     });
 
     it("handles multiple print steps in sequence", async () => {
@@ -221,7 +221,7 @@ describe("Mission flow integration", () => {
       await answerStep(true);
 
       // Refs ensure onComplete receives the correct accumulated FXP
-      expect(onComplete).toHaveBeenCalledWith(3, 20, 3, []);
+      expect(onComplete).toHaveBeenCalledWith(3, 14, 3, []);
     });
 
     it("handles a quiz-only mission", async () => {
@@ -389,7 +389,7 @@ describe("Mission flow integration", () => {
   });
 
   describe("FXP accumulation through mission", () => {
-    it("earns 5 FXP per print step", async () => {
+    it("earns 2 FXP per print step", async () => {
       const mission = createMission({
         steps: [createPrintStep(), createPrintStep(), createQuizStep()],
       });
@@ -398,14 +398,14 @@ describe("Mission flow integration", () => {
 
       capturedPrintOnComplete!();
       await tick(0);
-      expect(inst.lastFrame()).toContain("fxp=5");
+      expect(inst.lastFrame()).toContain("fxp=2");
 
       pressKey(inst, keys.enter);
       await tick(0);
 
       capturedPrintOnComplete!();
       await tick(0);
-      expect(inst.lastFrame()).toContain("fxp=10");
+      expect(inst.lastFrame()).toContain("fxp=4");
     });
 
     it("earns 10 FXP per correct quiz/command answer", async () => {
@@ -415,55 +415,55 @@ describe("Mission flow integration", () => {
       const inst = renderMission({ mission });
       await tick(0);
 
-      await completePrintStep(inst); // +5 → 5
-      await answerStep(true); // +10 → 15
-      expect(inst.lastFrame()).toContain("fxp=15");
+      await completePrintStep(inst); // +2 → 2
+      await answerStep(true); // +10 → 12
+      expect(inst.lastFrame()).toContain("fxp=12");
     });
 
     it("earns 0 FXP for wrong answers", async () => {
       const inst = renderMission({ mission: fourStepMission });
       await tick(0);
 
-      await completePrintStep(inst); // +5
+      await completePrintStep(inst); // +2
       await answerStep(false); // +0, cover 2
-      expect(inst.lastFrame()).toContain("fxp=5");
+      expect(inst.lastFrame()).toContain("fxp=2");
     });
 
     it("accumulates FXP correctly across mixed step types", async () => {
       const onComplete = vi.fn();
       const mission = createMission({
         steps: [
-          createPrintStep(),    // +5
+          createPrintStep(),    // +2
           createQuizStep(),     // +10 (correct)
-          createPrintStep(),    // +5
+          createPrintStep(),    // +2
           createCommandStep(),  // +10 (correct)
         ],
       });
       const inst = renderMission({ mission, onComplete });
       await tick(0);
 
-      await completePrintStep(inst); // fxp=5
-      await answerStep(true);        // fxp=15
-      await completePrintStep(inst); // fxp=20
-      await answerStep(true);        // fxp=30
+      await completePrintStep(inst); // fxp=2
+      await answerStep(true);        // fxp=12
+      await completePrintStep(inst); // fxp=14
+      await answerStep(true);        // fxp=24
 
       // Refs ensure onComplete receives the correct accumulated FXP
-      expect(onComplete).toHaveBeenCalledWith(3, 30, 3, []);
+      expect(onComplete).toHaveBeenCalledWith(3, 24, 3, []);
     });
 
     it("resets FXP on cover blown and shows loss message", async () => {
       const inst = renderMission({ mission: fiveStepMission });
       await tick(0);
 
-      await completePrintStep(inst); // +5
-      expect(inst.lastFrame()).toContain("fxp=5");
+      await completePrintStep(inst); // +2
+      expect(inst.lastFrame()).toContain("fxp=2");
 
       await answerStep(false);
       await answerStep(false);
       await answerStep(false); // cover blown
 
       expect(inst.lastFrame()).toContain("COVER BLOWN");
-      expect(inst.lastFrame()).toContain("FXP lost: 5");
+      expect(inst.lastFrame()).toContain("FXP lost: 2");
       expect(inst.lastFrame()).toContain("0 FXP awarded");
       // Status bar shows 0 FXP immediately on cover blown screen
       expect(inst.lastFrame()).toContain("fxp=0");
@@ -496,21 +496,21 @@ describe("Mission flow integration", () => {
       expect(unlocked.some((a) => a.id === "PERFECTIONIST")).toBe(false);
     });
 
-    it("SPEEDRUNNER achievement unlocks when mission completed in under 2 minutes", () => {
+    it("SPEEDRUNNER achievement unlocks when mission completed in under 60 seconds", () => {
       const unlocked = checkMissionComplete({
         missionId: "mission-1",
         stars: 1,
-        durationMs: 60_000,
+        durationMs: 30_000,
       });
 
       expect(unlocked.some((a) => a.id === "SPEEDRUNNER")).toBe(true);
     });
 
-    it("SPEEDRUNNER does not unlock at exactly 2 minutes", () => {
+    it("SPEEDRUNNER does not unlock at exactly 60 seconds", () => {
       const unlocked = checkMissionComplete({
         missionId: "mission-1",
         stars: 1,
-        durationMs: 120_000,
+        durationMs: 60_000,
       });
 
       expect(unlocked.some((a) => a.id === "SPEEDRUNNER")).toBe(false);
@@ -520,7 +520,7 @@ describe("Mission flow integration", () => {
       const unlocked = checkMissionComplete({
         missionId: "mission-1",
         stars: 3,           // → PERFECTIONIST
-        durationMs: 30_000, // → SPEEDRUNNER
+        durationMs: 20_000, // → SPEEDRUNNER (under 60s)
       });
 
       expect(unlocked.some((a) => a.id === "PERFECTIONIST")).toBe(true);
@@ -542,7 +542,7 @@ describe("Mission flow integration", () => {
     });
 
     it("saveMissionComplete persists stars and FXP to progress store", () => {
-      saveMissionComplete("mission-1", 3, 25);
+      saveMissionComplete("mission-1", 3, 25, 2, 2);
       const progress = loadProgress();
 
       expect(progress.completedMissions).toContain("mission-1");
@@ -551,8 +551,8 @@ describe("Mission flow integration", () => {
     });
 
     it("saveMissionComplete only upgrades star rating, never downgrades", () => {
-      saveMissionComplete("mission-1", 3, 25);
-      saveMissionComplete("mission-1", 1, 10);
+      saveMissionComplete("mission-1", 3, 25, 2, 2);
+      saveMissionComplete("mission-1", 1, 10, 1, 2);
 
       const progress = loadProgress();
       expect(progress.starRatings["mission-1"]).toBe(3);
@@ -646,21 +646,21 @@ describe("Mission flow integration", () => {
       await answerStep(true);
       await answerStep(true);
 
-      expect(onComplete).toHaveBeenCalledWith(3, 25, 3, []);
+      expect(onComplete).toHaveBeenCalledWith(3, 22, 3, []);
       const [stars, fxp] = onComplete.mock.calls[0];
 
       // Simulate what app.tsx does: persist + check achievements
-      saveMissionComplete(mission.id, stars, fxp);
+      saveMissionComplete(mission.id, stars, fxp, 2, 2);
       const unlocked = checkMissionComplete({
         missionId: mission.id,
         stars,
-        durationMs: 60_000,
+        durationMs: 30_000,
       });
 
       const progress = loadProgress();
       expect(progress.completedMissions).toContain("mission-1");
       expect(progress.starRatings["mission-1"]).toBe(3);
-      expect(progress.fxp).toBe(25);
+      expect(progress.fxp).toBe(22);
 
       expect(unlocked.some((a) => a.id === "PERFECTIONIST")).toBe(true);
       expect(unlocked.some((a) => a.id === "SPEEDRUNNER")).toBe(true);
@@ -688,7 +688,7 @@ describe("Mission flow integration", () => {
       expect(onComplete).toHaveBeenCalledWith(2, expect.any(Number), 2, expect.any(Array));
       const [stars, fxp] = onComplete.mock.calls[0];
 
-      saveMissionComplete(mission.id, stars, fxp);
+      saveMissionComplete(mission.id, stars, fxp, 2, 3);
       const unlocked = checkMissionComplete({
         missionId: mission.id,
         stars,

@@ -120,7 +120,7 @@ describe("evaluateAnswer API failure fallback", () => {
       "alt",
     ]);
 
-    expect(result).toEqual({ ...FALLBACK, evalFailed: true });
+    expect(result).toEqual({ correct: false, feedback: "Incorrect.", score: 0, evalFailed: true });
   });
 });
 

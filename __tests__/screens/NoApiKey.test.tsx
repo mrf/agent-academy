@@ -21,22 +21,22 @@ function renderNoApiKey(
 }
 
 describe("NoApiKey", () => {
-  it("renders SIGNAL INTERRUPTED header", () => {
+  it("renders NO API KEY DETECTED header", () => {
     const { lastFrame } = renderNoApiKey();
-    expect(lastFrame()).toContain("SIGNAL INTERRUPTED");
+    expect(lastFrame()).toContain("NO API KEY DETECTED");
   });
 
   it("shows API key setup instructions", () => {
     const { lastFrame } = renderNoApiKey();
     const frame = lastFrame();
-    expect(frame).toContain("Setup Instructions");
     expect(frame).toContain("ANTHROPIC_API_KEY");
     expect(frame).toContain("console.anthropic.com");
+    expect(frame).toContain("To unlock all features");
   });
 
   it("shows cost estimate", () => {
     const { lastFrame } = renderNoApiKey();
-    expect(lastFrame()).toContain("$0.05-0.15 per mission");
+    expect(lastFrame()).toContain("~$0.15 for the full curriculum");
   });
 
   it("calls onContinue on any key press", () => {
@@ -66,8 +66,8 @@ describe("NoApiKey", () => {
     expect(onContinue).toHaveBeenCalledTimes(3);
   });
 
-  it("shows continue without AI prompt", () => {
+  it("shows continue prompt", () => {
     const { lastFrame } = renderNoApiKey();
-    expect(lastFrame()).toContain("[ANY KEY] Continue without AI");
+    expect(lastFrame()).toContain("[ANY KEY] Continue");
   });
 });

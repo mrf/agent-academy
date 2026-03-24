@@ -18,6 +18,7 @@ const realSetImmediate = globalThis.setImmediate;
 
 vi.mock("../../src/ai/instructor.js", () => ({
   askHandler: vi.fn(),
+  getHandlerUsage: vi.fn(() => ({ used: 0, cap: 10 })),
 }));
 
 vi.mock("../../src/lib/easter-eggs.js", () => ({
@@ -143,7 +144,7 @@ describe("Handler", () => {
   it("renders HANDLER header", async () => {
     const props = defaultProps();
     const inst = await renderHandler(props);
-    expect(inst.lastFrame()).toContain("[ HANDLER ]");
+    expect(inst.lastFrame()).toContain("[ HANDLER ");
   });
 
   it("renders input placeholder", async () => {

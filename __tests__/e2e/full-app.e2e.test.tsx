@@ -52,6 +52,7 @@ vi.mock("../../src/store/progress.js", () => ({
   resetProgress: mockResetProgress,
   markHandlerUsed: mockMarkHandlerUsed,
   updateLastPlayed: mockUpdateLastPlayed,
+  updateClearanceLevel: vi.fn(),
   saveStepProgress: vi.fn(),
 }));
 
@@ -69,12 +70,12 @@ vi.mock("../../src/lib/achievements.js", () => ({
         });
       }
 
-      if (ctx.durationMs < 120_000 && !state.achievements.includes("SPEEDRUNNER")) {
+      if (ctx.durationMs < 60_000 && !state.achievements.includes("SPEEDRUNNER")) {
         state.achievements.push("SPEEDRUNNER");
         results.push({
           id: "SPEEDRUNNER",
           title: "Speed of Light",
-          description: "Complete a mission in under 2 minutes",
+          description: "Complete a mission in under 60 seconds",
         });
       }
 
@@ -82,6 +83,7 @@ vi.mock("../../src/lib/achievements.js", () => ({
     },
   ),
   checkPersistence: vi.fn(() => null),
+  checkClearanceRankUp: vi.fn(() => null),
   checkHandlerOpen: vi.fn((count: number) => {
     if (count >= 10 && !state.achievements.includes("HANDLERS_PET")) {
       state.achievements.push("HANDLERS_PET");
@@ -110,7 +112,7 @@ const captured: {
   selectMission: ((idx: number) => void) | null;
   briefingOnAccept: (() => void) | null;
   missionOnComplete:
-    | ((stars: 1 | 2 | 3, fxp: number, coverRemaining: number) => void)
+    | ((stars: 1 | 2 | 3, fxp: number, coverRemaining: number, wrongAnswers: unknown[]) => void)
     | null;
   debriefOnContinue: (() => void) | null;
 } = {
@@ -163,7 +165,7 @@ vi.mock("../../src/screens/Briefing.js", () => ({
 
 vi.mock("../../src/screens/Mission.js", () => ({
   Mission: screenMarker<{
-    onComplete: (stars: 1 | 2 | 3, fxp: number, coverRemaining: number) => void;
+    onComplete: (stars: 1 | 2 | 3, fxp: number, coverRemaining: number, wrongAnswers: unknown[]) => void;
   }>("MISSION", (p) => {
     captured.missionOnComplete = p.onComplete;
   }),
@@ -251,7 +253,7 @@ async function completeMission(
   fxp: number,
   cover: number,
 ): Promise<void> {
-  captured.missionOnComplete!(stars, fxp, cover);
+  captured.missionOnComplete!(stars, fxp, cover, []);
   await tick(0);
 }
 

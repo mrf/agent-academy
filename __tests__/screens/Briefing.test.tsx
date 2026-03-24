@@ -104,17 +104,22 @@ describe("Briefing", () => {
 
   // ── TypeWriter integration ──────────────────────────────────────
 
-  it("TypeWriter reveals text progressively (not all at once)", async () => {
-    const inst = renderBriefing();
+  it("TypeWriter reveals intel text progressively (not all at once)", async () => {
+    const inst = renderBriefing({
+      mission: createMission({ briefing: "Top secret intel here." }),
+    });
     await tick(0);
 
-    // After a short time, only partial text should be visible
-    await tick(TIMING.typewriterDramatic * 5);
-    expect(inst.lastFrame()).not.toContain("OBJECTIVES:");
-
-    // After full duration, complete text is visible
-    await tick(TYPEWRITER_COMPLETE);
+    // Header (including OBJECTIVES) is rendered immediately as plain text
     expect(inst.lastFrame()).toContain("OBJECTIVES:");
+
+    // After a short time, only partial intel text should be visible via TypeWriter
+    await tick(TIMING.typewriterDramatic * 5);
+    expect(inst.lastFrame()).not.toContain("Top secret intel here.");
+
+    // After full duration, complete intel text is visible
+    await tick(TYPEWRITER_COMPLETE);
+    expect(inst.lastFrame()).toContain("Top secret intel here.");
   });
 
   // ── Accept prompt visibility ──────────────────────────────────

@@ -90,7 +90,7 @@ describe("TerminalGuard", () => {
       </TerminalGuard>,
     );
     const frame = inst.lastFrame()!;
-    expect(frame).toContain("Terminal too narrow");
+    expect(frame).toContain("SIGNAL DEGRADED");
     expect(frame).toContain(`${MIN_WIDTH}`);
     expect(frame).toContain("40");
     expect(frame).not.toContain("hidden content");
@@ -103,7 +103,7 @@ describe("TerminalGuard", () => {
         <Text>hidden</Text>
       </TerminalGuard>,
     );
-    expect(inst.lastFrame()).toContain("Terminal too narrow");
+    expect(inst.lastFrame()).toContain("SIGNAL DEGRADED");
     expect(inst.lastFrame()).not.toContain("hidden");
   });
 });

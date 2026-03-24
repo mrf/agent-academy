@@ -127,7 +127,8 @@ describe("Credits", () => {
   it("shows dismiss prompt in credits phase", async () => {
     const inst = renderCredits();
     await advanceToCredits(inst);
-    expect(inst.lastFrame()).toContain("[ENTER/ESC] Dismiss");
+    expect(inst.lastFrame()).toContain("[ENTER] Self-destruct");
+    expect(inst.lastFrame()).toContain("[ESC] Back");
   });
 
   // ── Self-destruct countdown ─────────────────────────────────────
@@ -142,14 +143,16 @@ describe("Credits", () => {
     expect(inst.lastFrame()).toContain("self-destruct in 3");
   });
 
-  it("enters destruct phase on escape key from credits", async () => {
+  it("escape key from credits goes back to summary", async () => {
     const inst = renderCredits();
     await advanceToCredits(inst);
 
     pressKey(inst, keys.escape);
     await tick(0);
 
-    expect(inst.lastFrame()).toContain("self-destruct in 3");
+    // ESC from credits returns to summary phase
+    expect(inst.lastFrame()).toContain("FINAL DEBRIEF");
+    expect(inst.lastFrame()).not.toContain("DECLASSIFIED");
   });
 
   it("does not enter destruct phase on other keys", async () => {
@@ -159,8 +162,8 @@ describe("Credits", () => {
     pressKey(inst, "a");
     await tick(0);
 
-    expect(inst.lastFrame()).toContain("[ENTER/ESC] Dismiss");
-    expect(inst.lastFrame()).not.toContain("self-destruct");
+    expect(inst.lastFrame()).toContain("[ENTER] Self-destruct");
+    expect(inst.lastFrame()).not.toContain("self-destruct in");
   });
 
   it("counts down from 3 to 1", async () => {

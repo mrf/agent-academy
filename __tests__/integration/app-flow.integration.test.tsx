@@ -22,12 +22,15 @@ vi.mock("../../src/store/progress.js", () => ({
   resetProgress: vi.fn(),
   markHandlerUsed: vi.fn(),
   updateLastPlayed: vi.fn(),
+  updateClearanceLevel: vi.fn(),
+  saveStepProgress: vi.fn(),
 }));
 
 vi.mock("../../src/lib/achievements.js", () => ({
   checkMissionComplete: vi.fn(() => []),
   checkPersistence: vi.fn(() => null),
   checkHandlerOpen: vi.fn(() => null),
+  checkClearanceRankUp: vi.fn(() => null),
 }));
 
 vi.mock("../../src/lib/easter-eggs.js", () => ({
@@ -60,7 +63,7 @@ const captured: {
   onboardingOnContinue: (() => void) | null;
   selectMission: ((idx: number) => void) | null;
   briefingOnAccept: (() => void) | null;
-  missionOnComplete: ((stars: 1 | 2 | 3, fxp: number) => void) | null;
+  missionOnComplete: ((stars: 1 | 2 | 3, fxp: number, coverRemaining: number, wrongAnswers: unknown[]) => void) | null;
   debriefOnContinue: (() => void) | null;
 } = {
   logoOnContinue: null,
@@ -101,7 +104,7 @@ vi.mock("../../src/screens/Briefing.js", () => ({
 
 vi.mock("../../src/screens/Mission.js", () => ({
   Mission: screenMarker<{
-    onComplete: (stars: 1 | 2 | 3, fxp: number) => void;
+    onComplete: (stars: 1 | 2 | 3, fxp: number, coverRemaining: number, wrongAnswers: unknown[]) => void;
   }>("MISSION", (p) => {
     captured.missionOnComplete = p.onComplete;
   }),
@@ -236,7 +239,7 @@ describe("App integration — screen routing", () => {
     await tick(0);
     expect(inst.lastFrame()).toContain("SCREEN:MISSION");
 
-    captured.missionOnComplete!(3, 25);
+    captured.missionOnComplete!(3, 25, 3, []);
     await tick(0);
     expect(inst.lastFrame()).toContain("SCREEN:DEBRIEF");
 
@@ -447,7 +450,7 @@ describe("App integration — achievements", () => {
     await tick(0);
     captured.briefingOnAccept!();
     await tick(0);
-    captured.missionOnComplete!(3, 25);
+    captured.missionOnComplete!(3, 25, 3, []);
     await tick(0);
 
     const frame = inst.lastFrame()!;

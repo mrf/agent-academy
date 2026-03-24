@@ -183,7 +183,7 @@ describe("Logo", () => {
     expect(frame).toContain(`v${VERSION}`);
   });
 
-  it("sets terminal title on mount", async () => {
+  it("does not set terminal title on mount (handled by app)", async () => {
     const spy = vi
       .spyOn(process.stdout, "write")
       .mockImplementation(() => true);
@@ -191,7 +191,8 @@ describe("Logo", () => {
     renderInk(<Logo onContinue={vi.fn()} />);
     await tick(0);
 
-    expect(spy).toHaveBeenCalledWith(
+    // Terminal title is now set by the App component, not Logo
+    expect(spy).not.toHaveBeenCalledWith(
       expect.stringContaining("Agent Academy"),
     );
   });

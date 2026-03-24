@@ -149,6 +149,7 @@ beforeEach(() => {
   mockGenerateFieldAssessments.mockResolvedValue(fakeApiResults());
   mockSaveInfiniteResult.mockReset();
   mockReportBadQuestion.mockReset();
+  mockReportBadQuestion.mockReturnValue(true);
 });
 
 afterEach(() => {
@@ -252,12 +253,12 @@ describe("InfiniteMode", () => {
       expect(frame).toContain("Begin assessment");
     });
 
-    it("shows estimated API cost", async () => {
+    it("shows resource allocation note", async () => {
       const inst = renderInfiniteMode();
       await press(inst, keys.enter);
       await press(inst, keys.enter);
 
-      expect(inst.lastFrame()).toContain("$0.02");
+      expect(inst.lastFrame()).toContain("resource allocation: minimal");
     });
 
     it("ESC goes back to difficulty selection", async () => {

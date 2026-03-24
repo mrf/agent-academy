@@ -20,7 +20,7 @@ const mockUnlockAchievement = vi.mocked(unlockAchievement);
 
 const allMissionIds = MISSIONS.map((m) => m.id);
 
-const TWO_MINUTES_MS = 2 * 60 * 1000;
+const ONE_MINUTE_MS = 60 * 1000;
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function makeCtx(overrides?: Partial<MissionCompleteContext>): MissionCompleteContext {
@@ -46,8 +46,8 @@ beforeEach(() => {
 // -- checkMissionComplete ----------------------------------------------------
 
 describe("checkMissionComplete", () => {
-  it("triggers SPEEDRUNNER for completion under 2 minutes", () => {
-    const result = checkMissionComplete(makeCtx({ durationMs: 90_000 }));
+  it("triggers SPEEDRUNNER for completion under 60 seconds", () => {
+    const result = checkMissionComplete(makeCtx({ durationMs: 50_000 }));
 
     expect(mockUnlockAchievement).toHaveBeenCalledWith("SPEEDRUNNER");
     const speedrunner = findAchievement(result, "SPEEDRUNNER");
@@ -56,8 +56,8 @@ describe("checkMissionComplete", () => {
     expect(speedrunner!.description).toBeTruthy();
   });
 
-  it("does not trigger SPEEDRUNNER for completion >= 2 minutes", () => {
-    checkMissionComplete(makeCtx({ durationMs: TWO_MINUTES_MS }));
+  it("does not trigger SPEEDRUNNER for completion >= 60 seconds", () => {
+    checkMissionComplete(makeCtx({ durationMs: ONE_MINUTE_MS }));
 
     expect(mockUnlockAchievement).not.toHaveBeenCalledWith("SPEEDRUNNER");
   });
@@ -247,7 +247,7 @@ describe("achievement shape", () => {
     );
 
     const result = checkMissionComplete(
-      makeCtx({ missionId: "mission-12", stars: 3, durationMs: 60_000 }),
+      makeCtx({ missionId: "mission-12", stars: 3, durationMs: 59_000 }),
     );
 
     for (const achievement of result) {
@@ -268,7 +268,7 @@ describe("unlockAchievement interaction", () => {
     mockUnlockAchievement.mockReturnValue(false);
 
     const result = checkMissionComplete(
-      makeCtx({ stars: 3, durationMs: 60_000 }),
+      makeCtx({ stars: 3, durationMs: 59_000 }),
     );
 
     expect(result).toHaveLength(0);

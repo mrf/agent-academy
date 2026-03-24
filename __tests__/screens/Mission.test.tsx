@@ -185,30 +185,30 @@ describe("Mission", () => {
       await tick(0);
       // BottomBar handles the [ENTER] continue prompt; content area no longer duplicates it.
       expect(inst.lastFrame()).toContain("PRINT:");
-      expect(inst.lastFrame()).toContain("fxp=5");
+      expect(inst.lastFrame()).toContain("fxp=2");
     });
   });
 
   // ── FXP accumulation ──────────────────────────────────────────────
 
   describe("FXP accumulation", () => {
-    it("earns 5 FXP for completing a print step", async () => {
+    it("earns 2 FXP for completing a print step", async () => {
       const inst = renderMission();
       await tick(0);
 
       capturedPrintOnComplete!();
       await tick(0);
-      expect(inst.lastFrame()).toContain("fxp=5");
+      expect(inst.lastFrame()).toContain("fxp=2");
     });
 
     it("earns 10 FXP for a correct quiz answer", async () => {
       const inst = renderMission();
       await tick(0);
 
-      await completePrintStep(inst); // +5 FXP
-      await answerStep(true); // +10 FXP = 15
+      await completePrintStep(inst); // +2 FXP
+      await answerStep(true); // +10 FXP = 12
 
-      expect(inst.lastFrame()).toContain("fxp=15");
+      expect(inst.lastFrame()).toContain("fxp=12");
     });
 
     it("earns no extra FXP for wrong answer", async () => {
@@ -218,7 +218,7 @@ describe("Mission", () => {
       await completePrintStep(inst);
       await answerStep(false);
 
-      expect(inst.lastFrame()).toContain("fxp=5");
+      expect(inst.lastFrame()).toContain("fxp=2");
     });
 
     it("accumulates FXP across all steps", async () => {
@@ -226,12 +226,12 @@ describe("Mission", () => {
       const inst = renderMission({ onComplete });
       await tick(0);
 
-      await completePrintStep(inst); // +5
+      await completePrintStep(inst); // +2
       await answerStep(true); // +10
       await answerStep(true); // +10
 
       // Refs ensure onComplete receives the up-to-date accumulated FXP
-      expect(onComplete).toHaveBeenCalledWith(3, 25, 3, []);
+      expect(onComplete).toHaveBeenCalledWith(3, 22, 3, []);
     });
   });
 
@@ -347,13 +347,13 @@ describe("Mission", () => {
       const inst = renderMission({ onComplete });
       await tick(0);
 
-      await completePrintStep(inst); // +5 FXP
+      await completePrintStep(inst); // +2 FXP
       await answerStep(true); // +10 FXP
       await answerStep(true); // +10 FXP
 
       expect(onComplete).toHaveBeenCalledOnce();
       // Refs ensure onComplete receives the up-to-date accumulated FXP
-      expect(onComplete).toHaveBeenCalledWith(3, 25, 3, []);
+      expect(onComplete).toHaveBeenCalledWith(3, 22, 3, []);
     });
 
     it("does not call onComplete before all steps are done", async () => {
@@ -435,10 +435,10 @@ describe("Mission", () => {
       const inst = renderMission({ mission: aiMission });
       await tick(0);
 
-      await completePrintStep(inst); // +5 FXP
-      await answerStep(true); // +10 FXP = 15
+      await completePrintStep(inst); // +2 FXP
+      await answerStep(true); // +10 FXP = 12
 
-      expect(inst.lastFrame()).toContain("fxp=15");
+      expect(inst.lastFrame()).toContain("fxp=12");
     });
 
     it("decrements cover on wrong AI step answer", async () => {
@@ -462,12 +462,12 @@ describe("Mission", () => {
       const inst = renderMission({ mission, onComplete });
       await tick(0);
 
-      await completePrintStep(inst); // +5 FXP
+      await completePrintStep(inst); // +2 FXP
       capturedOnAnswer!(null as unknown as boolean); // eval failed
       await tick(0);
 
-      // Mission completes: 3 stars (0 hits), 5 FXP (only print step), cover 3
-      expect(onComplete).toHaveBeenCalledWith(3, 5, 3, []);
+      // Mission completes: 3 stars (0 hits), 2 FXP (only print step), cover 3
+      expect(onComplete).toHaveBeenCalledWith(3, 2, 3, []);
     });
   });
 });
