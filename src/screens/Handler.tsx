@@ -184,6 +184,15 @@ export function Handler({ missionTitle, topicContext, onClose }: HandlerProps) {
         </Box>
       )}
 
+      {history.length === 0 && !isStreaming && streamedText.length === 0 && (
+        <Box marginBottom={1}>
+          <Text color={COLORS.warmWhite} wrap="wrap">
+            Instructor Haiku reporting in. What do you need, operative? I can
+            help with anything related to your current mission.
+          </Text>
+        </Box>
+      )}
+
       {visibleHistory.map((msg, i) => (
         <Box key={i} marginBottom={i % 2 === 1 ? 1 : 0}>
           <Text
