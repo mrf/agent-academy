@@ -10,6 +10,7 @@ import { Briefing } from "./screens/Briefing.js";
 import { Mission } from "./screens/Mission.js";
 import { Debrief } from "./screens/Debrief.js";
 import { InfiniteMode } from "./screens/InfiniteMode.js";
+import { ApiKeyEntry } from "./screens/ApiKeyEntry.js";
 import { HelpOverlay } from "./screens/HelpOverlay.js";
 import { Handler } from "./screens/Handler.js";
 import { Credits } from "./screens/Credits.js";
@@ -41,9 +42,10 @@ interface AppProps {
   reset: boolean;
 }
 
-export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
+export default function App({ hasApiKey: initialHasApiKey, noAnimation, reset }: AppProps) {
   const app = useApp();
   const [progress] = useState(loadProgress);
+  const [hasApiKey, setHasApiKey] = useState(initialHasApiKey);
 
   const skipToMap = !reset && progress.firstRunComplete;
   const state = useScreenState(skipToMap ? "missionMap" : "logo");
@@ -111,6 +113,9 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
       case "infiniteMode":
         setTerminalTitle("CCA — Infinite Mode");
         break;
+      case "apiKeyEntry":
+        setTerminalTitle("CCA — API Key Setup");
+        break;
       case "credits":
         setTerminalTitle("CCA — Credits");
         break;
@@ -136,6 +141,11 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   );
 
   const handleSelectInfiniteMode = useCallback(() => {
+    state.navigateTo(hasApiKey ? "infiniteMode" : "apiKeyEntry");
+  }, [state, hasApiKey]);
+
+  const handleApiKeyEntered = useCallback(() => {
+    setHasApiKey(true);
     state.navigateTo("infiniteMode");
   }, [state]);
 
@@ -322,6 +332,13 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
             wrongAnswers={state.missionContext.wrongAnswers}
             isLastMission={isLastMission}
             onContinue={handleDebriefContinue}
+          />
+        );
+      case "apiKeyEntry":
+        return (
+          <ApiKeyEntry
+            onSuccess={handleApiKeyEntered}
+            onBack={handleInfiniteModeBack}
           />
         );
       case "infiniteMode":
