@@ -99,6 +99,7 @@ describe("QuizStep", () => {
 
     const frame = instance.lastFrame()!;
     expect(frame).toContain("CONFIRMED");
+    expect(frame).not.toContain("COMPROMISED");
   });
 
   it("wrong answer shows COMPROMISED feedback", async () => {
@@ -198,33 +199,6 @@ describe("QuizStep", () => {
     const frame = instance.lastFrame()!;
     expect(frame).not.toContain("Verifying...");
     expect(frame).toContain("Alpha");
-  });
-
-  it("shake animation triggers on wrong answer result", async () => {
-    const { instance } = renderQuiz();
-
-    await selectWrongAnswer(instance);
-    await advance(TIMING.pauseBeforeResult);
-
-    const frameAtShake = instance.lastFrame()!;
-    expect(frameAtShake).toContain("COMPROMISED");
-
-    // Advance past entire shake sequence (4 frames x 50ms + reset)
-    await advance(250);
-
-    const frameAfterShake = instance.lastFrame()!;
-    expect(frameAfterShake).toContain("COMPROMISED");
-  });
-
-  it("correct answer does not trigger shake animation", async () => {
-    const { instance } = renderQuiz();
-
-    await selectCorrectAnswer(instance);
-    await advance(TIMING.pauseBeforeResult);
-
-    const frame = instance.lastFrame()!;
-    expect(frame).toContain("CONFIRMED");
-    expect(frame).not.toContain("COMPROMISED");
   });
 
   it("works with a different correct answer index", async () => {

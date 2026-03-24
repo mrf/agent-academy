@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Text } from "ink";
 import { COLORS } from "../constants.js";
 
@@ -22,28 +22,25 @@ export function StatusBar({
   hasApiKey,
 }: StatusBarProps) {
   const [flashRed, setFlashRed] = useState(false);
-  const [prevCover, setPrevCover] = useState(coverIntegrity);
+  const prevCoverRef = useRef(coverIntegrity);
 
   // Flash red when cover integrity drops
   useEffect(() => {
-    if (coverIntegrity < prevCover) {
+    if (coverIntegrity < prevCoverRef.current) {
       setFlashRed(true);
+      prevCoverRef.current = coverIntegrity;
       const timer = setTimeout(() => setFlashRed(false), 400);
       return () => clearTimeout(timer);
     }
-    setPrevCover(coverIntegrity);
-  }, [coverIntegrity, prevCover]);
+    prevCoverRef.current = coverIntegrity;
+  }, [coverIntegrity]);
 
   const coverBlocks = Array.from({ length: 3 }, (_, i) =>
     i < coverIntegrity ? "\u25A0" : "\u25A1"
   ).join(" ");
 
-  function getCoverColor(): string {
-    if (flashRed || coverIntegrity <= 1) return COLORS.red;
-    return COLORS.green;
-  }
-
-  const coverColor = getCoverColor();
+  const coverColor =
+    flashRed || coverIntegrity <= 1 ? COLORS.red : COLORS.green;
   const missionNum = String(missionNumber).padStart(2, "0");
 
   return (
