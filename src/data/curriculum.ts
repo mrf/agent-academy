@@ -452,14 +452,6 @@ export const MISSIONS: Mission[] = [
       },
       {
         type: "print",
-        text: "Here's where operatives get careless. Every interaction adds to the context window. Your messages, Claude's responses, file contents from Read operations, command outputs, even system instructions — it all consumes space.\n\nWhen the context window fills up, Claude Code automatically summarizes older messages to make room. Key information is preserved, but the full detail of earlier exchanges is lost. Without that summarization, Claude loses track of the conversation entirely and responses become less accurate.",
-      },
-      {
-        type: "print",
-        text: "This is why context management matters. Without it, long sessions silently lose critical information. Claude might forget instructions you gave earlier, re-read files it already processed, or lose track of the task.\n\nThe good news: Claude Code gives you tools to manage this. That's what this mission is about.",
-      },
-      {
-        type: "print",
         text: "The context window is measured in tokens — roughly 4 characters per token. Everything counts: your prompts, Claude's responses, file reads, tool outputs, and system instructions.\n\nUnderstanding tokens is key to understanding why some operations are more expensive than others.",
       },
       {
@@ -474,6 +466,14 @@ export const MISSIONS: Mission[] = [
         correct: 1,
         explanation:
           "Tokens are the unit of measurement for context windows. One token is roughly 4 characters of English text. Everything in your conversation consumes tokens.",
+      },
+      {
+        type: "print",
+        text: "Here's where operatives get careless. Those tokens add up fast — your messages, Claude's responses, file contents from Read operations, command outputs, even system instructions all compete for the same space.\n\nWhen the context window fills up, Claude Code automatically summarizes older messages to make room. Key information is preserved, but the full detail of earlier exchanges is lost. Without that summarization, Claude loses track of the conversation entirely and responses become less accurate.",
+      },
+      {
+        type: "print",
+        text: "This is why context management matters. Without it, long sessions silently lose critical information. Claude might forget instructions you gave earlier, re-read files it already processed, or lose track of the task.\n\nThe good news: Claude Code gives you tools to manage this. That's what this mission is about.",
       },
       {
         type: "print",
