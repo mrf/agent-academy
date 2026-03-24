@@ -1,27 +1,27 @@
 <div align="center">
 
 ```
- ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗     ██████╗ ██████╗ ██████╗ ███████╗
-██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝
-██║     ██║     ███████║██║   ██║██║  ██║█████╗      ██║     ██║   ██║██║  ██║█████╗
-██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝      ██║     ██║   ██║██║  ██║██╔══╝
-╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗    ╚██████╗╚██████╔╝██████╔╝███████╗
- ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
-                 █████╗  ██████╗ █████╗ ██████╗ ███████╗███╗   ███╗██╗   ██╗
-                ██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔════╝████╗ ████║╚██╗ ██╔╝
-                ███████║██║     ███████║██║  ██║█████╗  ██╔████╔██║ ╚████╔╝
-                ██╔══██║██║     ██╔══██║██║  ██║██╔══╝  ██║╚██╔╝██║  ╚██╔╝
-                ██║  ██║╚██████╗██║  ██║██████╔╝███████╗██║ ╚═╝ ██║   ██║
-                ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝     ╚═╝   ╚═╝
+ █████╗  ██████╗ ███████╗███╗   ██╗████████╗
+██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝
+███████║██║  ███╗█████╗  ██╔██╗ ██║   ██║
+██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║
+██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║
+╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝
+         █████╗  ██████╗ █████╗ ██████╗ ███████╗███╗   ███╗██╗   ██╗
+        ██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔════╝████╗ ████║╚██╗ ██╔╝
+        ███████║██║     ███████║██║  ██║█████╗  ██╔████╔██║ ╚████╔╝
+        ██╔══██║██║     ██╔══██║██║  ██║██╔══╝  ██║╚██╔╝██║  ╚██╔╝
+        ██║  ██║╚██████╗██║  ██║██████╔╝███████╗██║ ╚═╝ ██║   ██║
+        ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝     ╚═╝   ╚═╝
 ```
 
 ### TERMINAL TRAINING DIVISION
 
-**Learn Claude Code by playing a spy game in your terminal.**
+**Learn to work with AI coding agents by playing a spy game in your terminal.**
 
 12 missions. Zero docs to read. One command to start.
 
-[![npm version](https://img.shields.io/npm/v/claude-code-academy.svg)](https://www.npmjs.com/package/claude-code-academy)
+[![npm version](https://img.shields.io/npm/v/agent-academy.svg)](https://www.npmjs.com/package/agent-academy)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
 
@@ -30,7 +30,7 @@
 ---
 
 ```bash
-npx claude-code-academy
+npx agent-academy
 ```
 
 That's it. No install. No signup. No config files. Just run it.
@@ -39,11 +39,11 @@ That's it. No install. No signup. No config files. Just run it.
 
 ## The Problem
 
-Claude Code is the most powerful coding tool most developers have never learned to use properly. The docs are thorough but dense. The features are deep but undiscoverable. You *know* you should learn it. You haven't yet.
+AI coding agents are the most powerful coding tools most developers have never learned to use properly. The docs are thorough but dense. The features are deep but undiscoverable. You *know* you should learn them. You haven't yet.
 
 ## The Fix
 
-Claude Code Academy drops you into a spy-themed terminal training program. You're a new recruit. Your handler briefs you on each mission. You answer field assessments to prove you've internalized the material. Get it wrong and your cover takes damage. Get it right and you climb from **RECRUIT** to **OPERATIVE** to **ELITE**.
+Agent Academy drops you into a spy-themed terminal training program. You're a new recruit. Your handler briefs you on each mission. You answer field assessments to prove you've internalized the material. Get it wrong and your cover takes damage. Get it right and you climb from **RECRUIT** to **OPERATIVE** to **ELITE**.
 
 It's the difference between reading a manual and running a simulation.
 
@@ -54,7 +54,7 @@ It's the difference between reading a manual and running a simulation.
 <td width="50%">
 
 **Missions 1-4: Foundations**
-- What Claude Code actually is (and isn't)
+- What AI coding agents actually are (and aren't)
 - Installation, auth, and first run
 - The 6 core tools: Read, Edit, Write, Bash, Glob, Grep
 - CLAUDE.md — the file that changes everything
@@ -75,7 +75,7 @@ It's the difference between reading a manual and running a simulation.
 
 **Missions 9-10: Advanced**
 - Multi-file operations and git integration
-- Test-driven development with Claude Code
+- Test-driven development with your agent
 - Custom instructions and project scaffolding
 
 </td>
@@ -91,7 +91,7 @@ It's the difference between reading a manual and running a simulation.
 </tr>
 </table>
 
-By mission 12, you'll know more about Claude Code than most people who use it daily.
+By mission 12, you'll know more about AI coding agents than most people who use them daily.
 
 ## Features
 
@@ -136,7 +136,7 @@ The core curriculum works without any API key. For the full experience:
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
-npx claude-code-academy
+npx agent-academy
 ```
 
 This unlocks:
@@ -157,7 +157,7 @@ Get your key from the [Anthropic Console](https://console.anthropic.com/).
 | Language | [TypeScript](https://www.typescriptlang.org) |
 | AI | [Anthropic SDK](https://www.npmjs.com/package/@anthropic-ai/sdk) — Claude Haiku for handler & evaluation, Sonnet for quiz generation |
 | Validation | [Zod](https://zod.dev) |
-| Persistence | [conf](https://github.com/sindresorhus/conf) — saves to `~/.config/claude-code-academy/` |
+| Persistence | [conf](https://github.com/sindresorhus/conf) — saves to `~/.config/agent-academy/` |
 | Testing | [Vitest](https://vitest.dev) + [ink-testing-library](https://github.com/vadimdemedes/ink-testing-library) |
 | Build | [tsup](https://github.com/egoist/tsup) |
 
@@ -187,7 +187,7 @@ MIT
 **Your training begins now.**
 
 ```bash
-npx claude-code-academy
+npx agent-academy
 ```
 
 Built with [Claude Code](https://docs.anthropic.com/en/docs/build-with-claude/claude-code) | Powered by [Anthropic](https://www.anthropic.com)

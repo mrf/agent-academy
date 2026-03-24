@@ -112,7 +112,7 @@ describe("Credits", () => {
     const inst = renderCredits();
     await advanceToCredits(inst);
     const frame = inst.lastFrame();
-    expect(frame).toContain("Claude Code Academy");
+    expect(frame).toContain("Agent Academy");
     expect(frame).toContain("Terminal Training Division");
   });
 

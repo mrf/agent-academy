@@ -116,10 +116,10 @@ describe("setTerminalTitle", () => {
   });
 
   it("embeds recruiting context in the escape sequence", () => {
-    setTerminalTitle("Claude Code Academy — RECRUITING");
+    setTerminalTitle("Agent Academy — RECRUITING");
 
     expect(writeSpy).toHaveBeenCalledWith(
-      "\x1b]0;Claude Code Academy — RECRUITING\x07",
+      "\x1b]0;Agent Academy — RECRUITING\x07",
     );
   });
 

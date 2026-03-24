@@ -237,7 +237,7 @@ describe("progress store", () => {
       progress.reportBadQuestion("What is X?", "git", "easy");
 
       expect(mockMkdirSync).toHaveBeenCalledWith(
-        expect.stringContaining(".claude-code-academy"),
+        expect.stringContaining(".agent-academy"),
         { recursive: true },
       );
       expect(mockAppendFileSync).toHaveBeenCalledOnce();

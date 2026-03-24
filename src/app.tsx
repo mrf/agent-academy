@@ -96,11 +96,11 @@ export default function App({ hasApiKey: initialHasApiKey, noAnimation, reset }:
     switch (state.screen) {
       case "logo":
       case "onboarding":
-        setTerminalTitle("Claude Code Academy — RECRUITING");
+        setTerminalTitle("Agent Academy — RECRUITING");
         break;
       case "missionMap":
         setTerminalTitle(
-          allComplete ? "CCA — FULL CLEARANCE" : "Claude Code Academy — Mission Map",
+          allComplete ? "CCA — FULL CLEARANCE" : "Agent Academy — Mission Map",
         );
         break;
       case "briefing":
@@ -394,7 +394,7 @@ export default function App({ hasApiKey: initialHasApiKey, noAnimation, reset }:
             paddingY={1}
           >
             <Text color={COLORS.amber} bold>
-              Quit Claude Code Academy? (y/N)
+              Quit Agent Academy? (y/N)
             </Text>
           </Box>
         </Box>

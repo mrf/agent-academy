@@ -1,16 +1,16 @@
-# Claude Code Academy — Publishable TUI Build Plan
+# Agent Academy — Publishable TUI Build Plan
 
 ## Vision
 
 A real terminal application published as an npm package:
 
 ```bash
-npx claude-code-academy
+npx agent-academy
 ```
 
 No install required. Runs anywhere Node.js is available. The Claude SDK is embedded and active — the game *is* powered by Claude, making it self-referential and deeply interactive rather than a static quiz deck.
 
-**Positioning statement:** Claude Code Academy is the only tool that lets developers *practice* Claude Code patterns in a safe, consequence-free environment with real-time AI feedback. You're not reading about `str_replace` — you're being quizzed on it, getting it wrong, and having an AI handler explain why. In 20 minutes you build muscle memory that documentation alone can't provide.
+**Positioning statement:** Agent Academy is the only tool that lets developers *practice* AI coding agent patterns in a safe, consequence-free environment with real-time AI feedback. You're not reading about `str_replace` — you're being quizzed on it, getting it wrong, and having an AI handler explain why. In 20 minutes you build muscle memory that documentation alone can't provide.
 
 ---
 
@@ -224,7 +224,7 @@ Ink v4, ink-text-input v6+, ink-select-input v6+, and conf v12+ are all **ESM-on
 ## Repository Structure
 
 ```
-claude-code-academy/
+agent-academy/
 ├── src/
 │   ├── app.tsx                # Root Ink app, screen router + overlay state
 │   ├── index.tsx              # Entry point, CLI flags, API key check
@@ -422,7 +422,7 @@ PROGRESS  ████████░░░░░░░░░░░░  4/10    
 - Large ASCII block-letter logo that types itself onto screen line-by-line
 - "TERMINAL TRAINING DIVISION" / "CLEARANCE LEVEL: PENDING"
 - `> PRESS [ENTER] TO BEGIN RECRUITMENT`
-- Sets terminal title via ANSI escape: `Claude Code Academy — RECRUITING`
+- Sets terminal title via ANSI escape: `Agent Academy — RECRUITING`
 
 **Onboarding.tsx (first run only):**
 - One sentence: "Learn Claude Code by doing."
@@ -704,7 +704,7 @@ export async function askHandler(
   const stream = client.messages.stream({
     model: MODELS.HANDLER,
     max_tokens: 400,
-    system: `You are the Handler for Claude Code Academy, a terminal-based training game
+    system: `You are the Handler for Agent Academy, a terminal-based training game
 that teaches developers how to use the Claude Code CLI tool.
 
 The agent is currently in: ${missionTitle}
@@ -773,7 +773,7 @@ export async function generateFieldAssessments(
   const response = await client.messages.create({
     model: MODELS.GENERATOR,
     max_tokens: 1500,  // 1000 is tight for 3 quiz objects
-    system: `You generate field assessment questions for Claude Code Academy, a spy-themed training game.
+    system: `You generate field assessment questions for Agent Academy, a spy-themed training game.
 Return ONLY valid JSON — no markdown, no preamble, no trailing text.
 
 Schema: Array of objects with these exact fields:
@@ -953,13 +953,13 @@ AI-generated content requires human review. The pipeline:
 
 ```json
 {
-  "name": "claude-code-academy",
+  "name": "agent-academy",
   "version": "1.0.0",
   "type": "module",
   "description": "Interactive terminal training for Claude Code — a spy-themed TUI game",
   "license": "MIT",
   "bin": {
-    "claude-code-academy": "./dist/index.js"
+    "agent-academy": "./dist/index.js"
   },
   "engines": { "node": ">=20" },
   "keywords": ["claude", "anthropic", "cli", "training", "tui", "terminal", "game"],
@@ -1039,10 +1039,10 @@ ANTHROPIC_API_KEY=sk-ant-invalid node dist/index.js  # verify error handling
 
 # 8. Test npx flow locally
 npm pack
-npx ./claude-code-academy-1.0.0.tgz
+npx ./agent-academy-1.0.0.tgz
 
 # 9. Check install size
-npm pack && tar -tzf claude-code-academy-1.0.0.tgz | wc -l
+npm pack && tar -tzf agent-academy-1.0.0.tgz | wc -l
 
 # 10. Publish
 npm publish --access public
@@ -1051,20 +1051,20 @@ npm publish --access public
 ### README
 
 ```markdown
-[![npm](https://img.shields.io/npm/v/claude-code-academy)](https://npmjs.com/package/claude-code-academy)
+[![npm](https://img.shields.io/npm/v/agent-academy)](https://npmjs.com/package/agent-academy)
 
-# Claude Code Academy
+# Agent Academy
 
 Interactive terminal training for Claude Code. Learn by doing, not reading.
 
 ## Quick Start
 
-npx claude-code-academy
+npx agent-academy
 
 ## With AI features (recommended)
 
 export ANTHROPIC_API_KEY=sk-ant-...   # get a key at console.anthropic.com
-npx claude-code-academy
+npx agent-academy
 
 > **Note:** Do not pass your API key inline with the command (it persists in shell history).
 > Use `export` instead.
@@ -1158,7 +1158,7 @@ These issues will cause bugs if not addressed. Pin this to every agent session.
 Each session should start with a CLAUDE.md like:
 
 ```markdown
-# Claude Code Academy — Developer Context
+# Agent Academy — Developer Context
 
 ## Stack
 TypeScript + Ink v4 (React for terminals) + @anthropic-ai/sdk + tsup + zod

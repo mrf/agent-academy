@@ -21,8 +21,8 @@ afterEach(() => {
 });
 
 // Character lengths of each phase's TypeWriter text
-const LOGO_LEN = 295;
-const SUBTITLE_LEN = 27; // "[ C O D E   A C A D E M Y ]"
+const LOGO_LEN = 257;
+const SUBTITLE_LEN = 17; // "[ A C A D E M Y ]"
 const DIVISION_LEN = 51; // "TERMINAL TRAINING DIVISION\nCLEARANCE LEVEL: PENDING"
 const PROMPT_LEN = 26; // "[ENTER] Begin recruitment"
 
@@ -75,7 +75,7 @@ describe("Logo", () => {
     const { lastFrame } = await renderLogo();
 
     const frame = lastFrame();
-    expect(frame).not.toContain("C O D E   A C A D E M Y");
+    expect(frame).not.toContain("A C A D E M Y");
     expect(frame).not.toContain("TERMINAL TRAINING DIVISION");
     expect(frame).not.toContain("PRESS [ENTER]");
   });
@@ -89,8 +89,8 @@ describe("Logo", () => {
     // Extra tick so the subtitle TypeWriter mounts and starts typing
     await tick(TIMING.typewriterDramatic * 3);
 
-    // Subtitle has begun — partial text from "[ C O D E   A C A D E M Y ]"
-    expect(lastFrame()).toContain("[ C");
+    // Subtitle has begun — partial text from "[ A C A D E M Y ]"
+    expect(lastFrame()).toContain("[ A");
   });
 
   it("advances to division phase after subtitle completes", async () => {
@@ -177,7 +177,7 @@ describe("Logo", () => {
 
     const frame = lastFrame();
     expect(frame).toContain("█");
-    expect(frame).toContain("C O D E   A C A D E M Y");
+    expect(frame).toContain("A C A D E M Y");
     expect(frame).toContain("TERMINAL TRAINING DIVISION");
     expect(frame).toContain("[ENTER] Begin recruitment");
     expect(frame).toContain(`v${VERSION}`);
@@ -192,7 +192,7 @@ describe("Logo", () => {
     await tick(0);
 
     expect(spy).toHaveBeenCalledWith(
-      expect.stringContaining("Claude Code Academy"),
+      expect.stringContaining("Agent Academy"),
     );
   });
 
