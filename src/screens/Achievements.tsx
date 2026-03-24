@@ -93,9 +93,9 @@ function AchievementRow({ achievement, earned }: AchievementRowProps): React.Rea
       </Box>
       <Box marginLeft={4}>
         {earned ? (
-          <Text color={COLORS.warmWhite}>{achievement.description}</Text>
+          <Text color={COLORS.warmWhite}>{achievement.description ?? ""}</Text>
         ) : (
-          <Redacted length={achievement.description.length} />
+          <Redacted length={achievement.description?.length ?? 20} />
         )}
       </Box>
     </Box>

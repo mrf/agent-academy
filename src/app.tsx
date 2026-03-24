@@ -194,7 +194,7 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
       if (infiniteModeJustUnlocked) {
         enqueueAchievements({
           id: "INFINITE_MODE_UNLOCKED",
-          header: "ACCESS GRANTED",
+          label: "ACCESS GRANTED",
           title: "DEEP COVER OPERATIONS UNLOCKED",
           description: "Infinite mode is now available on the mission map",
         });

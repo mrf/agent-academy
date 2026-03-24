@@ -27,6 +27,7 @@ export function MissionMap({
   const { columns } = useTerminalSize();
   const progress = loadProgress();
   const allComplete = progress.infiniteModeUnlocked;
+  const completedCount = progress.completedMissions.length;
 
   const firstUncompletedIndex = MISSIONS.findIndex(
     (m) => !progress.completedMissions.includes(m.id),
