@@ -1025,12 +1025,12 @@ export const MISSIONS: Mission[] = [
         options: [
           "Claude Code uses Jest because user-level takes priority",
           "Claude Code gets confused and asks you to choose",
-          "Both are loaded — project-level instructions take precedence in context",
+          "Both are loaded; project-level wins for that project",
           "Claude Code ignores both and uses its default",
         ],
         correct: 2,
         explanation:
-          "Both files are loaded, but project-level instructions are more specific and contextually relevant. Claude Code treats them as additive, with project context naturally taking precedence for project work.",
+          "Both CLAUDE.md files are loaded into the system prompt simultaneously. When instructions conflict, the more specific project-level instruction wins — so 'use Vitest' overrides 'use Jest' for that project.",
       },
       {
         type: "print",
