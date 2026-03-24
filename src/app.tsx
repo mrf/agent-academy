@@ -29,6 +29,7 @@ import {
   checkHandlerOpen,
   checkClearanceRankUp,
 } from "./lib/achievements.js";
+import { setTerminalTitle } from "./lib/easter-eggs.js";
 import type { Achievement as AchievementDef } from "./lib/achievements.js";
 import type { WrongAnswer } from "./types.js";
 import { MISSIONS } from "./data/curriculum.js";
@@ -81,6 +82,40 @@ export default function App({ hasApiKey, noAnimation, reset }: AppProps) {
   const currentMission = MISSIONS[state.missionContext.currentMissionIndex];
   const isLastMission =
     state.missionContext.currentMissionIndex === MISSIONS.length - 1;
+  const allComplete = loadProgress().completedMissions.length >= MISSIONS.length;
+
+  // Update terminal title on every screen transition
+  useEffect(() => {
+    const mission = MISSIONS[state.missionContext.currentMissionIndex];
+    const missionLabel = mission
+      ? `Mission ${mission.id.replace("mission-", "")}: ${mission.codename}`
+      : "";
+
+    switch (state.screen) {
+      case "logo":
+      case "onboarding":
+        setTerminalTitle("Claude Code Academy — RECRUITING");
+        break;
+      case "missionMap":
+        setTerminalTitle(
+          allComplete ? "CCA — FULL CLEARANCE" : "Claude Code Academy — Mission Map",
+        );
+        break;
+      case "briefing":
+      case "mission":
+      case "debrief":
+        if (missionLabel) {
+          setTerminalTitle(`CCA — ${missionLabel}`);
+        }
+        break;
+      case "infiniteMode":
+        setTerminalTitle("CCA — Infinite Mode");
+        break;
+      case "credits":
+        setTerminalTitle("CCA — Credits");
+        break;
+    }
+  }, [state.screen, state.missionContext.currentMissionIndex, allComplete]);
   const overlayOpen = state.overlay.handler || state.overlay.help;
 
   const handleLogoComplete = useCallback(() => {
