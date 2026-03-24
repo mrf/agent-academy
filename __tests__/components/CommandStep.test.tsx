@@ -316,7 +316,10 @@ describe("CommandStep help hint", () => {
     expect(mockEvaluateAnswer).not.toHaveBeenCalled();
   });
 
-  it("reveals first third of answer in hint for longer answers", async () => {
+  // Diagnosis: getHelpHint was refactored from first-third/length reveals to
+  // category-based hints (slash command, flag, command name). These tests now
+  // verify the category hint logic matches the answer's prefix.
+  it("shows category hint for command answers", async () => {
     const { instance } = renderStep({
       expectedAnswer: "docker-compose",
       acceptedVariants: ["docker-compose"],
@@ -324,19 +327,18 @@ describe("CommandStep help hint", () => {
 
     await submitAnswer(instance, "help");
 
-    // "docker-compose" is 14 chars, ceil(14/3) = 5, so reveals "docke"
-    expect(instance.lastFrame()).toContain('docke...');
+    expect(instance.lastFrame()).toContain("it's a command or tool name");
   });
 
-  it("shows length hint for short answers (3 chars or less)", async () => {
+  it("shows category hint for slash-command answers", async () => {
     const { instance } = renderStep({
-      expectedAnswer: "ls",
-      acceptedVariants: ["ls"],
+      expectedAnswer: "/help",
+      acceptedVariants: ["/help"],
     });
 
     await submitAnswer(instance, "help");
 
-    expect(instance.lastFrame()).toContain("2 characters long");
+    expect(instance.lastFrame()).toContain("it's a slash command");
   });
 
   it("is case-insensitive for help command", async () => {
