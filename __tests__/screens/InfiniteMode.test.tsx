@@ -296,12 +296,7 @@ describe("InfiniteMode", () => {
     });
 
     it("ESC during generating aborts and returns to confirm", async () => {
-      let rejectFn!: (err: Error) => void;
-      mockGenerateFieldAssessments.mockReturnValue(
-        new Promise<never>((_, reject) => {
-          rejectFn = reject;
-        }),
-      );
+      mockGenerateFieldAssessments.mockReturnValue(new Promise(() => {}));
 
       const inst = renderInfiniteMode();
       await press(inst, keys.enter); // topic
@@ -311,12 +306,24 @@ describe("InfiniteMode", () => {
       expect(inst.lastFrame()).toContain("Generating field assessment");
 
       await press(inst, keys.escape);
-      const abortError = new Error("aborted");
-      abortError.name = "AbortError";
-      rejectFn(abortError);
-      await tick(0);
 
-      expect(inst.lastFrame()).toContain("Begin assessment");
+      const frame = inst.lastFrame()!;
+      expect(frame).toContain("Begin assessment");
+      expect(frame).not.toContain("Generating field assessment");
+    });
+
+    it("ESC during generating does not show error", async () => {
+      mockGenerateFieldAssessments.mockReturnValue(new Promise(() => {}));
+
+      const inst = renderInfiniteMode();
+      await press(inst, keys.enter); // topic
+      await press(inst, keys.enter); // difficulty
+      await press(inst, keys.enter); // confirm
+      await press(inst, keys.escape); // cancel generation
+
+      const frame = inst.lastFrame()!;
+      expect(frame).not.toContain("Generation failed");
+      expect(frame).not.toContain("Error");
     });
 
     it("renders quiz questions after generation", async () => {

@@ -65,7 +65,7 @@ describe("generateFieldAssessments", () => {
 
     expect(mockCreate).toHaveBeenCalledWith(
       expect.objectContaining({ model: MODELS.GENERATOR }),
-      expect.objectContaining({}),
+      expect.objectContaining({ signal: undefined }),
     );
   });
 

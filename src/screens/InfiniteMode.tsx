@@ -124,6 +124,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
 
   const startGeneration = useCallback(async () => {
     if (!selectedTopic || !selectedDifficulty) return;
+    abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
     setPhase("generating");
@@ -157,7 +158,7 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
       setPhase("quiz");
     } catch (err) {
       if (!mountedRef.current) return;
-      if (err instanceof Error && err.name === "AbortError") {
+      if (controller.signal.aborted) {
         setPhase("confirm");
         return;
       }
@@ -230,6 +231,17 @@ export function InfiniteMode({ onBack, overlayOpen }: InfiniteModeProps) {
       }
     }
   });
+
+  // Allow ESC during generation to abort and return to confirm
+  useInput(
+    (_input, key) => {
+      if (key.escape && !overlayOpen) {
+        abortRef.current?.abort();
+        setPhase("confirm");
+      }
+    },
+    { isActive: phase === "generating" },
+  );
 
   const currentQuestion = questions[currentIndex];
 
