@@ -907,6 +907,20 @@ export const MISSIONS: Mission[] = [
         speed: "normal",
       },
       {
+        type: "quiz",
+        question:
+          "Why do changes in large codebases often affect multiple files?",
+        options: [
+          "Developers spread code across files for organization, but changes are isolated",
+          "Files import each other, so a change in one propagates to its dependents",
+          "Version control systems duplicate changes across files automatically",
+          "Modern IDEs automatically update all related files",
+        ],
+        correct: 1,
+        explanation:
+          "Code files depend on each other through imports and references. Change a function signature, rename a type, or move a module — and every file that imports it needs updating too. This interdependency is why coordinated multi-file operations matter.",
+      },
+      {
         type: "print",
         text: "Claude Code excels at coordinated multi-file ops. When you ask it to rename a function, add a new feature, or refactor a module, it traces dependencies across your project. It reads imports, follows type definitions, and updates every file that needs to change.\n\nThe key: describe the outcome you want, not every individual edit. Claude Code plans the operation, then executes it file by file.",
       },
