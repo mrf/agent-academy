@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Box, Text, useInput } from "ink";
 import { TypeWriter } from "../components/TypeWriter.js";
 import { COLORS } from "../constants.js";
@@ -14,12 +14,6 @@ export function Briefing({ mission, clearanceLevel, onAccept }: BriefingProps) {
   const [typingDone, setTypingDone] = useState(false);
 
   const missionNumber = mission.id.replace("mission-", "");
-
-  useEffect(() => {
-    process.stdout.write(
-      `\x1b]0;CCA — Mission ${missionNumber}: ${mission.codename}\x07`,
-    );
-  }, [missionNumber, mission.codename]);
 
   const handleComplete = useCallback(() => setTypingDone(true), []);
 

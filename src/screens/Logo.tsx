@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Box, Text, useInput } from "ink";
 import { TypeWriter } from "../components/TypeWriter.js";
 import { COLORS, VERSION } from "../constants.js";
@@ -24,10 +24,6 @@ export function Logo({ onContinue }: LogoProps) {
     () => setPhase((p) => PHASES[PHASES.indexOf(p) + 1] ?? p),
     [],
   );
-
-  useEffect(() => {
-    process.stdout.write("\x1b]0;Claude Code Academy — RECRUITING\x07");
-  }, []);
 
   useInput((_input, key) => {
     if (key.return) {

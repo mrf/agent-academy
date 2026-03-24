@@ -3,7 +3,7 @@ import { Box, Text, useInput } from "ink";
 import { MISSIONS } from "../data/curriculum.js";
 import { loadProgress, toggleLegacyMode } from "../store/progress.js";
 import { COLORS } from "../constants.js";
-import { createKonamiTracker, setTerminalTitle } from "../lib/easter-eggs.js";
+import { createKonamiTracker } from "../lib/easter-eggs.js";
 import { renderStars } from "../lib/stars.js";
 import { useTerminalSize } from "../lib/terminal.js";
 
@@ -38,12 +38,6 @@ export function MissionMap({
   useEffect(() => {
     return () => clearTimeout(konamiTimerRef.current);
   }, []);
-
-  useEffect(() => {
-    setTerminalTitle(
-      allComplete ? "CCA — FULL CLEARANCE" : "Claude Code Academy — RECRUITING",
-    );
-  }, [allComplete]);
 
   useEffect(() => {
     const timer = setInterval(() => setPulseBright((v) => !v), 500);
