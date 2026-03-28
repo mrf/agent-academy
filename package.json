@@ -37,11 +37,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mferree/claude-code-academy.git"
+    "url": "git+https://github.com/mrf/agent-academy.git"
   },
-  "homepage": "https://github.com/mferree/claude-code-academy#readme",
+  "homepage": "https://github.com/mrf/agent-academy#readme",
   "bugs": {
-    "url": "https://github.com/mferree/claude-code-academy/issues"
+    "url": "https://github.com/mrf/agent-academy/issues"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
